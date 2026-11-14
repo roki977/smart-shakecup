@@ -23,12 +23,18 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 const UP = new Vector3(0, 1, 0);
 const UNITS_PER_M = 8;          // 模型里杯子长约 2 个单位，真杯子约 25 cm
 const MAX_OFFSET = 1.25;        // 画面里位移的上限（单位）
-const PLAY_DELAY = 150;         // 数据一帧 100 ms 才到，延后 150 ms 播放，动作才连贯
+// 播放缓冲：数据一帧（5 组样本）每 100 ms 才到一次，要把它延后一点、按 20 ms 一组均匀放出来，动作才连贯。
+// 缓冲多久按最近几秒网络的实际抖动自动定：网络稳就短（延迟低），抖就长（不断档）。
+const BUF_MIN = 60, BUF_MAX = 600, BUF_MARGIN = 40;
 const G = 9.81;
 
 /* ---------------- 共享的动作状态（所有 view 看同一只杯子） ---------------- */
 const M = {
   hist: [],                     // 最近 2 秒加速度（估重力用）
+  lats: [], targetOffset: null, bufferMs: 0,
+  snaps: [],                    // 处理过的样本的姿态 { ms, pos, dir }，画面在前后两个之间插值
+  starved: 0,                   // 播放追上数据、没东西可放的画面帧数（卡顿）
+  showPos: new Vector3(), showDir: new Vector3(0, 1, 0),   // 这一帧实际画出来的位置和方向
   queue: [],                    // 待播放的样本 { ms, a:[x,y,z], w:[x,y,z]|null }
   offset: null,                 // performance.now() 与设备 ms 的差
   lastMs: null, lastFeedAt: 0,
@@ -65,16 +71,23 @@ function feed(msg) {
   const end = typeof msg.ms === 'number' ? msg.ms : now;
   const gyro = Array.isArray(msg.gyro) && msg.gyro.length === n ? msg.gyro : null;
   // 设备重启（ms 变小）或者断了很久：重新对时
-  if (M.lastMs != null && (end < M.lastMs - 50 || end - M.lastMs > 3000)) { M.offset = null; M.queue.length = 0; }
+  if (M.lastMs != null && (end < M.lastMs - 50 || end - M.lastMs > 3000)) { M.offset = null; M.queue.length = 0; M.lats.length = 0; M.snaps.length = 0; }
   M.lastMs = end; M.lastFeedAt = now;
   for (let i = 0; i < n; i++) {
     const a = msg.acc[i]; if (!Array.isArray(a) || a.length < 3 || !a.every(Number.isFinite)) continue;
     const w = gyro && Array.isArray(gyro[i]) && gyro[i].every(Number.isFinite) ? gyro[i] : null;
     M.queue.push({ ms: end - (n - 1 - i) * step, a, w, dt: step / 1000 });
   }
-  const want = now - end - PLAY_DELAY;
-  if (M.offset == null || Math.abs(M.offset - want) > 400) M.offset = want;
-  else M.offset += (want - M.offset) * .02;               // 网络抖动时慢慢跟
+  // lat = 到达时刻 − 板子时间，里面有一个未知的固定钟差 + 网络延迟。
+  // 最近 10 秒最小的 lat ≈ 最快一次的传输；比它多出来的部分就是这次的抖动。
+  const lat = now - end;
+  M.lats.push([now, lat]); while (M.lats[0][0] < now - 10000) M.lats.shift();
+  const base = Math.min(...M.lats.map(x => x[1]));
+  const jit = Math.max(...M.lats.filter(x => x[0] > now - 5000).map(x => x[1] - base));
+  // 缓冲至少要盖住一帧的长度（5 组 × 20 ms = 100 ms）：下一帧到之前，手里的样本要够放
+  M.bufferMs = Math.min(BUF_MAX, Math.max(BUF_MIN, n * step + jit + BUF_MARGIN));
+  M.targetOffset = base + M.bufferMs;                     // 播放时刻 = now − offset = 最快到达的数据再往前 bufferMs
+  if (M.offset == null) M.offset = M.targetOffset;
   if (M.queue.length > 200) M.queue.splice(0, M.queue.length - 200);
   // 网页侧再估一次节奏（设备发原始加速度时）
   if (window.motionFromAcc) {
@@ -204,12 +217,29 @@ function step(now) {
   const sensorLive = M.offset != null && now - M.lastFeedAt < 1000;
   if (sensorLive) {
     M.source = 'sensor';
+    // offset 慢慢追目标（相当于播放速度快慢百分之几），大跳（重连、网络大变）直接对齐
+    if (Math.abs(M.targetOffset - M.offset) > 400) M.offset = M.targetOffset;
+    else M.offset += (M.targetOffset - M.offset) * Math.min(1, dt * 1.5);
     const play = now - M.offset;
-    while (M.queue.length && M.queue[0].ms <= play) processSample(M.queue.shift());
+    // 处理到播放时刻之后的第一个样本，这样前后都有姿态可以插值
+    while (M.queue.length && (M.snaps.length < 2 || M.snaps.at(-1).ms <= play)) {
+      const s = M.queue.shift(); processSample(s);
+      M.snaps.push({ ms: s.ms, pos: M.pos.clone(), dir: M.dir.clone() }); if (M.snaps.length > 4) M.snaps.shift();
+    }
+    const sn = M.snaps;
+    if (sn.length >= 2) {
+      let i = sn.length - 1; while (i > 0 && sn[i - 1].ms > play) i--;
+      const a = sn[Math.max(0, i - 1)], b = sn.at(i), k = b.ms > a.ms ? MathUtils.clamp((play - a.ms) / (b.ms - a.ms), 0, 1) : 1;
+      M.showPos.lerpVectors(a.pos, b.pos, k); M.showDir.lerpVectors(a.dir, b.dir, k).normalize();
+      if (play > sn.at(-1).ms + 5) M.starved++;
+    }
   } else {
     M.source = (now - (M.syn.at || 0) < 1500 || now - (M.devHzOnly || 0) < 1500) ? 'synth' : 'idle';
     synthStep(dt);
+    M.showPos.copy(M.pos); M.showDir.copy(M.dir); M.snaps.length = 0;
   }
+  // 画面帧率（调试台显示用）
+  M.frameTimes = (M.frameTimes || []).concat(now).filter(t => t > now - 1000); M.fps = M.frameTimes.length;
 }
 
 /* ---------------- 画面 ---------------- */
@@ -302,7 +332,7 @@ class View {
 
     this.hud = {
       src: el.querySelector('.c3-src'), temp: el.querySelector('.c3-temp'),
-      bar: el.querySelector('.c3-force i'), ft: el.querySelector('.c3-force-t')
+      bar: el.querySelector('.c3-force i'), ft: el.querySelector('.c3-force-t'), stats: el.querySelector('.c3-stats')
     };
     this.ro = new ResizeObserver(() => this.resize()); this.ro.observe(this.stage);
     this.io = new IntersectionObserver(es => { this.visible = es[0].isIntersecting; }, { threshold: 0 }); this.io.observe(el);
@@ -341,9 +371,9 @@ class View {
   }
   frame(dt) {
     // 姿态和位置
-    this.cup.quaternion.setFromUnitVectors(UP, M.dir);
-    this.cup.position.copy(M.pos);
-    this.hist.unshift({ p: M.pos.clone(), q: this.cup.quaternion.clone() }); if (this.hist.length > 8) this.hist.pop();
+    this.cup.quaternion.setFromUnitVectors(UP, M.showDir);
+    this.cup.position.copy(M.showPos);
+    this.hist.unshift({ p: M.showPos.clone(), q: this.cup.quaternion.clone() }); if (this.hist.length > 8) this.hist.pop();
     const f = force(), fN = MathUtils.clamp(f / 8, 0, 1);
     this.ghosts.forEach((g, i) => {
       const h = this.hist[g.userData.lag]; if (!h) return;
@@ -355,7 +385,7 @@ class View {
     this.steel.roughness = .24 + M.chill * .18;
     // 阴影跟着走
     this.shadow.position.x = this.cup.position.x;
-    this.shadow.scale.set(.6 + Math.abs(M.dir.x) * .7, 1, 1);
+    this.shadow.scale.set(.6 + Math.abs(M.showDir.x) * .7, 1, 1);
     // 冰块撞壁 → 冰屑
     for (const h of this._hits || []) this.emit(h.end, h.power);
     for (let i = 0; i < this.N; i++) {
@@ -372,6 +402,7 @@ class View {
     if (h.bar) { h.bar.style.width = (fN * 100).toFixed(1) + '%'; h.bar.dataset.level = forceLevel(f); }
     if (h.ft) h.ft.textContent = M.source === 'idle' ? '力度 —' : `力度 ${['没动', '偏轻', '到位', '很用力'][forceLevel(f)]} ${f.toFixed(1)} g`;
     if (h.src) h.src.textContent = M.source === 'sensor' ? (M.calibrated ? '实时 · 杯子' : '实时 · 杯子（还没摆正）') : M.source === 'synth' ? '模拟动作' : '等数据';
+    if (h.stats) h.stats.textContent = M.source === 'sensor' ? `画面 ${M.fps} 帧/秒 · 缓冲 ${Math.round(M.bufferMs)} ms · 断档 ${M.starved} 帧` : `画面 ${M.fps} 帧/秒`;
     if (h.temp) h.temp.textContent = M.temp == null ? '' : (M.temp < 0 ? '−' : '') + Math.abs(M.temp).toFixed(1) + ' ℃';
     this.renderer.render(this.scene, this.camera);
   }

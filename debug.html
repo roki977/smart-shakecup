@@ -53,6 +53,7 @@
   .c3-stage canvas.c3-canvas { position: absolute; inset: 0; width: 100%; height: 100%; background: none; }
   .c3-hud { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "ft temp" "bar bar" "src src"; gap: 4px 8px; }
   .c3-force-t { grid-area: ft; } .c3-temp { grid-area: temp; } .c3-force { grid-area: bar; } .c3-src { grid-area: src; }
+  .c3-stats { grid-column: 1 / -1; color: var(--soft); font: 12px var(--mono); }
   .c3-src { color: var(--soft); font-size: 12px; } .c3-temp { font: 700 13px var(--mono); }
   .c3-force { height: 6px; border-radius: 3px; background: var(--rule); overflow: hidden; }
   .c3-force i { display: block; height: 100%; width: 0; background: var(--ok); }
@@ -154,7 +155,7 @@
     <h2>姿态和动作（3D） <button type="button" id="c3-cal" title="把杯子竖直放在桌上再点">以现在为竖直</button></h2>
     <div class="cup3d" id="cup3d">
       <div class="c3-stage"></div>
-      <div class="c3-hud"><span class="c3-src">等数据</span><span class="c3-temp"></span><span class="c3-force"><i></i></span><span class="c3-force-t">力度 —</span></div>
+      <div class="c3-hud"><span class="c3-src">等数据</span><span class="c3-temp"></span><span class="c3-force"><i></i></span><span class="c3-force-t">力度 —</span><span class="c3-stats"></span></div>
     </div>
     <p class="tip">杯子竖直静止半秒会自动校准。只发加速度时，看得出倾斜和来回，但看不出绕竖直轴的转动；固件加发陀螺仪（gyro）后转动也能跟上。杯子歪的方向和实际不一样没关系，画面会自动转到侧面方便看。</p>
   </section>
