@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#dcdfdd">
+<meta name="description" content="智能 Shake 杯的网页原型：跟着温度和节奏提示练习摇酒，摇出好成绩解锁图鉴里的酒。">
+<title>微醺练习室</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme-real.css">
+<link rel="stylesheet" href="theme-pixel.css">
+<script>try { document.documentElement.dataset.theme = localStorage.getItem('shakecup-theme') || 'real'; } catch { document.documentElement.dataset.theme = 'real'; }</script>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="#" aria-label="回到开始">
+    <svg class="brand-mark" viewBox="0 0 24 32" aria-hidden="true"><path d="M7 1h10v4H7z"/><path d="M5 6h14l-1.5 6h-11z"/><path d="M6 13h12l-2 18H8z"/></svg>
+    <span>微醺练习室</span>
+  </a>
+  <nav class="top-actions">
+    <button class="device-pill" id="device-pill" data-state="off">杯子：未连接</button>
+    <span class="demo-flag" title="当前所有温度与动作均为模拟记录">演示数据</span>
+    <button class="link" id="open-codex">图鉴 <span id="codex-count" class="count">0/6</span></button>
+    <button class="link" id="collection">我的练习 <span id="saved-count" class="count">0</span></button>
+    <button class="link" id="theme-toggle">风格：写实</button>
+    <button class="link" id="sound" aria-pressed="false">声音：关</button>
+    <button class="link" id="help">项目介绍</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 准备 -->
+  <section id="setup" class="view setup">
+    <div class="setup-copy">
+      <p class="recipe-meta"><span id="recipe-en">Whiskey Sour</span><button class="link" id="switch-recipe">换一杯</button></p>
+      <h1 id="recipe-name">威士忌酸</h1>
+      <p class="lede" id="recipe-lede"></p>
+
+      <dl class="pour" id="pour" aria-label="配方"></dl>
+      <p class="fine unlock-hint" id="unlock-hint"></p>
+
+      <div class="mode" role="tablist" aria-label="练习方式">
+        <button role="tab" aria-selected="true" data-mode="standard">
+          <b>跟参考练</b><span>目标 −2.0 ℃，节奏 3 Hz</span>
+        </button>
+        <button role="tab" aria-selected="false" data-mode="free">
+          <b>自己定</b><span>改目标温度和节奏</span>
+        </button>
+      </div>
+
+      <div id="free-settings" class="free" hidden>
+        <label for="target">目标温度 <output id="target-value">−2.0 ℃</output></label>
+        <input id="target" type="range" min="-4" max="2" value="-2" step=".5">
+        <label for="rhythm">摇动节奏 <output id="rhythm-value">3.0 Hz</output></label>
+        <input id="rhythm" type="range" min="2" max="4" value="3" step=".5">
+      </div>
+
+      <div class="go">
+        <button class="primary" id="start">开始练习</button>
+        <p class="fine" id="go-hint">杯子还在做，这一版先放模拟的摇杯过程，你看着就行。<br>觉得够了，随时点“这杯完成了”。</p>
+      </div>
+    </div>
+
+    <figure class="still">
+      <div class="still-art" id="setup-art" aria-hidden="true"></div>
+      <div class="px-scene"><canvas id="setup-scene" width="320" height="180" aria-hidden="true"></canvas></div>
+    </figure>
+  </section>
+
+  <!-- 图鉴 -->
+  <section id="codex" class="view codex" hidden>
+    <div class="codex-head">
+      <h1>图鉴</h1>
+      <p class="codex-progress"><b id="codex-done">0</b> / <span id="codex-total">6</span> 杯已解锁</p>
+      <p class="lede">用杯子摇出 80 分，就能解锁这杯酒。同一杯拿到三次 80 分以上，就算练熟了。</p>
+    </div>
+    <h2 class="shelf-title">摇和</h2>
+    <ul class="shelf" id="shelf-shake"></ul>
+    <h2 class="shelf-title">搅拌和直调</h2>
+    <p class="fine shelf-note">这几杯不用摇，杯子目前只教摇和，先放在这里看看。</p>
+    <ul class="shelf" id="shelf-other"></ul>
+  </section>
+
+  <!-- 制作中 / 结果 -->
+  <section id="live" class="view live" hidden>
+
+    <div class="reading">
+      <div class="temp-block">
+        <span class="label">酒液温度</span>
+        <p class="temp"><span id="temp">22.0</span><small>℃</small></p>
+        <p class="temp-sub"><span id="temp-note">等待温度数据</span><span class="target-tag">目标 <b id="target-show">−2.0 ℃</b></span></p>
+      </div>
+      <div class="chart-wrap">
+        <svg id="chart" class="chart" viewBox="0 0 600 260" role="img" aria-label="温度曲线：本次与参考"></svg>
+        <p class="legend"><span class="k-temp">本次</span><span class="k-ref">参考</span><span class="k-target">目标温度</span><span class="clock" id="elapsed">0:00</span></p>
+      </div>
+    </div>
+
+    <div class="instruments">
+      <div class="inst">
+        <span class="label">摇动节奏</span>
+        <p class="val"><span id="freq">—</span><small>Hz</small></p>
+        <div class="beat" id="beat" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <p class="note" id="freq-note">等待动作信号</p>
+      </div>
+      <div class="inst">
+        <span class="label">动作幅度</span>
+        <p class="val word" id="amplitude">—</p>
+        <p class="note" id="amplitude-note">观察往复动作</p>
+      </div>
+      <div class="inst score">
+        <span class="label">美味值 <button class="qmark" id="score-info" aria-label="美味值怎么算">?</button></span>
+        <p class="val"><span id="score">0</span><small>/100</small></p>
+        <div class="meter" role="progressbar" aria-label="美味值" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progress-fill"></i></div>
+        <p class="note" id="scenario-label"></p>
+      </div>
+    </div>
+
+    <!-- 制作中的指引 -->
+    <div id="guide" class="guide">
+      <div class="cue" aria-live="polite">
+        <p class="cue-kind" id="cue-kind">准备</p>
+        <h2 id="cue-title">准备开始</h2>
+        <p id="cue-desc">跟着右边的示范动作。</p>
+        <p class="change" id="change-feedback"></p>
+      </div>
+      <div class="demo" id="teaching" data-action="ready">
+        <div class="demo-stage" aria-hidden="true">
+          <canvas class="demo-px" width="80" height="50" aria-hidden="true"></canvas>
+          <svg class="demo-figure" viewBox="0 0 160 100">
+            <!-- 卡通双手握住斜放的摇壶，沿长轴前后推拉 -->
+            <line class="axis" x1="20" y1="69.5" x2="140" y2="30.5"/>
+            <path class="axis-tip" d="M140 30.5l-9-0.5 2.5 7zM20 69.5l9 0.5-2.5-7z"/>
+            <g class="arms">
+              <g transform="translate(8 0) rotate(-18 72 50)">
+                <!-- 杯身：靠杯顶一端粗，往杯底收窄 -->
+                <path class="tin" d="M70 35L104 38q3 .3 3 3v18q0 2.7-3 3L70 65z"/>
+                <!-- 杯顶：从杯身口收成圆肩，接细颈 -->
+                <path class="tin" d="M70 34v32q-9 0-13-6q-3-4-5-6v-8q2-2 5-6q4-6 13-6z"/>
+                <path class="tin" d="M52 45h-5v10h5z"/>
+                <!-- 杯帽 -->
+                <rect class="tin" x="38" y="43" width="10" height="14" rx="3"/>
+                <path class="seam" d="M70 34v32"/>
+                <!-- 左手：握住杯顶，拇指搭在上沿，指尖朝杯身 -->
+                <path class="hand" transform="translate(44 50) scale(.66) translate(-44 -50)" d="M58 31q-8 0-8 8v19q0 11 10 11h14a3.6 3.6 0 0 0 0-7a3.6 3.6 0 0 0 0-7a3.6 3.6 0 0 0 0-7a3.6 3.6 0 0 0-1-6.5q4-1 8-1q4 0 4-3.5q0-3.5-5-4z"/>
+                <!-- 右手：托住杯底，拇指搭在上沿，指尖朝杯顶 -->
+                <path class="hand" transform="translate(-14 0) translate(126 50) scale(.66) translate(-126 -50)" d="M120 33q8 0 8 8v17q0 11-10 11h-12a3.6 3.6 0 0 1 0-7a3.6 3.6 0 0 1 0-7a3.6 3.6 0 0 1 0-7a3.6 3.6 0 0 1 1-6.5q-5-1-9-1q-4 0-4-3.5q0-3.5 5-4z"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <p class="demo-title" id="teach-title">双手握稳</p>
+        <p class="demo-detail" id="teach-detail">确认杯盖扣紧</p>
+      </div>
+      <ol class="steps" aria-label="当前阶段">
+        <li data-step="ready">准备</li>
+        <li data-step="shake">摇和</li>
+        <li data-step="adjust">调整</li>
+        <li data-step="settle">接近目标</li>
+      </ol>
+      <div class="finish">
+        <button class="primary" id="confirm-finish">这杯完成了</button>
+        <p class="fine" id="finish-hint">觉得够了就点，按这一刻打分。</p>
+        <button class="link quiet" id="cancel">放弃这次</button>
+      </div>
+    </div>
+
+    <!-- 结果 -->
+    <div id="result" class="result" hidden>
+      <div class="verdict">
+        <p class="big-score"><span id="result-score">0</span><small>/100</small></p>
+        <p id="result-summary" class="summary"></p>
+        <p id="unlock-note" class="unlock-note"></p>
+        <dl class="facts">
+          <div><dt>停在</dt><dd id="final-temp"></dd></div>
+          <div><dt>摇了</dt><dd id="final-time"></dd></div>
+          <div><dt>方案</dt><dd id="final-scenario"></dd></div>
+        </dl>
+        <div class="parts" id="parts"></div>
+        <p class="part-detail" id="part-detail"></p>
+        <div class="result-actions">
+          <button class="primary" id="again">再摇一杯</button>
+          <button class="secondary" id="save">收藏这次练习</button>
+        </div>
+        <p class="fine" id="save-state"></p>
+      </div>
+      <div class="timeline">
+        <h2>过程回看</h2>
+        <p class="fine">点一条，曲线上会标出那一刻。</p>
+        <ol id="events" class="events"></ol>
+        <p id="event-detail" class="event-detail"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>HKUST(GZ) 创新创业黑客松，智能 Shake 杯团队</p>
+</footer>
+
+<dialog id="modal">
+  <button id="close-modal" class="close" aria-label="关闭">×</button>
+  <div id="modal-content"></div>
+</dialog>
+
+<script src="vendor/mqtt.min.js" defer></script>
+<script src="app.js" defer></script>
+<script src="vendor/qrcode.js" defer></script>
+<script src="theme.js" defer></script>
+<script src="device.js" defer></script>
+</body>
+</html>

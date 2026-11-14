@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>假杯子：设备模拟器</title>
+<style>
+  body { font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif; background: #dcdfdd; color: #2a1b10; margin: 0; padding: 28px; line-height: 1.6; }
+  main { max-width: 620px; margin: 0 auto; }
+  h1 { margin: 0 0 4px; font-size: 32px; }
+  p { margin: 6px 0; }
+  .fine { font-size: 13px; color: #6a5a4c; }
+  fieldset { border: 2px solid #2a1b10; border-radius: 14px; padding: 14px 18px; margin: 18px 0; background: #eceeed; }
+  legend { font-weight: 800; padding: 0 6px; }
+  label { display: grid; gap: 4px; margin: 8px 0; font-size: 14px; }
+  input[type=text], input[type=password] { font: inherit; padding: 8px 10px; border: 1.5px solid #2a1b10; border-radius: 8px; }
+  input[type=range] { width: 100%; accent-color: #2a1b10; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  button { font: inherit; font-weight: 700; border: 2px solid #2a1b10; border-radius: 999px; padding: 10px 22px; background: #f1cc3a; cursor: pointer; }
+  button.alt { background: transparent; }
+  .big { font-size: 40px; font-weight: 900; }
+  pre { background: #2a1b10; color: #e6ddd1; padding: 10px; border-radius: 8px; font-size: 12px; white-space: pre-wrap; word-break: break-all; }
+  #state { font-weight: 700; }
+</style>
+</head>
+<body>
+<main>
+  <h1>假杯子</h1>
+  <p>硬件还没好的时候，用这个页面冒充杯子往 MQTT 服务器发数据。练习网站那边填同样的服务器和设备 ID，就能把整条链路跑通。</p>
+
+  <fieldset>
+    <legend>服务器</legend>
+    <label>服务器地址（WebSocket）<input type="text" id="url" value="wss://broker.emqx.io:8084/mqtt"></label>
+    <div class="row">
+      <label>设备 ID<input type="text" id="device" value="cup-01"></label>
+      <label>用户名 / 密码（可空）<span class="row"><input type="text" id="user"><input type="password" id="pass"></span></label>
+    </div>
+    <button id="connect">连接</button> <span id="state">未连接</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>模拟摇杯</legend>
+    <p class="big"><span id="temp">22.0</span> ℃</p>
+    <label>节奏 <b id="hz-v">3.0 Hz</b><input type="range" id="hz" min="0" max="5" step=".1" value="3"></label>
+    <label>单程幅度 <b id="amp-v">14 cm</b><input type="range" id="amp" min="0" max="25" step="1" value="14"></label>
+    <label><span><input type="checkbox" id="raw"> 发原始加速度（不发 hz/amp，让网页自己算）</span></label>
+    <p>
+      <button id="shake">开始摇</button>
+      <button class="alt" id="stop">停手</button>
+      <button class="alt" id="ice">重新加冰（回到 22 ℃）</button>
+    </p>
+    <p class="fine">节奏和幅度越大，降温越快；停手后温度会慢慢回升一点。数值只是为了联调，不代表真实物理。</p>
+  </fieldset>
+
+  <p class="fine">最近发出的一条：</p>
+  <pre id="last">（还没发）</pre>
+</main>
+
+<script src="vendor/mqtt.min.js"></script>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+let client = null, shaking = false, temp = 22, t0 = Date.now(), seq = 0, phase = 0;
+const RATE = 10;                // 每秒 10 帧
+const ACC_HZ = 50;              // 原始加速度采样率
+
+$('#hz').oninput = () => $('#hz-v').textContent = Number($('#hz').value).toFixed(1) + ' Hz';
+$('#amp').oninput = () => $('#amp-v').textContent = $('#amp').value + ' cm';
+$('#shake').onclick = () => shaking = true;
+$('#stop').onclick = () => shaking = false;
+$('#ice').onclick = () => { temp = 22; };
+
+$('#connect').onclick = () => {
+  if (client) { client.end(true); client = null; }
+  const dev = $('#device').value.trim();
+  const opts = { clientId: 'sim-' + Math.random().toString(16).slice(2, 8), reconnectPeriod: 2000,
+    will: { topic: `shakecup/${dev}/status`, payload: JSON.stringify({ online: false }), retain: true, qos: 1 } };
+  if ($('#user').value) { opts.username = $('#user').value; opts.password = $('#pass').value; }
+  client = mqtt.connect($('#url').value.trim(), opts);
+  $('#state').textContent = '连接中…';
+  client.on('connect', () => {
+    $('#state').textContent = '已连接，正在发数据';
+    client.publish(`shakecup/${dev}/status`, JSON.stringify({ online: true, fw: 'sim-1', bat: 87 }), { retain: true, qos: 1 });
+  });
+  client.on('error', e => $('#state').textContent = '出错：' + e.message);
+  client.on('offline', () => $('#state').textContent = '断开，重连中…');
+};
+
+setInterval(() => {
+  const dt = 1 / RATE, hz = shaking ? Number($('#hz').value) : 0, ampCm = shaking ? Number($('#amp').value) : 0;
+  // 粗略的降温：越接近 −4 ℃ 越慢；摇得越猛降得越快
+  const k = shaking ? 0.12 * Math.min(1.6, (hz / 3) * (0.4 + ampCm / 23)) : -0.01;
+  temp += (-4 - temp) * k * dt * (shaking ? 1 : 0) + (shaking ? 0 : 0.02 * dt * (22 - temp));
+  const probes = [0, 1, 2].map(i => +(temp + (Math.random() - .5) * .3 + (i - 1) * .1).toFixed(2));
+  $('#temp').textContent = temp.toFixed(1);
+  if (!client || !client.connected) return;
+
+  const msg = { v: 1, seq: seq++, ms: Date.now() - t0, temp: probes, bat: 87 };
+  if ($('#raw').checked) {
+    // 沿摇壶长轴的简谐运动：a = (2πf)²·A·sin，再加重力和一点噪声；单位 g
+    const n = ACC_HZ / RATE, w = 2 * Math.PI * hz, A = ampCm / 100;
+    msg.acc_hz = ACC_HZ;
+    msg.acc = Array.from({ length: n }, () => {
+      phase += w / ACC_HZ;
+      const a = w * w * A * Math.sin(phase) / 9.81;
+      return [+(a + (Math.random() - .5) * .05).toFixed(3), +((Math.random() - .5) * .05).toFixed(3), +(1 + (Math.random() - .5) * .05).toFixed(3)];
+    });
+  } else {
+    msg.hz = +(hz + (hz ? (Math.random() - .5) * .1 : 0)).toFixed(2);
+    msg.amp = ampCm;
+  }
+  client.publish(`shakecup/${$('#device').value.trim()}/data`, JSON.stringify(msg), { qos: 0 });
+  if (seq % 5 === 0) $('#last').textContent = JSON.stringify(msg).slice(0, 400);
+}, 1000 / RATE);
+</script>
+</body>
+</html>
