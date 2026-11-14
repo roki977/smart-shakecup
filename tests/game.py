@@ -15,7 +15,7 @@ async def main():
             await pg.screenshot(path=f'{OUT}-{nm}-3recipe.png')
             await pg.click('#practice-this'); await pg.wait_for_timeout(400)
             await pg.evaluate("() => { previousScenario = 1; }")
-            await pg.click('#start'); await pg.wait_for_timeout(5200)
+            await pg.click('#start'); await pg.click('#prep-skip'); await pg.wait_for_timeout(5200)
             await pg.screenshot(path=f'{OUT}-{nm}-4live.png')
             await pg.evaluate("() => { clearInterval(timer); for (let i=22;i<=56;i++) consumeSample(demoSample(i*.25)); finish(); }"); await pg.wait_for_timeout(2200)
             await pg.evaluate("() => document.querySelector('#modal').open && document.querySelector('#modal').close()")

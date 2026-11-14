@@ -21,7 +21,7 @@ with sync_playwright() as p:
     pg.click('[data-use-curve="0"]'); pg.wait_for_timeout(600)
     print('ref chip:', pg.text_content('#ref-chip').strip()[:60])
     pg.evaluate("chooseScenario = () => ({...scenarios[0]})")
-    pg.click('#start'); pg.click('#countdown-skip')
+    pg.click('#start'); pg.click('#prep-skip'); pg.click('#countdown-skip')
     pg.wait_for_function('document.querySelector("#confirm-finish").classList.contains("ready")', timeout=30000)
     pg.evaluate('finish()'); pg.wait_for_function('!/…/.test(document.querySelector("#result-score").textContent)', timeout=15000); pg.wait_for_timeout(1500)
     print('practice vs measured curve:', pg.text_content('#result-score'), '| ref id:', pg.evaluate('algo.last.payload.reference.id'), '| save shown for sim:', bool(pg.query_selector('#save-curve')))

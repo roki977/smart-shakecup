@@ -236,7 +236,11 @@ const STEP_KIND = {
 };
 /* 这杯的步骤：[{ action, kind, text, sensor }]。没有知识库步骤的（社区自创、自己搭的）按“加料 → 加冰 → 摇和 → 过滤 → 装饰”补齐 */
 function flowOf(r) {
-  if (r.flow?.length) return r.flow.map(x => ({ ...x, text: plainStep(x, r), kind: STEP_KIND[x.action] || '步骤', sensor: x.action === 'shake' }));
+  if (r.flow?.length) {
+    // 杯子只测第一次摇和（有的配方先干摇再加冰摇，第二次算收尾步骤）
+    const first = r.flow.findIndex(x => x.action === 'shake');
+    return r.flow.map((x, i) => ({ ...x, text: plainStep(x, r), kind: STEP_KIND[x.action] || '步骤', sensor: i === first }));
+  }
   const out = [
     { action: 'load', text: '量好原料，倒进摇壶' + (r.parts?.length ? `：${r.parts.map(p => p[0]).join('、')}` : '') },
     { action: 'add_ice', text: '摇壶里加满冰，扣紧杯盖' },

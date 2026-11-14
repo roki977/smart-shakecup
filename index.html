@@ -119,6 +119,22 @@
 
   <!-- 制作中 / 结果 -->
   <section id="live" class="view live" hidden>
+    <!-- 这杯的完整步骤（flow.js）：杯子测摇和那一步，其余步骤用户自己点完成 -->
+    <nav class="flow" aria-label="制作步骤">
+      <ol class="flow-rail" id="flow-rail"></ol>
+      <p class="flow-hint" id="flow-hint"></p>
+    </nav>
+    <div class="prep" id="prep" hidden>
+      <p class="cue-kind" id="prep-kind">加料</p>
+      <h2 id="prep-title"></h2>
+      <p class="prep-next" id="prep-next"></p>
+      <div class="prep-actions">
+        <button class="primary" id="prep-done">做好了，下一步</button>
+        <button class="secondary" id="prep-skip">直接开始摇</button>
+        <button class="link quiet" id="prep-cancel">返回</button>
+      </div>
+      <p class="fine">这些步骤杯子测不到，做完自己点一下。顺序不用完全照着来，点上面任意一步也能标完成。</p>
+    </div>
     <div class="countdown" id="countdown" hidden role="status" aria-live="assertive">
       <p class="countdown-label">拿起杯子，准备开始</p>
       <b class="countdown-num" id="countdown-num">3</b>
@@ -211,12 +227,6 @@
         <p class="demo-title" id="teach-title">双手握稳</p>
         <p class="demo-detail" id="teach-detail">确认杯盖扣紧</p>
       </div>
-      <ol class="steps" aria-label="当前阶段">
-        <li data-step="ready">准备</li>
-        <li data-step="shake">摇和</li>
-        <li data-step="adjust">调整</li>
-        <li data-step="settle">接近目标</li>
-      </ol>
       <div class="finish">
         <button class="primary" id="confirm-finish">这杯完成了</button>
         <p class="fine" id="finish-hint">觉得够了就点，按这一刻打分。</p>
@@ -277,6 +287,7 @@
 <script src="device.js?v=20261114c" defer></script>
 <script src="algorithm.js?v=20261114c" defer></script>
 <script src="curves.js?v=20261114c" defer></script>
+<script src="flow.js?v=20261114c" defer></script>
 <script src="dataset.js?v=20261114c" defer></script>
 <script src="fx.js?v=20261114c" defer></script>
 </body>
