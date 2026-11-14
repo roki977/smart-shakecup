@@ -1,7 +1,7 @@
 'use strict';
 /* 酒的图：优先用 photos/<配方id>.jpg 实拍照片（IBA 官网，统一裁成 4:5 黑底），
    没有照片（比如社区里的自创配方）时显示 drinkArt() 画的插画。
-   外观全部在 theme-game.css 里，这里只负责把照片塞进带 data-art 的框。 */
+   外观全部在 theme-night.css 里，这里只负责把照片塞进带 data-art 的框。 */
 
 const photoCache = {};
 function photoFor(id) {

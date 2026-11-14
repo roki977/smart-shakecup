@@ -216,10 +216,10 @@ function postCard(p) {
   return `<li><button class="post-card" data-post="${escapeHTML(p.id)}">
     <span class="post-top"><span class="post-kind k-${p.kind}">${KINDS[p.kind]}</span><span class="post-drink">${escapeHTML(drinkName(p))}</span>${p.demo ? '<span class="post-demo" title="演示用的示例内容">示例</span>' : ''}</span>
     <span class="post-title">${escapeHTML(p.title)}</span>
-    ${st ? `${sparkSVG(p.curve)}<span class="post-stats"><b>${p.score}</b> 分 · 停在 ${deg(st.finalTemp)} ℃ · ${st.duration.toFixed(0)} 秒 · ${st.hzMid.toFixed(1)} 次/秒</span>` : ''}
-    ${r ? `<span class="post-ings">${r.parts.map(([n, ml]) => `${escapeHTML(n)} ${typeof ml === 'number' ? ml : escapeHTML(ml)}`).join(' · ')}</span>` : ''}
+    ${st ? `${sparkSVG(p.curve)}<span class="post-stats"><span><b>${p.score}</b> 分</span><span>停在 ${deg(st.finalTemp)} ℃</span><span>${st.duration.toFixed(0)} 秒</span><span>${st.hzMid.toFixed(1)} 次/秒</span></span>` : ''}
+    ${r ? `<span class="post-ings">${r.parts.map(([n, ml]) => `<span>${escapeHTML(n)} ${typeof ml === 'number' ? ml : escapeHTML(ml)}</span>`).join('')}</span>` : ''}
     <span class="post-body">${escapeHTML(p.body || '')}</span>
-    <span class="post-foot">${avatar(p.author)}<span class="post-author">${escapeHTML(p.author)} · ${ago(p.createdAt)}</span><span class="post-meta">♥ ${p.likes || 0} · 评论 ${p.comments?.length || 0}</span></span>
+    <span class="post-foot">${avatar(p.author)}<span class="post-author">${escapeHTML(p.author)}</span><span class="post-time">${ago(p.createdAt)}</span><span class="post-meta"><span>♥ ${p.likes || 0}</span><span>评论 ${p.comments?.length || 0}</span></span></span>
   </button></li>`;
 }
 function renderFeed() {
@@ -242,7 +242,7 @@ function openPost(id) {
   showModal(`<div class="post-detail">
     <p class="post-top"><span class="post-kind k-${p.kind}">${KINDS[p.kind]}</span><span class="post-drink">${escapeHTML(drinkName(p))}</span>${p.demo ? '<span class="post-demo">示例</span>' : ''}</p>
     <h2>${escapeHTML(p.title)}</h2>
-    <p class="post-by">${avatar(p.author)}<span>${escapeHTML(p.author)} · ${ago(p.createdAt)}</span></p>
+    <p class="post-by">${avatar(p.author)}<span>${escapeHTML(p.author)}</span><span class="post-time">${ago(p.createdAt)}</span></p>
     ${st ? `<svg class="chart" id="p-chart" viewBox="0 0 600 260"></svg>
       <p class="fine chart-key"><span class="key-now"></span>温度　<span class="key-ref"></span>当时跟的参考</p>
       <dl class="post-statgrid">
@@ -318,7 +318,7 @@ function renderRefChip() {
   const box = $('#ref-chip');
   if (!practiceRef) { box.hidden = true; updateModeLabel(); return; }
   box.hidden = false;
-  box.innerHTML = `${avatar(practiceRef.author)}<span><b>参考曲线：${escapeHTML(practiceRef.author)}</b><br>${escapeHTML(practiceRef.title)} · 目标 ${deg(practiceRef.target)} ℃ · ${practiceRef.rhythm.toFixed(1)} 次/秒</span><button class="link" id="ref-clear">不用了</button>`;
+  box.innerHTML = `${avatar(practiceRef.author)}<span><b>跟 ${escapeHTML(practiceRef.author)} 的曲线练</b><br>${escapeHTML(practiceRef.title)}，目标 ${deg(practiceRef.target)} ℃，${practiceRef.rhythm.toFixed(1)} 次/秒</span><button class="link" id="ref-clear">不用了</button>`;
   $('#ref-clear').onclick = () => { practiceRef = null; renderRefChip(); };
   updateModeLabel();
 }
@@ -382,7 +382,7 @@ function openComposer(pre = {}) {
     const s = srcs.find(x => x.key === form.source.value); const box = $('#cp-preview');
     if (!s) { box.innerHTML = ''; return; }
     const c = compactCurve(s.samples), st = curveStats(c);
-    box.innerHTML = `${sparkSVG(c)}<span class="post-stats"><b>${s.score}</b> 分 · 停在 ${deg(st.finalTemp)} ℃ · ${st.duration.toFixed(0)} 秒 · 节奏 ${st.hzLo.toFixed(1)}–${st.hzHi.toFixed(1)} 次/秒 · 幅度 ${st.ampLo.toFixed(0)}–${st.ampHi.toFixed(0)} cm</span>`;
+    box.innerHTML = `${sparkSVG(c)}<span class="post-stats"><span><b>${s.score}</b> 分</span><span>停在 ${deg(st.finalTemp)} ℃</span><span>${st.duration.toFixed(0)} 秒</span><span>节奏 ${st.hzLo.toFixed(1)}–${st.hzHi.toFixed(1)} 次/秒</span><span>幅度 ${st.ampLo.toFixed(0)}–${st.ampHi.toFixed(0)} cm</span></span>`;
   };
   if (form.source) { form.source.onchange = preview; if (pre.source) form.source.value = pre.source; preview(); }
   $('#ing-add').onclick = () => { $('#ings').insertAdjacentHTML('beforeend', ingRow()); bindDel(); };

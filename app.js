@@ -124,19 +124,40 @@ function renderRecipe() {
   $('#recipe-en').textContent = recipe.en;
   $('#setup-art').innerHTML = drinkArt(recipe);
   $('#setup-art').dataset.art = recipe.id;
-  $('#setup-art').style.setProperty('--drink', recipe.color);
-  $('#recipe-lede').textContent = recipe.note + '杯子记下酒液温度和你摇的节奏，屏幕告诉你下一步该快一点、慢一点，还是可以停了。';
+  $('#setup-art').classList.remove('has-photo');
+  $('#recipe-lede').textContent = recipe.note;
+  // 配料：每样一行，右边一条细线伸向杯子，线长按用量
   const max = Math.max(...recipe.parts.map(p => typeof p[1] === 'number' ? p[1] : 0));
-  $('#pour').innerHTML = recipe.parts.map(([n, ml]) =>
+  $('#pour').innerHTML = recipe.parts.map(([n, ml], i) =>
     typeof ml === 'number'
-      ? `<div style="--ml:${ml};--max:${max}"><dt>${n}</dt><dd><b>${ml}</b> ml</dd><i aria-hidden="true"></i></div>`
-      : `<div class="pour-extra"><dt>${n}</dt><dd>${ml}</dd></div>`).join('');
+      ? `<div style="--ml:${ml};--max:${max};--i:${i}"><dt>${escapeHTML(n)}</dt><dd><b>${ml}</b>ml</dd><i aria-hidden="true"></i></div>`
+      : `<div class="pour-extra" style="--i:${i}"><dt>${escapeHTML(n)}</dt><dd>${escapeHTML(ml)}</dd></div>`).join('');
+  $('#recipe-deco').textContent = recipe.deco && recipe.deco !== '无' ? `装饰：${recipe.deco}` : '不加装饰';
+  $('#setup-steps').innerHTML = stepsOf(recipe.how).map(x => `<li>${escapeHTML(x)}</li>`).join('');
   const st = codexState()[recipe.id];
-  $('#unlock-hint').textContent = !st?.best ? `还没解锁。摇出 ${UNLOCK_SCORE} 分，这杯就收进图鉴。`
+  $('#unlock-hint').textContent = recipe.custom ? '社区里的自创配方，练习成绩不进图鉴。'
+    : !st?.best ? `摇出 ${UNLOCK_SCORE} 分，这杯收进图鉴。`
     : st.best < UNLOCK_SCORE ? `最好成绩 ${st.best} 分，再拿到 ${UNLOCK_SCORE} 分就能解锁。`
-    : (st.passes || 0) >= MASTER_TIMES ? `已练熟。最好成绩 ${st.best} 分。`
+    : (st.passes || 0) >= MASTER_TIMES ? `已练熟，最好成绩 ${st.best} 分。`
     : `已解锁，最好成绩 ${st.best} 分。再拿 ${MASTER_TIMES - st.passes} 次 ${UNLOCK_SCORE} 分以上就算练熟。`;
+  renderStrip();
   updateCodexCount();
+}
+/* 底部的酒单：点一杯就换，杯子从暗处浮现 */
+function renderStrip() {
+  const st = codexState(), list = recipe.custom ? [recipe, ...SHAKEN] : SHAKEN;
+  $('#drink-strip').innerHTML = list.map(r => `<li><button class="strip-item${isUnlocked(st, r.id) ? ' open' : ''}" data-pick="${r.id}" aria-current="${r.id === recipe.id}" aria-label="${escapeHTML(r.name)}">
+      <span class="strip-art" data-art="${r.id}">${drinkArt(r)}</span><span class="strip-name">${escapeHTML(r.name)}</span></button></li>`).join('');
+  $$('#drink-strip [data-pick]').forEach(b => b.onclick = () => {
+    const r = list.find(x => x.id === b.dataset.pick);
+    if (!r || r.id === recipe.id) return;
+    recipe = r;
+    if (typeof practiceRef !== 'undefined' && practiceRef) { practiceRef = null; renderRefChip(); }
+    renderRecipe(); revealStage();
+  });
+}
+function revealStage() {
+  const s = $('#stage'); s.classList.remove('reveal'); void s.offsetWidth; s.classList.add('reveal');
 }
 function updateCodexCount() {
   const st = codexState(), n = SHAKEN.filter(r => isUnlocked(st, r.id)).length;
@@ -149,7 +170,7 @@ function cardHTML(r, st) {
   return `<li><button class="card${open ? '' : ' locked'}${isMastered(st, r.id) ? ' mastered' : ''}" data-recipe="${r.id}" style="--drink:${r.color}">
     <span class="card-art" data-art="${r.id}">${drinkArt(r)}</span>
     <span class="card-name">${r.name}</span><span class="card-en">${r.en}</span>
-    <span class="card-tags">${r.method} · ${r.glassName || GLASS[r.glass]}</span>
+    <span class="card-tags"><span>${r.method}</span><span>${r.glassName || GLASS[r.glass]}</span></span>
     <span class="card-parts">${r.parts.map(([n, ml]) => `<span><span>${n}</span><b>${typeof ml === 'number' ? ml + ' ml' : ml}</b></span>`).join('')}<span class="deco"><span>装饰</span><b>${r.deco}</b></span></span>
     <span class="card-how">${r.how}</span>
     <span class="card-badge">${badge}</span></button></li>`;
@@ -193,7 +214,7 @@ function openRecipe(id) {
 
 function showSetup() {
   $('#community').hidden = true; $('#codex').hidden = true; $('#live').hidden = true; $('#setup').hidden = false;
-  renderRecipe(); window.scrollTo({ top: 0 });
+  renderRecipe(); revealStage(); window.scrollTo({ top: 0 });
 }
 function showCodex() {
   if (running) return;
@@ -685,7 +706,7 @@ function renderEvents(list, detail, svg, data, ev, opt) {
   list.innerHTML = ev.map((e, i) =>
     `<li><button data-i="${i}" aria-pressed="false"><span class="t">${e.t.toFixed(1)} s</span><span class="n">${escapeHTML(e.name)}</span><span class="c">${deg(e.temp)} ℃</span></button></li>`
   ).join('');
-  detail.textContent = '曲线上的小黑点就是这些时刻。';
+  detail.textContent = '曲线上的小圆点就是这些时刻。';
   list.querySelectorAll('button').forEach(b => b.onclick = () => {
     const e = ev[Number(b.dataset.i)];
     document.querySelectorAll('[data-part]').forEach(x => x.setAttribute('aria-pressed', 'false'));
@@ -774,3 +795,4 @@ $('#collection').onclick = () => {
 
 countSaved();
 renderRecipe();
+revealStage();
