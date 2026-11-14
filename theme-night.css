@@ -460,3 +460,16 @@ dialog::backdrop { background: rgba(0, 0, 0, .72); backdrop-filter: blur(4px); }
 /* 仪表条现在有边框，第一格也要留内边距 */
 .instruments .inst:first-child { padding-left: 22px; }
 @media (max-width: 900px) { .instruments .inst:first-child { padding-left: 14px; } }
+
+/* 开始前的 3 秒倒数：盖在练习页上，数字从背光里浮出来 */
+.countdown { position: fixed; inset: 0; z-index: 50; display: grid; place-content: center; justify-items: center; gap: 18px; text-align: center;
+  background: radial-gradient(40% 40% at 50% 48%, rgba(74, 44, 138, .45), transparent 70%), rgba(0, 0, 0, .82); backdrop-filter: blur(6px); }
+.countdown[hidden] { display: none; }
+.countdown-label { margin: 0; color: var(--mist); font-size: 16px; letter-spacing: .2em; }
+.countdown-num { font-family: var(--serif); font-size: clamp(140px, 24vw, 240px); line-height: 1; font-weight: 700; color: var(--frost);
+  text-shadow: 0 0 60px rgba(120, 82, 220, .7); }
+.countdown-num.tick { animation: count-in .9s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes count-in { from { opacity: 0; transform: scale(1.25); filter: blur(6px); } 60% { opacity: 1; transform: scale(1); filter: none; } to { opacity: .85; } }
+.countdown .secondary { margin-top: 8px; }
+@media (prefers-reduced-motion: reduce) { .countdown-num.tick { animation: none; } }
+.countdown .link.quiet { color: var(--mist); font-size: 13px; }

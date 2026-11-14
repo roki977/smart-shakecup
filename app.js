@@ -638,7 +638,29 @@ function start() {
   setPracticing(true);
   $$('[data-mode]').forEach(b => b.disabled = true);
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  countdownThen(begin);
+}
 
+/* 进入练习页后先倒数 3 秒，让人把手机放好、拿起杯子；想马上开始可以点“现在开始” */
+let countdown = null;
+function countdownThen(go) {
+  const box = $('#countdown'), num = $('#countdown-num');
+  let n = 3;
+  const done = () => { clearInterval(countdown); countdown = null; box.hidden = true; go(); };
+  const show = () => { num.textContent = n; num.classList.remove('tick'); void num.offsetWidth; num.classList.add('tick'); speak(String(n)); };
+  $('#cue-kind').textContent = '准备'; $('.cue').dataset.tone = 'go';
+  $('#cue-title').textContent = '拿起杯子'; $('#cue-desc').textContent = '倒数结束就开始。';
+  $('#change-feedback').textContent = '';
+  drawChart($('#chart'), [], { duration: 15 });
+  box.hidden = false; show();
+  $('#countdown-skip').onclick = done;
+  $('#countdown-cancel').onclick = reset;
+  countdown = setInterval(() => { n--; if (n <= 0) done(); else show(); }, 1000);
+}
+function cancelCountdown() { if (countdown) { clearInterval(countdown); countdown = null; } $('#countdown').hidden = true; }
+
+function begin() {
+  if (!running) return;
   if (startWithDevice()) {
     // 真实数据：等杯子的消息推进，界面先摆好准备状态
     activeScenario = { name: '真实数据', duration: 15, kind: 'device' };
@@ -691,6 +713,7 @@ function finish() {
 }
 
 function reset() {
+  cancelCountdown();
   clearInterval(timer); timer = null; running = false; completed = false; stopDevice();
   metronome(false); keepAwake(false); try { speechSynthesis.cancel(); } catch {}
   setPracticing(false);

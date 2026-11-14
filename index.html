@@ -112,6 +112,12 @@
 
   <!-- 制作中 / 结果 -->
   <section id="live" class="view live" hidden>
+    <div class="countdown" id="countdown" hidden role="status" aria-live="assertive">
+      <p class="countdown-label">拿起杯子，准备开始</p>
+      <b class="countdown-num" id="countdown-num">3</b>
+      <button class="secondary" id="countdown-skip">现在开始</button>
+      <button class="link quiet" id="countdown-cancel">返回</button>
+    </div>
 
     <div class="reading">
       <div class="temp-block">
