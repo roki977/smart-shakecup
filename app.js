@@ -273,6 +273,7 @@ function showCodex() {
 
 /* 结算后更新图鉴；第一次过线时放一次解锁动画 */
 function recordResult(score) {
+  dsSetScore(score);
   if (recipe.custom) return;                              // 社区里的自创配方不进图鉴
   const st = codexState(), before = isUnlocked(st, recipe.id), wasMaster = isMastered(st, recipe.id);
   const s = st[recipe.id] ||= { best: 0, passes: 0 };
@@ -741,6 +742,9 @@ function finish() {
   if (!running || !samples.length) return;
   clearInterval(timer); timer = null; running = false; completed = true; stopDevice();
   metronome(false); keepAwake(false);
+  // dataset.js：接真杯子的这一杯存进测试数据，结果页可以标“正确 / 错误”
+  dsLabelBox(null);
+  if (activeScenario.kind === 'device') dsFinish({ recipe: recipe.id, recipeName: recipe.name, samples }).then(id => id && dsGet(id).then(dsLabelBox));
   const last = samples.at(-1);
   $('#live').classList.remove('shaking');
   $('#guide').hidden = true; $('#result').hidden = false;
@@ -799,7 +803,7 @@ function showLocalResult(last, note) {
 
 function reset() {
   cancelCountdown(); algoStop();
-  clearInterval(timer); timer = null; running = false; completed = false; stopDevice();
+  clearInterval(timer); timer = null; running = false; completed = false; stopDevice(); dsCancel(); dsLabelBox(null);
   metronome(false); keepAwake(false); try { speechSynthesis.cancel(); } catch {}
   setPracticing(false);
   $('#live').classList.remove('shaking');
@@ -881,7 +885,7 @@ $('#save').onclick = () => {
   if (savedThisRun) return;
   try {
     const all = stored();
-    all.unshift({ date: new Date().toISOString(), recipe: recipe.id, recipeName: recipe.name, mode, target, rhythm: desiredRhythm, score: finalScore, parts: algoRecord().by === 'service' ? null : finalParts, scoring: algoRecord(), scenario: activeScenario.name, samples, events });
+    all.unshift({ date: new Date().toISOString(), recipe: recipe.id, recipeName: recipe.name, mode, target, rhythm: desiredRhythm, score: finalScore, parts: algoRecord().by === 'service' ? null : finalParts, scoring: algoRecord(), scenario: activeScenario.name, samples, events, datasetId: activeScenario.kind === 'device' ? dsLastId : null });
     localStorage.setItem(storeKey, JSON.stringify(all.slice(0, 20)));
     savedThisRun = true;
     $('#save').textContent = '已收藏'; $('#save').disabled = true;

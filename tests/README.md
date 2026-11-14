@@ -8,6 +8,7 @@
 |---|---|
 | live.py | 练习页在 5 种屏幕尺寸下是否溢出（应全为 0） |
 | devtest.py | 接杯子后的数据流程：摇起来计时、放下 3 秒自动结算 |
+| datasettest.py | 测试数据：真杯子摇完自动存、结果页标注、筛选、导出 JSON/CSV、删除、导入 |
 | comm.py | 社区：发帖、评论、点赞、跟曲线练、自创配方 |
 | cloudtest.py | 社区云端（用假的 Supabase 接口测） |
 | debugtest.py | 调试台的各项检查 |

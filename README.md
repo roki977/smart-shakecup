@@ -10,6 +10,7 @@
 - 部署：GitHub Pages 从 `gh-pages` 分支发布。改完代码后 `git push origin main main:gh-pages`，一两分钟后生效。必须是 https 网址，网页才能用 wss 连 MQTT 服务器收杯子数据。
 - 本机服务器（现场演示推荐，延迟低、不怕没网）：`本机服务器/start-mac.command` / `start-windows.bat`，见《硬件接入指南》。
 - 调试台：https://roki977.github.io/smart-shakecup/debug.html （看传感器原始数据）
+- 测试数据：接上真杯子每摇完一杯，网站自动存下这一杯的原始包和曲线；结果页可以标“正确数据 / 错误数据”并写备注，顶栏“测试数据”里统一查看、改标注、导出 JSON（含原始包）/ CSV、导入别的电脑导出的 JSON。存在浏览器本地（IndexedDB），不需要服务器。代码在 `dataset.js`。
 - 社区：默认本机模式；开云端见 `社区云端设置.md`
 - 硬件同学看 `硬件接入指南.md`；数据格式见 `接口说明.md`；没有硬件时用 `device-sim.html` 当假杯子。
 - 练习页的实时 3D 杯子是 `cup3d.js`，由 `src/cup3d.js` 打包生成，改了源码要在 `src/` 里运行 `npm install && sh build.sh`。网站本身仍然不需要构建。

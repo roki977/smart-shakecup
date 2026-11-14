@@ -67,7 +67,7 @@ function connectDevice(cfg) {
       if (typeof msg.bat === 'number') dev.battery = msg.bat;
       return;
     }
-    onDeviceData(msg);
+    onDeviceData(msg, payload.toString());
   });
   client.on('error', e => setDeviceState('error', String(e.message || e)));
   client.on('offline', () => { if (dev.state !== 'error') setDeviceState('connecting'); });
@@ -88,8 +88,9 @@ function estimateMotion(msg) {
   return { hz, ampCm };
 }
 
-function onDeviceData(msg) {
-  window.Cup3D?.feed(msg);                              // 3D 杯子：不管在不在练习都跟着动
+function onDeviceData(msg, raw) {
+  window.Cup3D?.feed(msg);
+  if (running && usingDevice) dsPacket(raw ?? JSON.stringify(msg));   // dataset.js：这一杯的原始包原样存下                              // 3D 杯子：不管在不在练习都跟着动
   const now = Date.now();
   dev.lastAt = now; dev.lastMsg = msg;
   if (typeof msg.bat === 'number') dev.battery = msg.bat;
@@ -138,8 +139,8 @@ setInterval(() => {
 let usingDevice = false;
 function startWithDevice() {
   usingDevice = deviceLive();
-  if (usingDevice) { dev.t0ms = undefined; dev.temp0 = null; dev.lastSample = null; }
-  else dev.t0ms = null;
+  if (usingDevice) { dev.t0ms = undefined; dev.temp0 = null; dev.lastSample = null; dsBegin(dev.cfg?.device); }
+  else { dev.t0ms = null; dsCancel(); }
   return usingDevice;
 }
 function stopDevice() { usingDevice = false; dev.t0ms = null; }

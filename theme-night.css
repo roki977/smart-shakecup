@@ -535,3 +535,36 @@ dialog::backdrop { background: rgba(0, 0, 0, .72); backdrop-filter: blur(4px); }
 .saved-issue b { font-family: var(--serif); color: var(--rose); font-weight: 400; margin-right: 8px; }
 /* 矮屏练习时“操作符合度”标签不换行 */
 @media (max-width: 900px) { .live.practicing .inst .label { white-space: nowrap; font-size: 12px; } }
+
+/* ---------- 测试数据（dataset.js）：结果页标注、数据集弹窗 ---------- */
+#open-dataset[data-empty="1"] { display: none; }
+body.device-live #open-dataset[data-empty="1"] { display: inline-flex; }
+.ds-label { margin-top: 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; display: grid; gap: 10px; }
+.ds-label > b { font-weight: 500; color: var(--frost); }
+.ds-choice, .ds-filter { display: flex; flex-wrap: wrap; gap: 8px; }
+.ds-choice button, .ds-filter button, .ds-del {
+  background: transparent; color: var(--mist); border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 16px; font: inherit; font-size: 14px; cursor: pointer;
+}
+.ds-choice button:hover, .ds-filter button:hover, .ds-del:hover { color: var(--frost); border-color: var(--mist); }
+.ds-filter button[aria-pressed="true"] { color: var(--frost); background: var(--indigo-2); border-color: var(--lilac); }
+.ds-choice [data-label="good"][aria-pressed="true"] { color: #0b1a14; background: var(--leaf); border-color: var(--leaf); }
+.ds-choice [data-label="bad"][aria-pressed="true"] { color: #1d0b10; background: var(--rose); border-color: var(--rose); }
+.ds-note { width: 100%; min-width: 0; background: transparent; color: var(--frost); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: inherit; font-size: 14px; }
+.ds-note:focus { border-color: var(--lilac); outline: none; }
+.ds-label .ds-state:empty { display: none; }
+.ds-filter { margin-top: 14px; }
+.ds-list { display: grid; gap: 14px; margin-top: 14px; }
+.ds-run { border: 1px solid var(--line); border-left: 3px solid var(--mist); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.ds-run[data-label="good"] { border-left-color: var(--leaf); }
+.ds-run[data-label="bad"] { border-left-color: var(--rose); }
+.ds-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.ds-head b { font-family: var(--serif); font-weight: 500; color: var(--frost); }
+.ds-head span { color: var(--mist); font-size: 13px; }
+.ds-head .ds-del { margin-left: auto; padding: 3px 12px; font-size: 13px; }
+.ds-del[data-armed] { color: var(--rose); border-color: var(--rose); }
+.ds-run .ds-chart { margin-top: 8px; width: 100%; }
+.ds-row { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: center; margin-top: 8px; }
+@media (max-width: 560px) { .ds-row { grid-template-columns: 1fr; } }
+.ds-actions { margin-top: 18px; }
+.ds-import { display: inline-flex; align-items: center; cursor: pointer; }

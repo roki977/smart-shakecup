@@ -21,6 +21,7 @@
     <span class="demo-flag" title="当前所有温度与动作均为模拟记录">演示数据</span>
     <button class="link" id="open-community">社区</button>
     <button class="link" id="open-codex">图鉴 <span id="codex-count" class="count">0/6</span></button>
+    <button class="link" id="open-dataset" data-empty="1">测试数据 <span id="dataset-count" class="count">0</span></button>
     <button class="link" id="collection">我的练习 <span id="saved-count" class="count">0</span></button>
     <button class="link" id="sound" aria-pressed="false">声音：关</button>
     <button class="link" id="help">项目介绍</button>
@@ -245,6 +246,7 @@
           <button class="secondary" id="share-community">分享到社区</button>
         </div>
         <p class="fine" id="save-state"></p>
+        <div class="ds-label" id="ds-label" hidden></div>
       </div>
       <div class="timeline">
         <h2>过程回看</h2>
@@ -277,6 +279,7 @@
 <script src="device.js" defer></script>
 <script src="algorithm.js" defer></script>
 <script src="curves.js" defer></script>
+<script src="dataset.js" defer></script>
 <script src="fx.js" defer></script>
 </body>
 </html>
