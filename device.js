@@ -110,7 +110,9 @@ function onDeviceData(msg) {
     // 还没开始摇：只显示温度，不计时，免得拿起杯子犹豫的时候参考曲线已经跑了
     if (!(hz > .5)) { $('#temp').textContent = deg(temp); $('#temp-note').textContent = '摇起来就开始计时'; return; }
     dev.t0ms = ms; dev.temp0 = temp;
+    algoBegin(true, temp, msg, ms);                     // algorithm.js：评分服务从开摇这一包开始收数据
   }
+  algoPacket(msg, hz > .5);
   const t = Math.max(0, (ms - dev.t0ms) / 1000);
   const reference = referenceAt(t, dev.temp0, REF_SECONDS);   // community.js：默认公式，或社区里选的参考曲线
   const s = {

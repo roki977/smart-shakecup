@@ -517,11 +517,14 @@ function consumeSample(s) {
   $('#freq').textContent = s.hz < .2 ? '0.0' : s.hz.toFixed(1);
   setChill(s.temp);
 
-  // 演示评分：终点和过程都算，不强行涨到满分。暂停时不更新。
+  // 网页自带的演示估算：没连评分服务时用它。连上了就由 algorithm.js 显示评分服务的结果
   if (s.valid !== false && s.hz > .2) { finalParts = scoreParts(samples, s, target, desiredRhythm); finalScore = finalParts.total; }
-  $('#score').textContent = finalScore;
-  $('#progress-fill').style.width = finalScore + '%';
-  $('.meter').setAttribute('aria-valuenow', finalScore);
+  algoSample(s);
+  if (!algoScoring()) {
+    $('#score').textContent = finalScore;
+    $('#progress-fill').style.width = finalScore + '%';
+    $('.meter').setAttribute('aria-valuenow', finalScore);
+  }
 
   updateTeaching(s, stage);
   let cueTitle = title, cueDesc = desc;
@@ -678,9 +681,13 @@ function begin() {
     return;
   }
   let tick = 0;
+  algoBegin(false, ROOM);
   consumeSample(demoSample(0));
   timer = setInterval(() => { tick++; consumeSample(demoSample(tick * .25)); }, 250);
 }
+
+/* 评分服务在算，并且没出错 */
+function algoScoring() { return !!(algo.s && !algo.s.error); }
 
 function finish() {
   if (!running || !samples.length) return;
@@ -692,30 +699,58 @@ function finish() {
   setPracticing(false);
   $$('[data-mode]').forEach(b => b.disabled = false);
 
-  $('#result-score').textContent = finalScore;
-  const early = activeScenario.kind !== 'device' && last.t < activeScenario.duration;
-  const verdict = finalScore >= 90 ? '整体很贴近参考，温度也停在了目标附近。'
-    : finalScore >= 70 ? '有几段动作或温度偏离了参考，过程回看里能找到是哪几段。'
-    : '离目标还差不少，在过程回看里找找是哪一段先开始偏的。';
-  $('#result-summary').textContent = (early ? '你提前收手了。' : '') + verdict;
   $('#final-temp').textContent = deg(last.temp) + ' ℃';
   $('#final-time').textContent = last.t.toFixed(1) + ' 秒';
   $('#final-scenario').textContent = activeScenario.name;
   $('#save').disabled = false; $('#save').textContent = '收藏这次练习';
   $('#save-state').textContent = '';
-  recordResult(finalScore);
-
-  finalParts ||= scoreParts(samples, last, target, desiredRhythm);
   renderEvents($('#events'), $('#event-detail'), $('#chart'), samples, events, { duration: last.t, target });
-  renderParts($('#parts'), $('#part-detail'), $('#chart'), samples, events, { duration: last.t, target }, finalParts, desiredRhythm);
-  $('#part-detail').textContent = weakest(finalParts);
   drawChart($('#chart'), samples, { duration: last.t, events });
   chime();
+
+  if (algoScoring()) {
+    // 结果以评分服务为准：先显示“正在算”，拿到冻结结果再填
+    $('#result-score').textContent = '…';
+    $('#result-summary').textContent = '评分服务正在汇总这一轮。';
+    $('#parts').innerHTML = ''; $('#part-detail').textContent = '';
+    $('#save').disabled = true;
+    algoFinish().then(r => {
+      if (!r) { showLocalResult(last, '评分服务没有返回结果，下面是网页的演示估算。'); return; }
+      const v = r.final?.value;
+      finalScore = v == null ? null : Math.round(v);
+      $('#result-score').textContent = v == null ? '—' : finalScore;
+      $('#result-summary').textContent = v == null
+        ? '这一轮没有出完整分数：' + (r.final?.reason || '数据或时长不够。') + ' 下面列出已经确认的偏差。'
+        : finalScore >= 90 ? '全程很贴近参考。' : finalScore >= 60 ? '有几段偏离了参考，下面标出了是哪几段。' : '偏离参考的时间比较长，先从下面第一条改起。';
+      renderAlgoResult(r);
+      $('#save').disabled = v == null;
+      if (v != null) { recordResult(finalScore); setTimeout(() => speak(`${finalScore} 分`), 300); }
+      showResultFx();
+    });
+    return;
+  }
+  showLocalResult(last);
+}
+
+/* 网页自带的演示估算（没连评分服务时） */
+function showLocalResult(last, note) {
+  $('#result-score').textContent = finalScore;
+  const early = activeScenario.kind !== 'device' && last.t < activeScenario.duration;
+  const verdict = finalScore >= 90 ? '整体很贴近参考，温度也停在了目标附近。'
+    : finalScore >= 70 ? '有几段动作或温度偏离了参考，过程回看里能找到是哪几段。'
+    : '离目标还差不少，在过程回看里找找是哪一段先开始偏的。';
+  $('#result-summary').textContent = (note ? note + ' ' : '') + (early ? '你提前收手了。' : '') + verdict;
+  $('#save').disabled = false;
+  recordResult(finalScore);
+  finalParts ||= scoreParts(samples, last, target, desiredRhythm);
+  renderParts($('#parts'), $('#part-detail'), $('#chart'), samples, events, { duration: last.t, target }, finalParts, desiredRhythm);
+  $('#part-detail').textContent = weakest(finalParts) + ' 这是网页的演示估算，没有连评分服务。';
+  if (note) showResultFx();
   setTimeout(() => speak(`${finalScore} 分`), 900);
 }
 
 function reset() {
-  cancelCountdown();
+  cancelCountdown(); algoStop();
   clearInterval(timer); timer = null; running = false; completed = false; stopDevice();
   metronome(false); keepAwake(false); try { speechSynthesis.cancel(); } catch {}
   setPracticing(false);
@@ -781,11 +816,18 @@ $('#help').onclick = () => showModal(`
   <p>杯子还在做，所以现在放的是五段模拟的摇杯过程，每次随机一段。</p>
   <p>图鉴里收了 10 杯经典鸡尾酒，其中 6 杯摇和酒可以用杯子练。摇出 80 分就解锁这杯，同一杯三次 80 分以上就算练熟。</p>`);
 
-$('#score-info').onclick = () => showModal(`
+$('#score-info').onclick = () => showModal(algo.available ? `
+  <h2>美味值怎么算</h2>
+  <p>看你这杯摇得跟参考有多像。比三样东西：酒液温度、摇动节奏、动作幅度（加速度的有效值）。</p>
+  <p>在参考的容差以内不扣分；超出越多、持续越久，扣得越多。温度占的比重最大，节奏和幅度其次。</p>
+  <p>练习中显示的是<b>当前</b>这一小段的符合度，改正后会回升；结束时给的是<b>整杯</b>的分数，前面的偏差会留在里面，所以两者可能不一样。</p>
+  <p>数据不够（刚开始、信号断了、节奏认不清）时显示“—”，不会当成 0 分。参考和规则现在是演示用的合成值，还没有调酒师实测标定。</p>`
+  : `
   <h2>美味值怎么算</h2>
   <p>简单说，就是看你这杯摇得跟参考有多像。</p>
   <p>一半看结果：停手时温度离目标有多近。另一半看过程：降温曲线贴不贴参考占 20%，节奏稳不稳占 20%，幅度够不够占 10%。</p>
-  <p>中途停下来，分数会先停住。收手太早或者摇过头，都会扣分。</p>`);
+  <p>中途停下来，分数会先停住。收手太早或者摇过头，都会扣分。</p>
+  <p>这是网页里的演示估算。用评分服务打开网站（见 README）时，改由评分服务计算。</p>`);
 
 $('#save').onclick = () => {
   if (savedThisRun) return;

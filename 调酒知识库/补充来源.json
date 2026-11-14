@@ -1,0 +1,1583 @@
+{
+  "recipes": [
+    {
+      "id": "dc-almond-thief",
+      "name": "Almond Thief",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/almond-thief",
+      "author": "Sam Johnson / Death & Co NYC, 2019",
+      "kind": "recipe",
+      "ingredients": [
+        "scotch 1 oz",
+        "Irish whiskey 1 oz",
+        "biscotti liqueur 2 tsp",
+        "apricot liqueur 1 tsp",
+        "lemon juice 0.75 oz",
+        "House Orgeat 0.5 oz"
+      ],
+      "steps": [
+        {
+          "action": "load",
+          "phase": "preparation",
+          "instruction": "原料与冰就位",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "shake",
+          "phase": "main",
+          "instruction": "带冰摇和",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "转入装冰双份古典杯",
+          "context": {}
+        }
+      ],
+      "notes": [
+        "不加装饰；House Orgeat 子配方未收录。"
+      ],
+      "ingredient_preparations": [],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Bowmore 12-year scotch",
+          "amount_and_role_summary": "scotch 1 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Redbreast 12-year Irish whiskey",
+          "amount_and_role_summary": "Irish whiskey 1 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Faretti Biscotti liqueur",
+          "amount_and_role_summary": "biscotti liqueur 2 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Rothman & Winter apricot liqueur",
+          "amount_and_role_summary": "apricot liqueur 1 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "fresh lemon juice",
+          "amount_and_role_summary": "lemon juice 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "House Orgeat",
+          "amount_and_role_summary": "House Orgeat 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-ghost-note",
+      "name": "Ghost Note",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/ghost-note",
+      "author": "Alexander Ali / Death & Co NYC, 2023",
+      "kind": "recipe",
+      "ingredients": [
+        "Jamaican rum 1 oz",
+        "scotch 0.75 oz",
+        "amaro 0.25 oz",
+        "PX sherry 0.25 oz",
+        "white creme de cacao 1 tsp"
+      ],
+      "steps": [
+        {
+          "action": "stir",
+          "phase": "main",
+          "instruction": "原料与冰搅拌",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "过滤至放一大冰块的古典杯",
+          "context": {}
+        },
+        {
+          "action": "express_peel",
+          "phase": "finish",
+          "instruction": "橙皮挤油后放入饮品",
+          "context": {
+            "peel": "orange",
+            "retain": true
+          }
+        }
+      ],
+      "notes": [],
+      "ingredient_preparations": [],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Appleton Estate Reserve 8-year Jamaican rum",
+          "amount_and_role_summary": "Jamaican rum 1 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Bowmore 12-year single malt scotch",
+          "amount_and_role_summary": "scotch 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Forthave Marseille amaro",
+          "amount_and_role_summary": "amaro 0.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Lustau Pedro Ximenez sherry",
+          "amount_and_role_summary": "PX sherry 0.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Marie Brizard white creme de cacao",
+          "amount_and_role_summary": "white creme de cacao 1 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-devil-runner",
+      "name": "Devil Runner",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/devil-runner",
+      "author": "Edwin Rios / Death & Co LA, 2025",
+      "kind": "recipe",
+      "ingredients": [
+        "rye whiskey 1.25 oz",
+        "ginger shochu 0.5 oz",
+        "mezcal 0.25 oz",
+        "melon liqueur 1 tsp",
+        "Pepita Orgeat 1 tsp",
+        "Angostura 2 dash"
+      ],
+      "steps": [
+        {
+          "action": "stir",
+          "phase": "main",
+          "instruction": "原料与冰搅拌",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "过滤至放一大冰块的古典杯",
+          "context": {}
+        },
+        {
+          "action": "express_peel",
+          "phase": "finish",
+          "instruction": "柠檬皮挤油后丢弃",
+          "context": {
+            "peel": "lemon",
+            "retain": false
+          }
+        }
+      ],
+      "notes": [
+        "Pepita Orgeat 子配方未收录。"
+      ],
+      "ingredient_preparations": [],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Wild Turkey 101 rye whiskey",
+          "amount_and_role_summary": "rye whiskey 1.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Rihei ginger shochu",
+          "amount_and_role_summary": "ginger shochu 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "San Bartolo Espadin mezcal",
+          "amount_and_role_summary": "mezcal 0.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Artonic melon liqueur",
+          "amount_and_role_summary": "melon liqueur 1 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Pepita Orgeat",
+          "amount_and_role_summary": "Pepita Orgeat 1 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Angostura bitters",
+          "amount_and_role_summary": "Angostura 2 dash",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-as-islay-dying",
+      "name": "As Islay Dying",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/as-islay-dying",
+      "author": "Matt Hunt / Death & Co Denver, 2018",
+      "kind": "recipe",
+      "ingredients": [
+        "scotch 0.75 oz",
+        "gin 0.75 oz",
+        "blanc vermouth 0.75 oz",
+        "dry vermouth 0.75 oz",
+        "genepy 1 tsp",
+        "absinthe 2 dash"
+      ],
+      "steps": [
+        {
+          "action": "stir",
+          "phase": "main",
+          "instruction": "原料与冰搅拌",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "过滤至预冷 Nick & Nora 杯",
+          "context": {}
+        },
+        {
+          "action": "express_peel",
+          "phase": "finish",
+          "instruction": "柠檬皮挤油后丢弃",
+          "context": {
+            "peel": "lemon",
+            "retain": false
+          }
+        }
+      ],
+      "notes": [],
+      "ingredient_preparations": [],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Laphroaig 10-year scotch",
+          "amount_and_role_summary": "scotch 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "The Botanist gin",
+          "amount_and_role_summary": "gin 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Dolin blanc vermouth",
+          "amount_and_role_summary": "blanc vermouth 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Dolin dry vermouth",
+          "amount_and_role_summary": "dry vermouth 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Dolin Genepy des Alpes",
+          "amount_and_role_summary": "genepy 1 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "absinthe",
+          "amount_and_role_summary": "absinthe 2 dash",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-iron-path",
+      "name": "Iron Path",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/iron-path-cocktail-recipe",
+      "author": "Sam Johnson / Death & Co NYC, 2018",
+      "kind": "recipe",
+      "ingredients": [
+        "malbec wine 2 oz",
+        "Amaro Pasubio 1 oz",
+        "rum 0.75 oz",
+        "cinnamon syrup 0.5 oz",
+        "Angostura 1 dash"
+      ],
+      "steps": [
+        {
+          "action": "stir",
+          "phase": "main",
+          "instruction": "原料与冰搅拌",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "过滤至放一大冰块的古典杯",
+          "context": {}
+        },
+        {
+          "action": "garnish",
+          "phase": "finish",
+          "instruction": "用半橙片、莓果和现刨肉桂装饰",
+          "context": {}
+        }
+      ],
+      "notes": [],
+      "ingredient_preparations": [
+        {
+          "name": "肉桂糖浆",
+          "steps": [
+            {
+              "action": "muddle",
+              "phase": "ingredient_preparation",
+              "instruction": "捣碎1盎司桂皮",
+              "context": {}
+            },
+            {
+              "action": "add",
+              "phase": "ingredient_preparation",
+              "instruction": "加入2杯水和2杯白糖",
+              "context": {}
+            },
+            {
+              "action": "heat",
+              "phase": "ingredient_preparation",
+              "instruction": "煮沸后加盖小火4分钟",
+              "context": {
+                "duration_seconds": 240
+              }
+            },
+            {
+              "action": "rest",
+              "phase": "ingredient_preparation",
+              "instruction": "离火放置过夜",
+              "context": {
+                "duration_text": "overnight"
+              }
+            },
+            {
+              "action": "strain",
+              "phase": "ingredient_preparation",
+              "instruction": "纱布筛过滤",
+              "context": {}
+            }
+          ]
+        }
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Manos Negras malbec",
+          "amount_and_role_summary": "malbec wine 2 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Amaro Pasubio",
+          "amount_and_role_summary": "Amaro Pasubio 1 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "El Dorado 8-year rum",
+          "amount_and_role_summary": "rum 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Cinnamon Syrup",
+          "amount_and_role_summary": "cinnamon syrup 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Angostura bitters",
+          "amount_and_role_summary": "Angostura 1 dash",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-starchaser",
+      "name": "Starchaser",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/starchaser-cocktail-recipe",
+      "author": "Edwin Rios / Death & Co LA, 2024",
+      "kind": "recipe",
+      "ingredients": [
+        "Moletto gin 1 oz",
+        "Fords gin 0.5 oz",
+        "basil eau-de-vie 0.5 oz",
+        "blanc vermouth 1 oz",
+        "green Chartreuse 1 tsp",
+        "absinthe 1 dash"
+      ],
+      "steps": [
+        {
+          "action": "stir",
+          "phase": "main",
+          "instruction": "原料与冰搅拌",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "过滤至预冷 Nick & Nora 杯",
+          "context": {}
+        },
+        {
+          "action": "express_peel",
+          "phase": "finish",
+          "instruction": "柠檬皮挤油后丢弃",
+          "context": {
+            "peel": "lemon",
+            "retain": false
+          }
+        }
+      ],
+      "notes": [],
+      "ingredient_preparations": [],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Moletto gin",
+          "amount_and_role_summary": "Moletto gin 1 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Fords gin",
+          "amount_and_role_summary": "Fords gin 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Aqua Perfecta basil eau-de-vie",
+          "amount_and_role_summary": "basil eau-de-vie 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Dolin blanc vermouth",
+          "amount_and_role_summary": "blanc vermouth 1 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "green Chartreuse",
+          "amount_and_role_summary": "green Chartreuse 1 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "absinthe",
+          "amount_and_role_summary": "absinthe 1 dash",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-easy-tiger",
+      "name": "Easy Tiger",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/easy-tiger-cocktail-recipe",
+      "author": "Joe Rinaldi / Death & Co LA, 2023",
+      "kind": "recipe",
+      "ingredients": [
+        "RinQuinQuin 1.25 oz",
+        "mezcal 0.75 oz",
+        "cognac 0.5 oz",
+        "curry-leaf cognac 0.25 oz",
+        "Cappelletti aperitivo 0.25 oz",
+        "lemon juice 0.75 oz",
+        "simple syrup 0.5 oz"
+      ],
+      "steps": [
+        {
+          "action": "load",
+          "phase": "preparation",
+          "instruction": "原料与冰就位",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "shake",
+          "phase": "main",
+          "instruction": "带冰摇和",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "double_strain",
+          "phase": "transfer",
+          "instruction": "转入预冷 coupe",
+          "context": {}
+        }
+      ],
+      "notes": [
+        "不加装饰；不将来源储存期作为本产品承诺。"
+      ],
+      "ingredient_preparations": [
+        {
+          "name": "咖喱叶浸渍干邑",
+          "steps": [
+            {
+              "action": "combine",
+              "phase": "ingredient_preparation",
+              "instruction": "750ml 干邑与30g鲜咖喱叶置耐热袋",
+              "context": {}
+            },
+            {
+              "action": "infuse",
+              "phase": "ingredient_preparation",
+              "instruction": "135°F 水浴1小时",
+              "context": {
+                "temperature_F": 135,
+                "duration_seconds": 3600
+              }
+            },
+            {
+              "action": "cool",
+              "phase": "ingredient_preparation",
+              "instruction": "冷却",
+              "context": {}
+            },
+            {
+              "action": "strain",
+              "phase": "ingredient_preparation",
+              "instruction": "过滤后冷藏",
+              "context": {}
+            }
+          ]
+        }
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "RinQuinQuin a la Peche",
+          "amount_and_role_summary": "RinQuinQuin 1.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "San Bartolo espadin mezcal",
+          "amount_and_role_summary": "mezcal 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Remy Martin 1738 Accord Royal cognac",
+          "amount_and_role_summary": "cognac 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Curry Leaf–Infused Remy Martin 1738 Cognac",
+          "amount_and_role_summary": "curry-leaf cognac 0.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Cappelletti Aperitivo Americano",
+          "amount_and_role_summary": "Cappelletti aperitivo 0.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "fresh lemon juice",
+          "amount_and_role_summary": "lemon juice 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "simple syrup",
+          "amount_and_role_summary": "simple syrup 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-dragons-dream",
+      "name": "Dragon's Dream",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/dragons-dream-cocktail-recipe",
+      "author": "Raven Mina / Death & Co LA, 2023",
+      "kind": "recipe",
+      "ingredients": [
+        "silver cachaca 1 oz",
+        "Amburana cachaca 1 oz",
+        "Aperol 0.5 oz",
+        "lime juice 0.75 oz",
+        "mango syrup 0.75 oz",
+        "cayenne pinch"
+      ],
+      "steps": [
+        {
+          "action": "load",
+          "phase": "preparation",
+          "instruction": "原料与冰就位",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "shake",
+          "phase": "main",
+          "instruction": "带冰摇和",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "转入放一大冰块的双份古典杯",
+          "context": {}
+        },
+        {
+          "action": "garnish",
+          "phase": "finish",
+          "instruction": "以辣椒粉青柠片装饰",
+          "context": {}
+        }
+      ],
+      "notes": [
+        "来源介绍段写 dirty-dump，方法段写 strain；保留方法段路径但暂停据此判错。"
+      ],
+      "ingredient_preparations": [
+        {
+          "name": "芒果糖浆",
+          "steps": [
+            {
+              "action": "combine",
+              "phase": "ingredient_preparation",
+              "instruction": "255g糖、170g芒果泥、85g水、2g柠檬酸合并",
+              "context": {}
+            },
+            {
+              "action": "blend",
+              "phase": "ingredient_preparation",
+              "instruction": "搅打至糖溶解",
+              "context": {
+                "end_condition": "sugar_dissolved"
+              }
+            }
+          ]
+        }
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Novo Fogo silver cachaca",
+          "amount_and_role_summary": "silver cachaca 1 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Avua Amburana cachaca",
+          "amount_and_role_summary": "Amburana cachaca 1 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Aperol",
+          "amount_and_role_summary": "Aperol 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "lime juice",
+          "amount_and_role_summary": "lime juice 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Mango Syrup",
+          "amount_and_role_summary": "mango syrup 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "cayenne pepper",
+          "amount_and_role_summary": "cayenne pinch",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-sky-ladder",
+      "name": "Sky Ladder",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/sky-ladder-cocktail-recipe",
+      "author": "Sam Johnson / Death & Co NYC, 2018",
+      "kind": "recipe",
+      "ingredients": [
+        "manzanilla sherry 1.5 oz",
+        "dry vermouth 0.75 oz",
+        "blanc vermouth 0.75 oz",
+        "coconut liqueur 1 tsp",
+        "yuzu juice 0.5 tsp",
+        "simple syrup 1 tsp"
+      ],
+      "steps": [
+        {
+          "action": "stir",
+          "phase": "main",
+          "instruction": "原料与冰搅拌",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "过滤至预冷古典杯",
+          "context": {}
+        },
+        {
+          "action": "express_peel",
+          "phase": "finish",
+          "instruction": "葡萄柚皮挤油后丢弃",
+          "context": {
+            "peel": "grapefruit",
+            "retain": false
+          }
+        }
+      ],
+      "notes": [],
+      "ingredient_preparations": [],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Lustau manzanilla sherry",
+          "amount_and_role_summary": "manzanilla sherry 1.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Dolin dry vermouth",
+          "amount_and_role_summary": "dry vermouth 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Dolin blanc vermouth",
+          "amount_and_role_summary": "blanc vermouth 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Kalani coconut liqueur",
+          "amount_and_role_summary": "coconut liqueur 1 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "yuzu juice",
+          "amount_and_role_summary": "yuzu juice 0.5 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "simple syrup",
+          "amount_and_role_summary": "simple syrup 1 tsp",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-buster-sword",
+      "name": "Buster Sword",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/buster-sword-cocktail-recipe",
+      "author": "Mike Perez / Death & Co LA, 2025",
+      "kind": "recipe",
+      "ingredients": [
+        "lemon eighths 3",
+        "rye 1.5 oz",
+        "peach aperitif 0.5 oz",
+        "shiso liqueur 0.25 oz",
+        "simple syrup 0.5 oz",
+        "Peychaud bitters 1 dash"
+      ],
+      "steps": [
+        {
+          "action": "muddle",
+          "phase": "preparation",
+          "instruction": "摇酒器中先捣柠檬瓣",
+          "context": {
+            "ingredients": "lemon"
+          }
+        },
+        {
+          "action": "add",
+          "phase": "preparation",
+          "instruction": "加入其他原料",
+          "context": {}
+        },
+        {
+          "action": "shake",
+          "phase": "main",
+          "instruction": "带冰短摇",
+          "context": {
+            "ice": "present",
+            "duration_text": "briefly"
+          }
+        },
+        {
+          "action": "dump",
+          "phase": "transfer",
+          "instruction": "所有内容不滤倒入 Julep 杯",
+          "context": {}
+        },
+        {
+          "action": "add_ice",
+          "phase": "finish",
+          "instruction": "再填满碎冰",
+          "context": {
+            "after": "dump",
+            "before": "serve",
+            "ice_type": "crushed"
+          }
+        },
+        {
+          "action": "garnish",
+          "phase": "finish",
+          "instruction": "薄荷束装饰，配吸管",
+          "context": {}
+        }
+      ],
+      "notes": [],
+      "ingredient_preparations": [],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "lemon eighths",
+          "amount_and_role_summary": "lemon eighths 3",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Old Overholt rye",
+          "amount_and_role_summary": "rye 1.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Rinquinquin peach aperitif",
+          "amount_and_role_summary": "peach aperitif 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Sidetrack shiso liqueur",
+          "amount_and_role_summary": "shiso liqueur 0.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "simple syrup",
+          "amount_and_role_summary": "simple syrup 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Peychaud bitters",
+          "amount_and_role_summary": "Peychaud bitters 1 dash",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-clear-sky",
+      "name": "Clear Sky",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/clear-sky-cocktail-recipe",
+      "author": "Summer Goff / Death & Co Denver, 2022",
+      "kind": "recipe",
+      "ingredients": [
+        "blanco tequila 0.75 oz",
+        "white rum 0.5 oz",
+        "tomato eau-de-vie 0.25 oz",
+        "fino sherry 0.5 oz",
+        "lime juice 0.75 oz",
+        "watermelon syrup 0.75 oz",
+        "MSG solution 1 dash"
+      ],
+      "steps": [
+        {
+          "action": "load",
+          "phase": "preparation",
+          "instruction": "原料与冰就位",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "shake",
+          "phase": "main",
+          "instruction": "带冰摇和",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "转入预冷 coupe",
+          "context": {}
+        },
+        {
+          "action": "garnish",
+          "phase": "finish",
+          "instruction": "青柠角装饰",
+          "context": {}
+        }
+      ],
+      "notes": [
+        "网页正文由浏览器核验；未采用来源储存期建议。"
+      ],
+      "ingredient_preparations": [
+        {
+          "name": "西瓜糖浆",
+          "steps": [
+            {
+              "action": "combine",
+              "phase": "ingredient_preparation",
+              "instruction": "83g糖、250g过滤西瓜汁、4.7g伏特加合并",
+              "context": {}
+            },
+            {
+              "action": "dissolve",
+              "phase": "ingredient_preparation",
+              "instruction": "搅至糖溶解",
+              "context": {}
+            }
+          ]
+        },
+        {
+          "name": "MSG溶液",
+          "steps": [
+            {
+              "action": "dissolve",
+              "phase": "ingredient_preparation",
+              "instruction": "2g MSG 在10g温水中搅至溶解",
+              "context": {}
+            },
+            {
+              "action": "cool",
+              "phase": "ingredient_preparation",
+              "instruction": "使用前冷却",
+              "context": {}
+            }
+          ]
+        }
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Siembra Valles blanco tequila",
+          "amount_and_role_summary": "blanco tequila 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Banks 5 Island white rum",
+          "amount_and_role_summary": "white rum 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Laurent Cazottes 72 Tomates",
+          "amount_and_role_summary": "tomato eau-de-vie 0.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Tio Pepe fino sherry",
+          "amount_and_role_summary": "fino sherry 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "fresh lime juice",
+          "amount_and_role_summary": "lime juice 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "3:1 Watermelon Syrup",
+          "amount_and_role_summary": "watermelon syrup 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "MSG Solution",
+          "amount_and_role_summary": "MSG solution 1 dash",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-secret-third-option",
+      "name": "Secret Third Option",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/secret-third-option-cocktail-recipe",
+      "author": "Kyler Nolan / Death & Co Denver, 2024",
+      "kind": "recipe",
+      "ingredients": [
+        "blanco tequila 1 oz",
+        "manzanilla sherry 0.5 oz",
+        "peach liqueur 0.5 oz",
+        "yellow pepper syrup 0.75 oz",
+        "lime juice 0.75 oz"
+      ],
+      "steps": [
+        {
+          "action": "rim",
+          "phase": "preparation",
+          "instruction": "出品杯准备盐口",
+          "context": {}
+        },
+        {
+          "action": "load",
+          "phase": "preparation",
+          "instruction": "原料与冰就位",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "shake",
+          "phase": "main",
+          "instruction": "带冰摇和",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "转入放一大冰块的盐口双份古典杯",
+          "context": {}
+        },
+        {
+          "action": "garnish",
+          "phase": "finish",
+          "instruction": "青柠片装饰",
+          "context": {}
+        }
+      ],
+      "notes": [],
+      "ingredient_preparations": [
+        {
+          "name": "黄椒糖浆",
+          "steps": [
+            {
+              "action": "combine",
+              "phase": "ingredient_preparation",
+              "instruction": "黄椒汁与糖按来源2:1合并；计量基准未写明",
+              "context": {
+                "ratio_basis": "unspecified"
+              }
+            },
+            {
+              "action": "blend",
+              "phase": "ingredient_preparation",
+              "instruction": "搅打至溶糖",
+              "context": {}
+            },
+            {
+              "action": "add",
+              "phase": "ingredient_preparation",
+              "instruction": "大批量时可选按汁质量0.5%加抗坏血酸",
+              "context": {
+                "optional": true
+              }
+            }
+          ]
+        }
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "Arette Blanco Tequila",
+          "amount_and_role_summary": "blanco tequila 1 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Manzanilla Sherry",
+          "amount_and_role_summary": "manzanilla sherry 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Giffard Creme de Peche",
+          "amount_and_role_summary": "peach liqueur 0.5 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Yellow Bell Pepper Syrup",
+          "amount_and_role_summary": "yellow pepper syrup 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "fresh lime juice",
+          "amount_and_role_summary": "lime juice 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "dc-naked-famous",
+      "name": "Naked and Famous",
+      "url": "https://www.deathandcompanymarket.com/blogs/recipes/naked-famous",
+      "author": "Joaquin Simo / Death & Co, 2011",
+      "kind": "recipe",
+      "ingredients": [
+        "mezcal 0.75 oz",
+        "yellow Chartreuse 0.75 oz",
+        "Aperol 0.75 oz",
+        "lime juice 0.75 oz"
+      ],
+      "steps": [
+        {
+          "action": "load",
+          "phase": "preparation",
+          "instruction": "原料与冰就位",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "shake",
+          "phase": "main",
+          "instruction": "带冰摇和",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "double_strain",
+          "phase": "transfer",
+          "instruction": "转入预冷 coupe",
+          "context": {}
+        }
+      ],
+      "notes": [
+        "与 IBA 分成两个版本；本版本明确双滤，无装饰。"
+      ],
+      "ingredient_preparations": [],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "mezcal 0.75 oz",
+          "amount_and_role_summary": "mezcal 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "yellow Chartreuse 0.75 oz",
+          "amount_and_role_summary": "yellow Chartreuse 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Aperol 0.75 oz",
+          "amount_and_role_summary": "Aperol 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "lime juice 0.75 oz",
+          "amount_and_role_summary": "lime juice 0.75 oz",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "difford-whiskey-sour",
+      "name": "Whiskey Sour",
+      "url": "https://www.diffordsguide.com/cocktails/recipe/2083/whiskey-sour-diffords-recipe",
+      "author": "Simon Difford",
+      "kind": "recipe",
+      "ingredients": [
+        "bourbon 60 ml",
+        "lemon juice 30 ml",
+        "rich syrup 2:1 65Brix 20 ml",
+        "Angostura 3 dash",
+        "saline 20g/80g 2 drop optional",
+        "pasteurized egg white 15 ml"
+      ],
+      "steps": [
+        {
+          "action": "prechill",
+          "phase": "preparation",
+          "instruction": "预冷古典杯",
+          "context": {}
+        },
+        {
+          "action": "shake",
+          "phase": "main",
+          "instruction": "原料先带冰摇和",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "滤去冰并将液体滤回摇酒器",
+          "context": {
+            "purpose": "remove_ice_for_reverse_dry"
+          }
+        },
+        {
+          "action": "shake",
+          "phase": "main",
+          "instruction": "随后无冰干摇",
+          "context": {
+            "ice": "absent",
+            "prior_wet_shake": true
+          }
+        },
+        {
+          "action": "fine_strain",
+          "phase": "transfer",
+          "instruction": "精滤至装冰酒杯",
+          "context": {
+            "destination_ice": "present"
+          }
+        },
+        {
+          "action": "garnish",
+          "phase": "finish",
+          "instruction": "柠檬片与樱桃装饰",
+          "context": {}
+        }
+      ],
+      "notes": [
+        "可替代发泡原料的细节留在来源；不得合并为 IBA 的必选步骤。"
+      ],
+      "ingredient_preparations": [],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "bourbon 60 ml",
+          "amount_and_role_summary": "bourbon 60 ml",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "lemon juice 30 ml",
+          "amount_and_role_summary": "lemon juice 30 ml",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "rich syrup 2:1 65Brix 20 ml",
+          "amount_and_role_summary": "rich syrup 2:1 65Brix 20 ml",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Angostura 3 dash",
+          "amount_and_role_summary": "Angostura 3 dash",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "saline 20g/80g 2 drop optional",
+          "amount_and_role_summary": "saline 20g/80g 2 drop optional",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "pasteurized egg white 15 ml",
+          "amount_and_role_summary": "pasteurized egg white 15 ml",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    },
+    {
+      "id": "pdt-bentons-old-fashioned",
+      "name": "Benton's Old Fashioned",
+      "url": "https://imbibemagazine.com/recipe/bentons-old-fashioned/",
+      "author": "Don Lee / PDT；Imbibe 署名刊载",
+      "kind": "recipe",
+      "ingredients": [
+        "bacon-fat-washed bourbon 2 oz",
+        "maple syrup 0.25 oz",
+        "Angostura 2 dash"
+      ],
+      "steps": [
+        {
+          "action": "stir",
+          "phase": "main",
+          "instruction": "原料与冰搅拌",
+          "context": {
+            "ice": "present"
+          }
+        },
+        {
+          "action": "strain",
+          "phase": "transfer",
+          "instruction": "过滤至预冷岩石杯",
+          "context": {}
+        },
+        {
+          "action": "garnish",
+          "phase": "finish",
+          "instruction": "橙皮扭条装饰",
+          "context": {}
+        }
+      ],
+      "notes": [
+        "来源为调酒师署名配方的媒体刊载，不等于读完 PDT 全书；不收录无限储存宣称。"
+      ],
+      "ingredient_preparations": [
+        {
+          "name": "培根脂洗波本",
+          "steps": [
+            {
+              "action": "combine",
+              "phase": "ingredient_preparation",
+              "instruction": "1.5oz温培根脂与750ml波本合并",
+              "context": {}
+            },
+            {
+              "action": "rest",
+              "phase": "ingredient_preparation",
+              "instruction": "静置4小时",
+              "context": {
+                "duration_seconds": 14400
+              }
+            },
+            {
+              "action": "freeze",
+              "phase": "ingredient_preparation",
+              "instruction": "冷冻2小时",
+              "context": {
+                "duration_seconds": 7200
+              }
+            },
+            {
+              "action": "remove_solids",
+              "phase": "ingredient_preparation",
+              "instruction": "移除凝固脂肪",
+              "context": {}
+            },
+            {
+              "action": "strain",
+              "phase": "ingredient_preparation",
+              "instruction": "纱布过滤后装瓶",
+              "context": {}
+            }
+          ]
+        }
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14",
+      "source_section": "Recipe ingredients and method",
+      "ingredient_scope": "保留来源品牌/名称与原单位用量；未将原料规格映射到产品原料库，不填缺失ABV或浓度。",
+      "ingredient_items": [
+        {
+          "source_name": "bacon-fat-washed bourbon 2 oz",
+          "amount_and_role_summary": "bacon-fat-washed bourbon 2 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "maple syrup 0.25 oz",
+          "amount_and_role_summary": "maple syrup 0.25 oz",
+          "abv": null,
+          "sugar_concentration": null
+        },
+        {
+          "source_name": "Angostura 2 dash",
+          "amount_and_role_summary": "Angostura 2 dash",
+          "abv": null,
+          "sugar_concentration": null
+        }
+      ]
+    }
+  ],
+  "technique_sources": [
+    {
+      "id": "difford-dry-shake",
+      "kind": "technique",
+      "url": "https://www.diffordsguide.com/g/1150/how-to-make-cocktails/how-to-dry-shake",
+      "author": "Simon Difford",
+      "summary": "干摇先无冰后带冰；反向干摇先带冰摇、滤去冰后再无冰摇。作者对泡沫的比较是其经验，不作为统一量化标定。",
+      "supports": [
+        "dry_shake",
+        "reverse_dry_shake"
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14"
+    },
+    {
+      "id": "monin-dry-shake",
+      "kind": "technique",
+      "url": "https://monin.ca/blogs/blog/dry-shake-method",
+      "author": "Monin Canada",
+      "summary": "以含蛋白饮品说明无冰摇和用于引入空气与泡沫，之后可加冰降温；也定义了反向顺序。",
+      "supports": [
+        "dry_shake",
+        "reverse_dry_shake"
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14"
+    },
+    {
+      "id": "arnold-part-1",
+      "kind": "experiment_report",
+      "url": "https://cookingissues.com/2010/09/02/cocktail-science-in-general-part-1-of-2/",
+      "author": "Dave Arnold",
+      "summary": "公开实验讨论冰、降温与融冰稀释的关系。用于机制背景；不把某组实验终点或时间迁移为全部酒款的标准。",
+      "supports": [
+        "ice_cooling_context"
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14"
+    },
+    {
+      "id": "arnold-part-2",
+      "kind": "experiment_report",
+      "url": "https://cookingissues.com/2010/09/08/cocktail-science-in-generalpart-2-of-2/",
+      "author": "Dave Arnold",
+      "summary": "比较摇和、搅拌及预冷稀释；讨论摇和带入细小气泡及盲品条件差异。不能据此把杯体加速度变成混合度或通用风味评分。",
+      "supports": [
+        "shake_aeration_context"
+      ],
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14"
+    },
+    {
+      "id": "difford-throw",
+      "url": "https://www.diffordsguide.com/g/1150/how-to-make-cocktails/how-to-throw-a-cocktail",
+      "author": "Simon Difford / Karen Fick / Stuart Hudson",
+      "summary": "冷饮在两个容器间高低拉倒，一侧用滤器留冰，回倒后可重复。作者将其用于通气与质感；其推荐次数和稀释比例不移植为全部酒款标准。",
+      "kind": "practitioner_technique",
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14"
+    },
+    {
+      "id": "difford-muddle",
+      "url": "https://www.diffordsguide.com/g/1150/how-to-make-cocktails/how-to-muddle",
+      "author": "Simon Difford",
+      "summary": "用捣棒压旋处理果实、香草和香料以释放风味。使用合适容器；原料和阶段不同，力度及目标不能统一。",
+      "kind": "practitioner_technique",
+      "verification": "read_source_page",
+      "collected_on": "2026-11-14"
+    }
+  ],
+  "uncollected_channels": [
+    {
+      "channel": "Liquid Intelligence 全书",
+      "status": "not_read",
+      "reason": "本轮使用作者公开实验文章，未取得并通读书本正文。"
+    },
+    {
+      "channel": "Death & Co / PDT 全书",
+      "status": "not_read",
+      "reason": "本轮收录品牌公开配方及署名刊载配方，不能声称全书覆盖。"
+    },
+    {
+      "channel": "教学视频逐段标注",
+      "status": "not_collected",
+      "reason": "未完成视频、时间戳与原作者核验。"
+    },
+    {
+      "channel": "Diageo Bar Academy 搅拌教学旧链接",
+      "url": "https://www.diageobaracademy.com/en-zz/home/bartender-skills-and-techniques/the-subtle-art-of-cocktail-stirring",
+      "status": "unavailable_410",
+      "reason": "搜索能找到摘要，正文返回410；未用摘要作已核验规则。"
+    }
+  ]
+}

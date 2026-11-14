@@ -1,0 +1,193 @@
+{
+  "source": "synthetic_contract_example_not_measured",
+  "preparation": {
+    "status": "source_process_not_sensor_verified",
+    "steps": [
+      {
+        "step_id": "iba-alexander/main/1",
+        "component_id": "component-0e8a737876f2e060",
+        "title": "准备原料与冰",
+        "action": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+        "completion": "完成本步后确认；传感器不能单独验证此步骤",
+        "completion_mode": "explicit_confirmation",
+        "context": {
+          "ice": "present",
+          "loading_order": "unspecified"
+        },
+        "source": {
+          "id": "iba-alexander",
+          "publisher": "IBA",
+          "kind": "official_recipe",
+          "url": "https://iba-world.com/iba-cocktail/alexander/",
+          "checked_at": "2026-11-14T17:29:17.297663+08:00",
+          "verification": "live_method_matches_snapshot",
+          "sha256_method": "6445cccffd1a0445bf2ffab1c3b0eb41c7df43196ac735ff708a465fac41793d",
+          "locator": "Ingredients / Method / Garnish"
+        },
+        "source_locator": "method",
+        "detail": null
+      },
+      {
+        "step_id": "iba-alexander/main/2",
+        "component_id": "component-decc18719fbb35b0",
+        "title": "摇和",
+        "action": "按本配方带冰摇和",
+        "completion": "完成本步后确认；传感器不能单独验证此步骤",
+        "completion_mode": "explicit_confirmation",
+        "context": {
+          "ice": "present"
+        },
+        "source": {
+          "id": "iba-alexander",
+          "publisher": "IBA",
+          "kind": "official_recipe",
+          "url": "https://iba-world.com/iba-cocktail/alexander/",
+          "checked_at": "2026-11-14T17:29:17.297663+08:00",
+          "verification": "live_method_matches_snapshot",
+          "sha256_method": "6445cccffd1a0445bf2ffab1c3b0eb41c7df43196ac735ff708a465fac41793d",
+          "locator": "Ingredients / Method / Garnish"
+        },
+        "source_locator": "method",
+        "detail": null
+      },
+      {
+        "step_id": "iba-alexander/main/3",
+        "component_id": "component-861dc6f312f543eb",
+        "title": "过滤入杯",
+        "action": "过滤到来源指定的酒杯",
+        "completion": "完成本步后确认；传感器不能单独验证此步骤",
+        "completion_mode": "explicit_confirmation",
+        "context": {},
+        "source": {
+          "id": "iba-alexander",
+          "publisher": "IBA",
+          "kind": "official_recipe",
+          "url": "https://iba-world.com/iba-cocktail/alexander/",
+          "checked_at": "2026-11-14T17:29:17.297663+08:00",
+          "verification": "live_method_matches_snapshot",
+          "sha256_method": "6445cccffd1a0445bf2ffab1c3b0eb41c7df43196ac735ff708a465fac41793d",
+          "locator": "Ingredients / Method / Garnish"
+        },
+        "source_locator": "method",
+        "detail": null
+      },
+      {
+        "step_id": "iba-alexander/main/4",
+        "component_id": "component-cef8e8250e25b6b4",
+        "title": "完成装饰",
+        "action": "依该版本 Garnish 字段完成装饰；可选性和替代项保留来源措辞",
+        "completion": "完成本步后确认；传感器不能单独验证此步骤",
+        "completion_mode": "explicit_confirmation",
+        "context": {
+          "source_field": "garnish",
+          "optional": false
+        },
+        "source": {
+          "id": "iba-alexander",
+          "publisher": "IBA",
+          "kind": "official_recipe",
+          "url": "https://iba-world.com/iba-cocktail/alexander/",
+          "checked_at": "2026-11-14T17:29:17.297663+08:00",
+          "verification": "live_method_matches_snapshot",
+          "sha256_method": "6445cccffd1a0445bf2ffab1c3b0eb41c7df43196ac735ff708a465fac41793d",
+          "locator": "Ingredients / Method / Garnish"
+        },
+        "source_locator": "garnish",
+        "detail": "Sprinkle fresh ground nutmeg on top."
+      }
+    ],
+    "ingredients": [
+      {
+        "source_text": "30 ml Cognac",
+        "source_name": null,
+        "amount_text": null,
+        "abv": null,
+        "sugar_concentration": null
+      },
+      {
+        "source_text": "30 ml Crème de Cacao (Brown)",
+        "source_name": null,
+        "amount_text": null,
+        "abv": null,
+        "sugar_concentration": null
+      },
+      {
+        "source_text": "30 ml Fresh Cream",
+        "source_name": null,
+        "amount_text": null,
+        "abv": null,
+        "sugar_concentration": null
+      }
+    ],
+    "branches": [],
+    "open_issues": []
+  },
+  "guidance": {
+    "issues": [
+      {
+        "issue_id": "issue-adbc60631a6c91f0",
+        "stage": "shake",
+        "channel": "T",
+        "direction": "high",
+        "start": 4,
+        "end": 8,
+        "intervals": [
+          {
+            "start": 4,
+            "end": 8
+          }
+        ],
+        "observation": "温度高于参考",
+        "action": "下次先核对原料、冰和起始温度是否与参考条件一致。",
+        "contribution": 0.5,
+        "cause_status": "unconfirmed",
+        "effect_association": {
+          "status": "source_context_only",
+          "claims": [
+            {
+              "description": "带冰摇和属于冰液接触的降温过程；实际变化受配方和初始条件影响。",
+              "evidence_type": "experiment_background",
+              "source_ids": [
+                "arnold-part-1"
+              ],
+              "quantitative_effect": null,
+              "can_generate_score_target": false
+            },
+            {
+              "description": "摇和可能引入细小气泡；不等于已测得厚重度、混合度或好喝程度。",
+              "evidence_type": "experiment_background",
+              "source_ids": [
+                "arnold-part-2"
+              ],
+              "quantitative_effect": null,
+              "can_generate_score_target": false
+            }
+          ]
+        },
+        "step_id": "iba-alexander/main/2",
+        "component_id": "component-decc18719fbb35b0",
+        "source": {
+          "id": "iba-alexander",
+          "publisher": "IBA",
+          "kind": "official_recipe",
+          "url": "https://iba-world.com/iba-cocktail/alexander/",
+          "checked_at": "2026-11-14T17:29:17.297663+08:00",
+          "verification": "live_method_matches_snapshot",
+          "sha256_method": "6445cccffd1a0445bf2ffab1c3b0eb41c7df43196ac735ff708a465fac41793d",
+          "locator": "Ingredients / Method / Garnish"
+        }
+      }
+    ],
+    "issue_count": 1,
+    "record_quality": [],
+    "reference_applicability": {
+      "recipe_version_matched": true,
+      "conditions_verified": false,
+      "status": "conditions_require_confirmation"
+    },
+    "known_limits": [
+      "短窗频率存在已知误判，频率偏差不等于确定的动作错误",
+      "动作幅度包含姿态变化影响，不能直接等同摇动用力大小"
+    ]
+  }
+}

@@ -33,10 +33,19 @@ if "%IP%"=="" (
 
 taskkill /im mosquitto.exe /f >nul 2>&1
 start "Mosquitto" /min "%MOSQ%" -c "%CONF%" -v
-start "网站" /min python -m http.server 8765 --bind 0.0.0.0
+rem 装了 numpy 就用评分服务（同时提供网站和 /api 评分接口）；没装就只开网站
+python -c "import numpy" >nul 2>&1
+if errorlevel 1 (
+  start "网站" /min python -m http.server 8765 --bind 0.0.0.0
+  set "SCORING=没装 numpy，评分服务没开（python -m pip install numpy 后重开）"
+) else (
+  start "网站" /min python 调酒算法\server.py --port 8765 --host 0.0.0.0
+  set "SCORING=评分服务已开"
+)
 timeout /t 2 >nul
 
 echo.
+echo  %SCORING%
 echo  都启动好了。最小化的两个窗口（Mosquitto、网站）别关。
 echo.
 echo  1. 固件（shakecup_mqtt.ino）开头改成：

@@ -1,0 +1,451 @@
+{
+  "description": "合成算例：RMSE T=1.5,f=0.6,A=0.3；预期最终约74.2654，不是实测",
+  "config": {
+    "version": "synthetic-v1",
+    "parameter_status": "synthetic_not_calibrated",
+    "recipe_version": "test-recipe-v1",
+    "feature_version": "hp-rms-acf-v1",
+    "r1": 2,
+    "r2": 1,
+    "anchor_loss": 1,
+    "anchor_score": 80,
+    "error_window_s": 0.2,
+    "max_frame_gap_s": 0.21,
+    "reference_max_gap_s": 1,
+    "window_min_coverage": 1,
+    "final_min_coverage": 1,
+    "on_s": 0.4,
+    "off_s": 0.4,
+    "recovery_ratio": 0.8,
+    "merge_gap_s": 0.2,
+    "feedback_limit": 5,
+    "stages": [
+      {
+        "id": "shake",
+        "evaluate_from_s": 0,
+        "end_s": 2,
+        "beta": 1,
+        "channels": [
+          "T",
+          "f",
+          "A"
+        ],
+        "tolerance": {
+          "T": 0.5,
+          "f": 0.2,
+          "A": 0.4
+        },
+        "scale": {
+          "T": 1,
+          "f": 0.2,
+          "A": 0.4
+        }
+      }
+    ]
+  },
+  "reference": {
+    "id": "synthetic-reference",
+    "feature_version": "hp-rms-acf-v1",
+    "recipe_version": "test-recipe-v1",
+    "stages": {
+      "shake": {
+        "T": [
+          {
+            "t": 0.0,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 0.2,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 0.4,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 0.6,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 0.8,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 1.0,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 1.2,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 1.4,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 1.6,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 1.8,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 2.0,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 2.2,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 2.4,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 2.6,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 2.8,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 3.0,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 3.2,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 3.4,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 3.6,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 3.8,
+            "value": 0,
+            "valid": true
+          },
+          {
+            "t": 4.0,
+            "value": 0,
+            "valid": true
+          }
+        ],
+        "f": [
+          {
+            "t": 0.0,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 0.2,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 0.4,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 0.6,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 0.8,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 1.0,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 1.2,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 1.4,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 1.6,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 1.8,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 2.0,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 2.2,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 2.4,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 2.6,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 2.8,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 3.0,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 3.2,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 3.4,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 3.6,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 3.8,
+            "value": 3,
+            "valid": true
+          },
+          {
+            "t": 4.0,
+            "value": 3,
+            "valid": true
+          }
+        ],
+        "A": [
+          {
+            "t": 0.0,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 0.2,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 0.4,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 0.6,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 0.8,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 1.0,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 1.2,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 1.4,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 1.6,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 1.8,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 2.0,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 2.2,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 2.4,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 2.6,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 2.8,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 3.0,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 3.2,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 3.4,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 3.6,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 3.8,
+            "value": 2,
+            "valid": true
+          },
+          {
+            "t": 4.0,
+            "value": 2,
+            "valid": true
+          }
+        ]
+      }
+    }
+  },
+  "frames": [
+    {
+      "t": 0.2,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    },
+    {
+      "t": 0.4,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    },
+    {
+      "t": 0.6,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    },
+    {
+      "t": 0.8,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    },
+    {
+      "t": 1.0,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    },
+    {
+      "t": 1.2,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    },
+    {
+      "t": 1.4,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    },
+    {
+      "t": 1.6,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    },
+    {
+      "t": 1.8,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    },
+    {
+      "t": 2.0,
+      "T": 1.5,
+      "f": 3.6,
+      "A": 2.3,
+      "feature_version": "hp-rms-acf-v1"
+    }
+  ],
+  "start_t": 0,
+  "finish_t": 2,
+  "commands": []
+}

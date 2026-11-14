@@ -359,7 +359,7 @@ function updateModeLabel() {
 /* ---------- 发帖 ---------- */
 function runSources() {
   const out = [];
-  if (completed && samples.length) out.push({ key: 'now', label: `刚才这次：${recipe.name} ${finalScore} 分`, recipeId: recipe.id, score: finalScore, parts: finalParts, target, rhythm: desiredRhythm, samples });
+  if (completed && samples.length && finalScore != null) out.push({ key: 'now', label: `刚才这次：${recipe.name} ${finalScore} 分`, recipeId: recipe.id, score: finalScore, parts: finalParts, target, rhythm: desiredRhythm, samples });
   stored().forEach((v, i) => out.push({ key: 'saved-' + i, label: `收藏：${v.recipeName || '威士忌酸'} ${v.score} 分（${new Date(v.date).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}）`, recipeId: v.recipe || 'whiskey-sour', score: v.score, parts: v.parts, target: v.target, rhythm: v.rhythm || 3, samples: v.samples }));
   return out;
 }

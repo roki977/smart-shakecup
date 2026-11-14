@@ -44,7 +44,14 @@ sleep 0.5
 # 4. 启动
 "$MOSQ" -c "$CONF" > /tmp/shakecup-mosquitto.log 2>&1 &
 MPID=$!
-python3 -m http.server $PORT_WEB --bind 0.0.0.0 > /tmp/shakecup-web.log 2>&1 &
+# 装了 numpy 就用评分服务（同时提供网站和 /api 评分接口）；没装就只开网站，练习页用网页自带的估算
+if python3 -c "import numpy" 2>/dev/null; then
+  python3 调酒算法/server.py --port $PORT_WEB --host 0.0.0.0 > /tmp/shakecup-web.log 2>&1 &
+  SCORING="评分服务已开"
+else
+  python3 -m http.server $PORT_WEB --bind 0.0.0.0 > /tmp/shakecup-web.log 2>&1 &
+  SCORING="没装 numpy，评分服务没开（python3 -m pip install numpy 后重开）"
+fi
 WPID=$!
 trap 'kill $MPID $WPID 2>/dev/null; echo; echo "已关闭。"; exit 0' INT TERM
 sleep 1
@@ -52,6 +59,7 @@ if ! kill -0 $MPID 2>/dev/null; then say "Mosquitto 没起来："; cat /tmp/shak
 if ! kill -0 $WPID 2>/dev/null; then say "网站没起来："; cat /tmp/shakecup-web.log; kill $MPID; exit 1; fi
 
 say "都启动好了。这个窗口别关，关了服务器就停了（Ctrl+C 关闭）。"
+echo "  $SCORING"
 cat <<MSG
 
   ① 固件（shakecup_mqtt.ino）开头改成：

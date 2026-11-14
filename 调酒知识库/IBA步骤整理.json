@@ -1,0 +1,2829 @@
+{
+  "Alexander": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Angel Face": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Clover Club": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Corpse Reviver #2": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Cosmopolitan": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Espresso Martini": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "French Martini": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Hemingway Special": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Mary Pickford": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Monkey Gland": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Naked and Famous": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Paper Plane": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Paradise": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Porto Flip": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Sidecar": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Singapore Sling": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Trinidad Sour": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Vesper": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "White Lady": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在摇酒器中就位；原文未统一规定二者先后",
+      "context": {
+        "ice": "present",
+        "loading_order": "unspecified"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "按本配方带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到来源指定的酒杯",
+      "context": {}
+    }
+  ],
+  "Between the Sheets": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "原料加入摇酒器",
+      "context": {}
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和；冰的单独加入时点未详述",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Last Word": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "原料加入摇酒器",
+      "context": {}
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和；冰的单独加入时点未详述",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Boulevardier": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Cardinale": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Dry Martini": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Hanky Panky": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Manhattan": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Martinez": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Stinger": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Tipperary": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Tuxedo": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Vieux Carré": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与冰在搅拌杯中就位；先后未详述",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "带冰充分搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至配方指定的预冷酒杯",
+      "context": {}
+    }
+  ],
+  "Cuba Libre": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "在装冰的高球杯中直接调配全部原料",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass"
+      }
+    }
+  ],
+  "Garibaldi": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "在装冰的高球杯中直接调配全部原料",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass"
+      }
+    }
+  ],
+  "Sea Breeze": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "在装冰的高球杯中直接调配全部原料",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass"
+      }
+    }
+  ],
+  "Sex on the Beach": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "在装冰的高球杯中直接调配全部原料",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass"
+      }
+    }
+  ],
+  "French Connection": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "在配方指定的装冰古典杯中加入原料",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "在出品杯内轻搅",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass",
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "Negroni": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "在配方指定的装冰古典杯中加入原料",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "在出品杯内轻搅",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass",
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "Rusty Nail": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "在配方指定的装冰古典杯中加入原料",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "在出品杯内轻搅",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass",
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "Casino": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与摇和用冰就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和；力度遵循该来源措辞",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至装有出品冰的指定酒杯",
+      "context": {
+        "destination_ice": "present"
+      }
+    }
+  ],
+  "Jungle Bird": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与摇和用冰就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和；力度遵循该来源措辞",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至装有出品冰的指定酒杯",
+      "context": {
+        "destination_ice": "present"
+      }
+    }
+  ],
+  "Tommy’s Margarita": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与摇和用冰就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和；力度遵循该来源措辞",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至装有出品冰的指定酒杯",
+      "context": {
+        "destination_ice": "present"
+      }
+    }
+  ],
+  "Ve.N.To": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "配方原料与摇和用冰就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和；力度遵循该来源措辞",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至装有出品冰的指定酒杯",
+      "context": {
+        "destination_ice": "present"
+      }
+    }
+  ],
+  "South Side": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "原料与冰在摇酒器就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "double_strain",
+      "phase": "transfer",
+      "instruction": "双重过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Spicy Fifty": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "原料与冰在摇酒器就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "double_strain",
+      "phase": "transfer",
+      "instruction": "双重过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Aviation": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "原料入摇酒器",
+      "context": {}
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "使用敲碎冰摇和",
+      "context": {
+        "ice": "present",
+        "ice_type": "cracked"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Bee’s Knees": [
+    {
+      "action": "dissolve",
+      "phase": "preparation",
+      "instruction": "先搅拌蜂蜜与柠檬汁、橙汁至溶解",
+      "context": {
+        "ingredients": "honey+citrus",
+        "ice": "not_yet_added"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "加入金酒",
+      "context": {}
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "与冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Bellini": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "桃泥加入有冰的搅拌杯",
+      "context": {
+        "ice": "present",
+        "ingredients": "peach_puree"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "加入普罗赛克",
+      "context": {
+        "ingredients": "prosecco",
+        "after": "peach_puree"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "轻柔搅拌",
+      "context": {
+        "intensity": "gentle",
+        "contains_sparkling": "yes"
+      }
+    },
+    {
+      "action": "pour",
+      "phase": "transfer",
+      "instruction": "倒入预冷笛形杯",
+      "context": {}
+    }
+  ],
+  "Black Russian": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "原料加入装冰古典杯",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "轻搅",
+      "context": {
+        "intensity": "gentle"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "原文又要求过滤入装冰古典杯；与前段直接杯中调制的关系待核对",
+      "context": {
+        "source_ambiguity": "duplicate_serving_vessel"
+      }
+    }
+  ],
+  "Bloody Mary": [
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "在搅拌杯内将原料与冰轻搅",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass",
+        "intensity": "gentle"
+      }
+    },
+    {
+      "action": "pour",
+      "phase": "transfer",
+      "instruction": "倒入岩石杯；要求带冰出品时原文另指定高球杯",
+      "context": {}
+    }
+  ],
+  "Bramble": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "除黑莓利口酒外的原料加入摇酒器",
+      "context": {
+        "exclude": "creme_de_mure"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到预冷且装碎冰的古典杯",
+      "context": {
+        "destination_ice": "crushed"
+      }
+    },
+    {
+      "action": "pour_over",
+      "phase": "finish",
+      "instruction": "黑莓利口酒沿表面环形淋入",
+      "context": {
+        "ingredients": "creme_de_mure",
+        "after": "strain"
+      }
+    }
+  ],
+  "Brandy Crusta": [
+    {
+      "action": "mix",
+      "phase": "main",
+      "instruction": "原料与冰在搅拌杯中混合；原文未明确写 stir",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至事先准备的细长鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Caipirinha": [
+    {
+      "action": "muddle",
+      "phase": "preparation",
+      "instruction": "青柠与糖在双份古典杯中轻捣",
+      "context": {
+        "ingredients": "lime+sugar",
+        "ice": "not_yet_added",
+        "intensity": "gentle"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "加敲碎冰",
+      "context": {
+        "ice_type": "cracked",
+        "after": "muddle",
+        "before": "cachaca"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "加入卡莎萨",
+      "context": {
+        "ingredients": "cachaca"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "轻搅使原料结合",
+      "context": {
+        "intensity": "gentle",
+        "ice": "present"
+      }
+    }
+  ],
+  "Canchanchara": [
+    {
+      "action": "mix",
+      "phase": "preparation",
+      "instruction": "蜂蜜、水、青柠汁混合并涂布杯底杯壁",
+      "context": {
+        "ice": "not_yet_added"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "先加敲碎冰",
+      "context": {
+        "after": "honey_mix",
+        "before": "rum",
+        "ice_type": "cracked"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "再加入朗姆",
+      "context": {
+        "ingredients": "rum"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "从底部向上有力搅拌",
+      "context": {
+        "ice": "present",
+        "direction": "bottom_to_top"
+      }
+    }
+  ],
+  "Champagne Cocktail": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "糖块滴苦精后放入大香槟杯",
+      "context": {}
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "加入白兰地",
+      "context": {
+        "ingredients": "cognac"
+      }
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "轻倒入预冷香槟",
+      "context": {
+        "ingredients": "champagne",
+        "after": "cognac"
+      }
+    }
+  ],
+  "Chartreuse Swizzle": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "全部原料加入高杯",
+      "context": {}
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "加入颗粒冰",
+      "context": {
+        "ice_type": "pebble",
+        "before": "swizzle",
+        "after": "ingredients"
+      }
+    },
+    {
+      "action": "swizzle",
+      "phase": "main",
+      "instruction": "使用 swizzle 棒或吧勺充分搅动",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "finish",
+      "instruction": "再补足颗粒冰",
+      "context": {
+        "ice_type": "pebble",
+        "after": "swizzle",
+        "before": "serve"
+      }
+    }
+  ],
+  "Daiquiri": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "原料先加入摇酒器",
+      "context": {}
+    },
+    {
+      "action": "dissolve",
+      "phase": "preparation",
+      "instruction": "搅拌使糖溶解",
+      "context": {
+        "ice": "not_yet_added",
+        "ingredients": "sugar"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "溶糖完成后加冰",
+      "context": {
+        "after": "dissolve",
+        "before": "shake"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Dark ‘N’ Stormy": [
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "装冰高球杯先加入姜汁啤酒",
+      "context": {
+        "ice": "present",
+        "ingredients": "ginger_beer"
+      }
+    },
+    {
+      "action": "float",
+      "phase": "finish",
+      "instruction": "在上层浮入朗姆",
+      "context": {
+        "ingredients": "rum",
+        "after": "ginger_beer"
+      }
+    }
+  ],
+  "Don’s Special Daiquiri": [
+    {
+      "action": "blend",
+      "phase": "main",
+      "instruction": "用奶昔机与碎冰短暂混合",
+      "context": {
+        "ice": "present",
+        "ice_type": "crushed",
+        "duration_text": "few seconds"
+      }
+    },
+    {
+      "action": "pour",
+      "phase": "transfer",
+      "instruction": "倒入带脚 copo 杯",
+      "context": {}
+    },
+    {
+      "action": "add_ice",
+      "phase": "finish",
+      "instruction": "出杯后补碎冰",
+      "context": {
+        "after": "pour",
+        "before": "serve",
+        "ice_type": "crushed"
+      }
+    }
+  ],
+  "Fernandito": [
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "Fernet 加入装冰双份古典杯",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "加可乐至满",
+      "context": {
+        "ingredients": "cola"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "finish",
+      "instruction": "轻搅",
+      "context": {
+        "contains_sparkling": "yes",
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "French 75": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "除香槟外的原料加入摇酒器",
+      "context": {
+        "exclude": "champagne"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "摇和；方法段没有明确冰况",
+      "context": {
+        "ice": "unknown"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤入笛形杯",
+      "context": {}
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "补入香槟",
+      "context": {
+        "ingredients": "champagne"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "finish",
+      "instruction": "补香槟后轻搅",
+      "context": {
+        "contains_sparkling": "yes",
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "Gin Basil Smash": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "原料与冰就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "有力摇和",
+      "context": {
+        "ice": "present",
+        "intensity": "vigorous"
+      }
+    },
+    {
+      "action": "pour",
+      "phase": "transfer",
+      "instruction": "倒入预冷鸡尾酒杯；原文只写 pour，不擅自升级为双滤",
+      "context": {}
+    }
+  ],
+  "Gin Fizz": [
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "除苏打水外的原料带冰摇和",
+      "context": {
+        "ice": "present",
+        "exclude": "soda"
+      }
+    },
+    {
+      "action": "pour",
+      "phase": "transfer",
+      "instruction": "倒入细高杯",
+      "context": {
+        "destination_ice": "absent"
+      }
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "补少量苏打；要求无冰出品",
+      "context": {
+        "ingredients": "soda",
+        "serving_ice": "absent"
+      }
+    }
+  ],
+  "Grand Margarita": [
+    {
+      "action": "rim",
+      "phase": "preparation",
+      "instruction": "岩石杯做海盐杯口",
+      "context": {}
+    },
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "原料入摇酒器",
+      "context": {}
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "出品杯和摇酒器分别加冰",
+      "context": {
+        "after": "ingredients",
+        "before": "shake",
+        "vessel": "shaker_and_serving_glass"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "用力摇和10秒",
+      "context": {
+        "ice": "present",
+        "duration_seconds": 10,
+        "intensity": "hard"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到准备好的杯中",
+      "context": {}
+    }
+  ],
+  "Grasshopper": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "原料加入装冰摇酒器",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "快速摇和几秒；不补写固定秒数",
+      "context": {
+        "ice": "present",
+        "duration_text": "few seconds",
+        "intensity": "brisk"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Horse’s Neck": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "白兰地和姜汁汽水加入装冰高球杯",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "轻搅",
+      "context": {
+        "contains_sparkling": "yes",
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "IBA Tiki": [
+    {
+      "action": "muddle",
+      "phase": "preparation",
+      "instruction": "摇酒器内捣姜片",
+      "context": {
+        "ingredients": "ginger"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "加入其他原料",
+      "context": {}
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰有力摇和",
+      "context": {
+        "ice": "present",
+        "intensity": "vigorous"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷且装颗粒冰的 Tiki 杯",
+      "context": {
+        "destination_ice": "pebble"
+      }
+    }
+  ],
+  "Illegal": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "原料入摇酒器",
+      "context": {}
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰有力摇和",
+      "context": {
+        "ice": "present",
+        "intensity": "vigorous"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到预冷鸡尾酒杯；另允许陶杯带冰出品",
+      "context": {}
+    }
+  ],
+  "Irish Coffee": [
+    {
+      "action": "preheat",
+      "phase": "preparation",
+      "instruction": "预热爱尔兰咖啡杯",
+      "context": {
+        "vessel": "serving_glass"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "倒入热黑咖啡",
+      "context": {
+        "ingredients": "hot_coffee"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "加入威士忌和至少一茶匙糖",
+      "context": {
+        "ingredients": "whiskey+sugar"
+      }
+    },
+    {
+      "action": "dissolve",
+      "phase": "main",
+      "instruction": "搅拌至糖溶解",
+      "context": {
+        "ice": "absent"
+      }
+    },
+    {
+      "action": "float",
+      "phase": "finish",
+      "instruction": "冷厚奶油沿贴近表面的勺背缓倒形成顶层",
+      "context": {
+        "ingredients": "cream",
+        "after": "hot_coffee_mix",
+        "technique": "back_of_spoon"
+      }
+    },
+    {
+      "action": "do_not_stir",
+      "phase": "finish",
+      "instruction": "保留奶油浮层，不与咖啡混合",
+      "context": {
+        "after": "cream_float"
+      }
+    }
+  ],
+  "John Collins": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "全部原料加入装冰高球杯",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "轻搅",
+      "context": {
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "Kir": [
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "先向杯内加入黑醋栗利口酒",
+      "context": {
+        "ingredients": "creme_de_cassis"
+      }
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "以白葡萄酒补足",
+      "context": {
+        "ingredients": "white_wine",
+        "after": "creme_de_cassis"
+      }
+    }
+  ],
+  "Lemon Drop Martini": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "摇酒器中原料与冰就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Margarita": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "摇酒器中原料与冰就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷鸡尾酒杯",
+      "context": {}
+    }
+  ],
+  "Long Island Iced Tea": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "全部原料加入装冰高球杯",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "轻搅，不将该版本改写成摇和",
+      "context": {
+        "intensity": "gentle",
+        "vessel": "serving_glass"
+      }
+    }
+  ],
+  "Mai-Tai": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "原料与冰就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "pour",
+      "phase": "transfer",
+      "instruction": "倒入双份岩石杯或高球杯；原文未明确过滤",
+      "context": {}
+    }
+  ],
+  "Mimosa": [
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "先向笛形杯倒橙汁",
+      "context": {
+        "ingredients": "orange_juice"
+      }
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "轻倒起泡酒",
+      "context": {
+        "ingredients": "sparkling_wine"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "finish",
+      "instruction": "轻搅",
+      "context": {
+        "intensity": "gentle",
+        "contains_sparkling": "yes"
+      }
+    }
+  ],
+  "Mint Julep": [
+    {
+      "action": "muddle",
+      "phase": "preparation",
+      "instruction": "不锈钢 Julep 杯中轻捣薄荷、糖、水",
+      "context": {
+        "ice": "not_yet_added",
+        "ingredients": "mint+sugar+water"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "捣拌后装敲碎冰",
+      "context": {
+        "after": "muddle",
+        "before": "bourbon",
+        "ice_type": "cracked"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "加入波本",
+      "context": {
+        "ingredients": "bourbon"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "搅拌至杯外起霜；不换算固定时间",
+      "context": {
+        "ice": "present",
+        "end_condition": "cup_frosts"
+      }
+    }
+  ],
+  "Missionary’s Downfall": [
+    {
+      "action": "blend",
+      "phase": "main",
+      "instruction": "全部原料与半杯碎冰混合",
+      "context": {
+        "ice": "present",
+        "ice_amount_text": "half cup",
+        "ice_type": "crushed"
+      }
+    },
+    {
+      "action": "serve",
+      "phase": "serve",
+      "instruction": "以 Coppa grande 杯出品",
+      "context": {}
+    }
+  ],
+  "Mojito": [
+    {
+      "action": "mix",
+      "phase": "preparation",
+      "instruction": "先混合薄荷、糖和青柠汁",
+      "context": {
+        "ice": "not_yet_added"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "先加少量苏打",
+      "context": {
+        "ingredients": "soda_splash"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "再把杯子装冰",
+      "context": {
+        "after": "soda_splash",
+        "before": "rum"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "加入朗姆",
+      "context": {
+        "ingredients": "rum"
+      }
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "补苏打",
+      "context": {
+        "ingredients": "soda"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "finish",
+      "instruction": "轻搅使原料结合",
+      "context": {
+        "intensity": "gentle",
+        "contains_sparkling": "yes"
+      }
+    }
+  ],
+  "Moscow Mule": [
+    {
+      "action": "mix",
+      "phase": "main",
+      "instruction": "Mule 杯或岩石杯中先混伏特加与姜汁啤酒",
+      "context": {
+        "ice": "unknown"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "加入青柠汁",
+      "context": {
+        "ingredients": "lime"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "轻搅使原料结合",
+      "context": {
+        "intensity": "gentle",
+        "contains_sparkling": "yes"
+      }
+    }
+  ],
+  "New York Sour": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "原文写全部原料入杯，但末步又要求浮葡萄酒；葡萄酒是否预留须核对",
+      "context": {
+        "source_ambiguity": "all_vs_wine_float"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰有力摇和",
+      "context": {
+        "ice": "present",
+        "intensity": "vigorous"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷装冰岩石杯",
+      "context": {
+        "destination_ice": "present"
+      }
+    },
+    {
+      "action": "float",
+      "phase": "finish",
+      "instruction": "最后浮上葡萄酒",
+      "context": {
+        "ingredients": "wine"
+      }
+    }
+  ],
+  "Old Cuban": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "除起泡酒外原料加入摇酒器",
+      "context": {
+        "exclude": "sparkling_wine"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷酒杯",
+      "context": {}
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "补起泡酒",
+      "context": {
+        "ingredients": "sparkling_wine"
+      }
+    }
+  ],
+  "Old Fashioned": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "糖块放杯中，滴苦精与少量水",
+      "context": {}
+    },
+    {
+      "action": "muddle_dissolve",
+      "phase": "preparation",
+      "instruction": "捣至糖溶解",
+      "context": {
+        "ice": "not_yet_added",
+        "ingredients": "sugar"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "溶糖后加冰块",
+      "context": {
+        "after": "dissolve",
+        "before": "whiskey",
+        "ice_type": "cubes"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "加入威士忌",
+      "context": {
+        "ingredients": "whiskey"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "轻搅",
+      "context": {
+        "ice": "present",
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "Paloma": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "高球杯先加龙舌兰和青柠汁",
+      "context": {}
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "其后加冰",
+      "context": {
+        "after": "tequila_lime",
+        "before": "soda"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "main",
+      "instruction": "加盐",
+      "context": {
+        "ingredients": "salt"
+      }
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "以粉红葡萄柚汽水补满",
+      "context": {
+        "ingredients": "grapefruit_soda"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "finish",
+      "instruction": "轻搅",
+      "context": {
+        "contains_sparkling": "yes",
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "Penicillin": [
+    {
+      "action": "muddle",
+      "phase": "preparation",
+      "instruction": "先在摇酒器中捣鲜姜",
+      "context": {
+        "ingredients": "ginger"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "加入其他原料，预留 Islay 单麦",
+      "context": {
+        "exclude": "islay_whisky"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "装冰",
+      "context": {
+        "after": "ingredients",
+        "before": "shake"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "fine_strain",
+      "phase": "transfer",
+      "instruction": "精滤至预冷装冰古典杯；原文 train 按上下文识别为 strain",
+      "context": {
+        "destination_ice": "present"
+      }
+    },
+    {
+      "action": "float",
+      "phase": "finish",
+      "instruction": "最后浮上 Islay 单麦",
+      "context": {
+        "ingredients": "islay_whisky"
+      }
+    }
+  ],
+  "Pina Colada": [
+    {
+      "action": "blend",
+      "phase": "main",
+      "instruction": "全部原料与冰用电动搅拌机混合",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "pour",
+      "phase": "transfer",
+      "instruction": "倒入大杯并以吸管出品",
+      "context": {}
+    }
+  ],
+  "Pisco Punch": [
+    {
+      "action": "muddle",
+      "phase": "preparation",
+      "instruction": "先轻捣丁香与糖浆",
+      "context": {
+        "ingredients": "cloves+syrup"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "加入其他原料，预留葡萄酒",
+      "context": {
+        "exclude": "wine"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "有力摇和；方法段未给冰况",
+      "context": {
+        "ice": "unknown",
+        "intensity": "vigorous"
+      }
+    },
+    {
+      "action": "double_strain",
+      "phase": "transfer",
+      "instruction": "双滤到大高脚杯",
+      "context": {}
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "上部加入葡萄酒",
+      "context": {
+        "ingredients": "wine"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "finish",
+      "instruction": "随后轻搅",
+      "context": {
+        "intensity": "gentle",
+        "after": "wine_addition"
+      }
+    }
+  ],
+  "Pisco Sour": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "原料与冰加入摇酒器",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和；本版本未要求干摇",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷高脚杯",
+      "context": {}
+    }
+  ],
+  "Planters Punch": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "原料直接倒入小平底杯或陶杯",
+      "context": {
+        "ice": "unknown"
+      }
+    }
+  ],
+  "Porn Star Martini": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "原料与冰在摇酒器就位；随附香槟与主杯流程分开",
+      "context": {
+        "ice": "present",
+        "exclude": "champagne_sidecar"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "double_strain",
+      "phase": "transfer",
+      "instruction": "双滤至预冷大鸡尾酒杯",
+      "context": {}
+    },
+    {
+      "action": "serve_sidecar",
+      "phase": "serve",
+      "instruction": "旁配一小杯香槟；不是倒进主杯",
+      "context": {
+        "ingredients": "champagne"
+      }
+    }
+  ],
+  "Rabo de Galo": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "全部原料先入岩石杯",
+      "context": {}
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "加冰",
+      "context": {
+        "after": "ingredients",
+        "before": "stir"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "短暂搅拌",
+      "context": {
+        "ice": "present",
+        "duration_text": "briefly"
+      }
+    }
+  ],
+  "Ramos Fizz": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "除苏打水外原料与冰加入摇酒器",
+      "context": {
+        "ice": "present",
+        "exclude": "soda"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和2分钟",
+      "context": {
+        "ice": "present",
+        "duration_seconds": 120
+      }
+    },
+    {
+      "action": "double_strain",
+      "phase": "transfer",
+      "instruction": "双滤到中间杯，移除摇和冰",
+      "context": {
+        "purpose": "remove_ice_for_reverse_dry"
+      }
+    },
+    {
+      "action": "return_to_shaker",
+      "phase": "transfer",
+      "instruction": "液体倒回摇酒器",
+      "context": {
+        "ice": "absent"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "无冰用力再摇1分钟",
+      "context": {
+        "ice": "absent",
+        "prior_wet_shake": true,
+        "duration_seconds": 60,
+        "intensity": "hard"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到高球杯",
+      "context": {}
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "最后补苏打",
+      "context": {
+        "ingredients": "soda"
+      }
+    }
+  ],
+  "Remember the Maine": [
+    {
+      "action": "rinse",
+      "phase": "preparation",
+      "instruction": "用苦艾酒旋转润洗 coupe 内壁",
+      "context": {
+        "vessel": "serving_glass",
+        "ingredients": "absinthe"
+      }
+    },
+    {
+      "action": "discard",
+      "phase": "preparation",
+      "instruction": "倒掉润杯苦艾酒，将杯置旁",
+      "context": {
+        "vessel": "serving_glass"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "其他原料加入搅拌杯",
+      "context": {
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "搅拌杯加冰至约3/4",
+      "context": {
+        "vessel": "mixing_glass",
+        "after": "ingredients",
+        "before": "stir",
+        "fill_text": "3/4"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "搅拌至冷",
+      "context": {
+        "ice": "present",
+        "end_condition": "chilled"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至已润洗的出品杯",
+      "context": {
+        "destination": "rinsed_serving_glass"
+      }
+    }
+  ],
+  "Russian Spring Punch": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "除起泡酒外原料入摇酒器",
+      "context": {
+        "exclude": "sparkling_wine"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至预冷装冰高杯",
+      "context": {
+        "destination_ice": "present"
+      }
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "补起泡酒",
+      "context": {
+        "ingredients": "sparkling_wine"
+      }
+    }
+  ],
+  "Sazerac": [
+    {
+      "action": "rinse",
+      "phase": "preparation",
+      "instruction": "苦艾酒润洗预冷古典杯",
+      "context": {
+        "vessel": "serving_glass"
+      }
+    },
+    {
+      "action": "add_ice",
+      "phase": "preparation",
+      "instruction": "润杯后加碎冰，放置备用",
+      "context": {
+        "vessel": "serving_glass",
+        "after": "rinse",
+        "before": "discard",
+        "ice_type": "crushed"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "另在搅拌杯把其余原料与冰搅拌",
+      "context": {
+        "ice": "present",
+        "vessel": "mixing_glass"
+      }
+    },
+    {
+      "action": "discard",
+      "phase": "transfer",
+      "instruction": "出品杯的冰和多余苦艾酒倒掉",
+      "context": {
+        "vessel": "serving_glass"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤混合液至处理后的出品杯",
+      "context": {
+        "destination_ice": "absent"
+      }
+    }
+  ],
+  "Sherry Cobbler": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "雪莉、糖和指定柑橘片与冰入摇酒器",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "快速摇和",
+      "context": {
+        "ice": "present",
+        "intensity": "brisk"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤至装碎冰 Julep 杯",
+      "context": {
+        "destination_ice": "crushed"
+      }
+    }
+  ],
+  "Spritz": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "全部原料在装冰葡萄酒杯中调配",
+      "context": {
+        "ice": "present",
+        "vessel": "serving_glass"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "main",
+      "instruction": "轻搅",
+      "context": {
+        "contains_sparkling": "yes",
+        "intensity": "gentle"
+      }
+    }
+  ],
+  "Suffering Bastard": [
+    {
+      "action": "add",
+      "phase": "preparation",
+      "instruction": "除姜汁啤酒外原料入摇酒器",
+      "context": {
+        "exclude": "ginger_beer"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "dump",
+      "phase": "transfer",
+      "instruction": "不滤，连同摇和内容倒入 Collins 或专用杯",
+      "context": {}
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "再补姜汁啤酒",
+      "context": {
+        "ingredients": "ginger_beer"
+      }
+    }
+  ],
+  "Tequila Sunrise": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "龙舌兰与橙汁加入装冰高球杯",
+      "context": {
+        "ice": "present",
+        "ingredients": "tequila+orange"
+      }
+    },
+    {
+      "action": "add",
+      "phase": "finish",
+      "instruction": "最后加红石榴糖浆形成渐层",
+      "context": {
+        "ingredients": "grenadine",
+        "after": "tequila_orange"
+      }
+    },
+    {
+      "action": "do_not_stir",
+      "phase": "finish",
+      "instruction": "加糖浆后不要搅拌，保留渐层",
+      "context": {
+        "after": "grenadine"
+      }
+    }
+  ],
+  "Three Dots and a Dash": [
+    {
+      "action": "blend",
+      "phase": "main",
+      "instruction": "原料与12盎司碎冰快速混合",
+      "context": {
+        "ice": "present",
+        "ice_type": "crushed",
+        "ice_amount_text": "12 ounces",
+        "duration_text": "flash"
+      }
+    },
+    {
+      "action": "pour",
+      "phase": "transfer",
+      "instruction": "倒入带脚 copo 杯",
+      "context": {}
+    },
+    {
+      "action": "add_ice",
+      "phase": "finish",
+      "instruction": "再补碎冰",
+      "context": {
+        "after": "pour",
+        "before": "serve",
+        "ice_type": "crushed"
+      }
+    }
+  ],
+  "Whiskey Sour": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "原料与冰在摇酒器就位",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "shake",
+      "phase": "main",
+      "instruction": "带冰摇和",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "strain",
+      "phase": "transfer",
+      "instruction": "过滤到 cobbler 杯；带冰版本改用装冰古典杯",
+      "context": {}
+    }
+  ],
+  "Zombie": [
+    {
+      "action": "load",
+      "phase": "preparation",
+      "instruction": "原料与170克敲碎冰入电动搅拌机",
+      "context": {
+        "ice": "present",
+        "ice_type": "cracked",
+        "ice_mass_g": 170
+      }
+    },
+    {
+      "action": "blend",
+      "phase": "main",
+      "instruction": "脉冲搅拌几秒",
+      "context": {
+        "ice": "present",
+        "duration_text": "few seconds",
+        "mode": "pulse"
+      }
+    },
+    {
+      "action": "serve",
+      "phase": "serve",
+      "instruction": "以高平底杯出品",
+      "context": {}
+    }
+  ],
+  "Americano": [
+    {
+      "action": "build",
+      "phase": "main",
+      "instruction": "先在装冰古典杯中调配原料",
+      "context": {
+        "ice": "present"
+      }
+    },
+    {
+      "action": "top",
+      "phase": "finish",
+      "instruction": "补少量苏打",
+      "context": {
+        "ingredients": "soda"
+      }
+    },
+    {
+      "action": "stir",
+      "phase": "finish",
+      "instruction": "轻搅",
+      "context": {
+        "intensity": "gentle",
+        "contains_sparkling": "yes"
+      }
+    }
+  ]
+}

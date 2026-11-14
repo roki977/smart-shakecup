@@ -1,0 +1,118 @@
+﻿酒款,版本ID,来源,步骤数,同名来源数,来源疑点,数值参考曲线,可自动判错
+Alexander,iba-alexander,https://iba-world.com/iba-cocktail/alexander/,4,1,,无,否
+Americano,iba-americano,https://iba-world.com/iba-cocktail/americano/,4,1,,无,否
+Angel Face,iba-angel-face,https://iba-world.com/iba-cocktail/angel-face/,3,1,,无,否
+Aviation,iba-aviation,https://iba-world.com/iba-cocktail/aviation/,4,1,,无,否
+Bee’s Knees,iba-bees-knees,https://iba-world.com/iba-cocktail/bees-knees/,5,1,,无,否
+Bellini,iba-bellini,https://iba-world.com/iba-cocktail/bellini/,4,1,,无,否
+Between the Sheets,iba-between-the-sheets,https://iba-world.com/iba-cocktail/between-the-sheets/,3,1,,无,否
+Black Russian,iba-black-russian,https://iba-world.com/iba-cocktail/black-russian/,3,1,原文先在出品杯直接调配，后又过滤到同型装冰杯；需核实是否重复编辑。,无,否
+Bloody Mary,iba-bloody-mary,https://iba-world.com/iba-cocktail/bloody-mary/,3,1,,无,否
+Boulevardier,iba-boulevardier,https://iba-world.com/iba-cocktail/boulevardier/,4,1,,无,否
+Bramble,iba-bramble,https://iba-world.com/iba-cocktail/bramble/,5,1,,无,否
+Brandy Crusta,iba-brandy-crusta,https://iba-world.com/iba-cocktail/brandy-crusta/,4,1,mix 不自动等价于 stir；杯口准备来自 garnish 段，与 prepared glass 对应。,无,否
+Caipirinha,iba-caipirinha,https://iba-world.com/iba-cocktail/caipirinha/,4,1,,无,否
+Canchanchara,iba-canchanchara,https://iba-world.com/iba-cocktail/canchanchara/,5,1,,无,否
+Cardinale,iba-cardinale,https://iba-world.com/iba-cocktail/cardinale/,4,1,,无,否
+Casino,iba-casino,https://iba-world.com/iba-cocktail/casino/,4,1,,无,否
+Champagne Cocktail,iba-champagne-cocktail,https://iba-world.com/iba-cocktail/champagne-cocktail/,4,1,,无,否
+Chartreuse Swizzle,iba-chartreuse-swizzle,https://iba-world.com/iba-cocktail/chartreuse-swizzle/,5,1,,无,否
+Clover Club,iba-clover-club,https://iba-world.com/iba-cocktail/clover-club/,4,1,,无,否
+Corpse Reviver #2,iba-corpse-reviver-2,https://iba-world.com/iba-cocktail/corpse-reviver-2/,4,1,,无,否
+Cosmopolitan,iba-cosmopolitan,https://iba-world.com/iba-cocktail/cosmopolitan/,4,1,,无,否
+Cuba Libre,iba-cuba-libre,https://iba-world.com/iba-cocktail/cuba-libre/,2,1,,无,否
+Daiquiri,iba-daiquiri,https://iba-world.com/iba-cocktail/daiquiri/,5,1,,无,否
+Dark ‘N’ Stormy,iba-dark-n-stormy,https://iba-world.com/iba-cocktail/dark-n-stormy/,3,1,,无,否
+Don’s Special Daiquiri,iba-dons-special-daiquiri,https://iba-world.com/iba-cocktail/dons-special-daiquiri/,4,1,,无,否
+Dry Martini,iba-dry-martini,https://iba-world.com/iba-cocktail/dry-martini/,4,1,,无,否
+Espresso Martini,iba-espresso-martini,https://iba-world.com/iba-cocktail/espresso-martini/,4,1,,无,否
+Fernandito,iba-fernandito,https://iba-world.com/iba-cocktail/fernandito/,3,1,,无,否
+French 75,iba-french-75,https://iba-world.com/iba-cocktail/french-75/,5,1,方法段未明确摇和用冰，保持 unknown。,无,否
+French Connection,iba-french-connection,https://iba-world.com/iba-cocktail/french-connection/,2,1,,无,否
+French Martini,iba-french-martini,https://iba-world.com/iba-cocktail/french-martini/,4,1,,无,否
+Garibaldi,iba-garibaldi,https://iba-world.com/iba-cocktail/garibaldi/,2,1,,无,否
+Gin Basil Smash,iba-gin-basil-smash,https://iba-world.com/iba-cocktail/gin-basil-smash/,3,1,,无,否
+Gin Fizz,iba-gin-fizz,https://iba-world.com/iba-cocktail/gin-fizz/,4,1,,无,否
+Grand Margarita,iba-grand-margarita,https://iba-world.com/iba-cocktail/grand-margarita/,6,1,,无,否
+Grasshopper,iba-grasshopper,https://iba-world.com/iba-cocktail/grasshopper/,3,1,,无,否
+Hanky Panky,iba-hanky-panky,https://iba-world.com/iba-cocktail/hanky-panky/,4,1,,无,否
+Hemingway Special,iba-hemingway-special,https://iba-world.com/iba-cocktail/hemingway-special/,3,1,,无,否
+Horse’s Neck,iba-horses-neck,https://iba-world.com/iba-cocktail/horses-neck/,3,1,,无,否
+IBA Tiki,iba-iba-tiki,https://iba-world.com/iba-cocktail/iba-tiki/,5,1,,无,否
+Illegal,iba-illegal,https://iba-world.com/iba-cocktail/illegal/,3,1,,无,否
+Irish Coffee,iba-irish-coffee,https://iba-world.com/iba-cocktail/irish-coffee/,6,1,,无,否
+John Collins,iba-john-collins,https://iba-world.com/iba-cocktail/john-collins/,3,1,,无,否
+Jungle Bird,iba-jungle-bird,https://iba-world.com/iba-cocktail/jungle-bird/,4,1,,无,否
+Kir,iba-kir,https://iba-world.com/iba-cocktail/kir/,2,1,,无,否
+Last Word,iba-last-word,https://iba-world.com/iba-cocktail/last-word/,3,1,,无,否
+Lemon Drop Martini,iba-lemon-drop-martini,https://iba-world.com/iba-cocktail/lemon-drop-martini/,3,1,,无,否
+Long Island Iced Tea,iba-long-island-iced-tea,https://iba-world.com/iba-cocktail/long-island-iced-tea/,3,1,,无,否
+Mai-Tai,iba-mai-tai,https://iba-world.com/iba-cocktail/mai-tai/,4,1,,无,否
+Manhattan,iba-manhattan,https://iba-world.com/iba-cocktail/manhattan/,4,1,,无,否
+Margarita,iba-margarita,https://iba-world.com/iba-cocktail/margarita/,3,1,,无,否
+Martinez,iba-martinez,https://iba-world.com/iba-cocktail/martinez/,4,1,,无,否
+Mary Pickford,iba-mary-pickford,https://iba-world.com/iba-cocktail/mary-pickford/,3,1,,无,否
+Mimosa,iba-mimosa,https://iba-world.com/iba-cocktail/mimosa/,4,1,,无,否
+Mint Julep,iba-mint-julep,https://iba-world.com/iba-cocktail/mint-julep/,5,1,,无,否
+Missionary’s Downfall,iba-missionarys-downfall,https://iba-world.com/iba-cocktail/missionarys-downfall/,3,1,,无,否
+Mojito,iba-mojito,https://iba-world.com/iba-cocktail/mojito/,7,1,,无,否
+Monkey Gland,iba-monkey-gland,https://iba-world.com/iba-cocktail/monkey-gland/,3,1,,无,否
+Moscow Mule,iba-moscow-mule,https://iba-world.com/iba-cocktail/moscow-mule/,4,1,方法段未明确加冰，不从常识补写。,无,否
+Naked and Famous,iba-naked-and-famous,https://iba-world.com/iba-cocktail/naked-and-famous/,3,2,,无,否
+Negroni,iba-negroni,https://iba-world.com/iba-cocktail/negroni/,3,1,,无,否
+New York Sour,iba-new-york-sour,https://iba-world.com/iba-cocktail/new-york-sour/,5,1,all ingredients 与最后 float wine 有范围歧义；不能据此认定用户提前加葡萄酒错误。,无,否
+Old Cuban,iba-old-cuban,https://iba-world.com/iba-cocktail/old-cuban/,5,1,,无,否
+Old Fashioned,iba-old-fashioned,https://iba-world.com/iba-cocktail/old-fashioned/,6,1,,无,否
+Paloma,iba-paloma,https://iba-world.com/iba-cocktail/paloma/,6,1,,无,否
+Paper Plane,iba-paper-plane,https://iba-world.com/iba-cocktail/paper-plane/,3,1,,无,否
+Paradise,iba-paradise,https://iba-world.com/iba-cocktail/paradise/,3,1,,无,否
+Penicillin,iba-penicillin,https://iba-world.com/iba-cocktail/penicillin/,7,1,,无,否
+Pina Colada,iba-pina-colada,https://iba-world.com/iba-cocktail/pina-colada/,3,1,,无,否
+Pisco Punch,iba-pisco-punch,https://iba-world.com/iba-cocktail/pisco-punch/,6,1,方法段未明确摇和用冰，保持 unknown。,无,否
+Pisco Sour,iba-pisco-sour,https://iba-world.com/iba-cocktail/pisco-sour/,4,1,,无,否
+Planters Punch,iba-planters-punch,https://iba-world.com/iba-cocktail/planters-punch/,2,1,,无,否
+Porn Star Martini,iba-porn-star-martini,https://iba-world.com/iba-cocktail/porn-star-martini/,5,1,,无,否
+Porto Flip,iba-porto-flip,https://iba-world.com/iba-cocktail/porto-flip/,4,1,,无,否
+Rabo de Galo,iba-rabo-de-galo,https://iba-world.com/iba-cocktail/rabo-de-galo/,4,1,,无,否
+Ramos Fizz,iba-ramos-fizz,https://iba-world.com/iba-cocktail/ramos-fizz/,7,1,,无,否
+Remember the Maine,iba-remember-the-maine,https://iba-world.com/iba-cocktail/remember-the-maine/,7,1,,无,否
+Russian Spring Punch,iba-russian-spring-punch,https://iba-world.com/iba-cocktail/russian-spring-punch/,5,1,,无,否
+Rusty Nail,iba-rusty-nail,https://iba-world.com/iba-cocktail/rusty-nail/,3,1,,无,否
+Sazerac,iba-sazerac,https://iba-world.com/iba-cocktail/sazerac/,6,1,,无,否
+Sea Breeze,iba-sea-breeze,https://iba-world.com/iba-cocktail/sea-breeze/,2,1,,无,否
+Sex on the Beach,iba-sex-on-the-beach,https://iba-world.com/iba-cocktail/sex-on-the-beach/,2,1,,无,否
+Sherry Cobbler,iba-sherry-cobbler,https://iba-world.com/iba-cocktail/sherry-cobbler/,4,1,,无,否
+Sidecar,iba-sidecar,https://iba-world.com/iba-cocktail/sidecar/,3,1,,无,否
+Singapore Sling,iba-singapore-sling,https://iba-world.com/iba-cocktail/singapore-sling/,4,1,,无,否
+South Side,iba-south-side,https://iba-world.com/iba-cocktail/south-side/,4,1,,无,否
+Spicy Fifty,iba-spicy-fifty,https://iba-world.com/iba-cocktail/spicy-fifty/,4,1,,无,否
+Spritz,iba-spritz,https://iba-world.com/iba-cocktail/spritz/,3,1,,无,否
+Stinger,iba-stinger,https://iba-world.com/iba-cocktail/stinger/,4,1,,无,否
+Suffering Bastard,iba-suffering-bastard,https://iba-world.com/iba-cocktail/suffering-bastard/,5,1,,无,否
+Tequila Sunrise,iba-tequila-sunrise,https://iba-world.com/iba-cocktail/tequila-sunrise/,4,1,,无,否
+Three Dots and a Dash,iba-three-dots-and-a-dash,https://iba-world.com/iba-cocktail/three-dots-and-a-dash/,4,1,,无,否
+Tipperary,iba-tipperary,https://iba-world.com/iba-cocktail/tipperary/,4,1,,无,否
+Tommy’s Margarita,iba-tommys-margarita,https://iba-world.com/iba-cocktail/tommys-margarita/,4,1,,无,否
+Trinidad Sour,iba-trinidad-sour,https://iba-world.com/iba-cocktail/trinidad-sour/,3,1,,无,否
+Tuxedo,iba-tuxedo,https://iba-world.com/iba-cocktail/tuxedo/,4,1,,无,否
+Ve.N.To,iba-ve-n-to,https://iba-world.com/iba-cocktail/ve-n-to/,4,1,,无,否
+Vesper,iba-vesper,https://iba-world.com/iba-cocktail/vesper/,4,1,,无,否
+Vieux Carré,iba-vieux-carre,https://iba-world.com/iba-cocktail/vieux-carre/,4,1,,无,否
+Whiskey Sour,iba-whiskey-sour,https://iba-world.com/iba-cocktail/whiskey-sour/,4,2,,无,否
+White Lady,iba-white-lady,https://iba-world.com/iba-cocktail/white-lady/,3,1,,无,否
+Zombie,iba-zombie,https://iba-world.com/iba-cocktail/zombie/,4,1,,无,否
+Almond Thief,dc-almond-thief,https://www.deathandcompanymarket.com/blogs/recipes/almond-thief,3,1,,无,否
+Ghost Note,dc-ghost-note,https://www.deathandcompanymarket.com/blogs/recipes/ghost-note,3,1,,无,否
+Devil Runner,dc-devil-runner,https://www.deathandcompanymarket.com/blogs/recipes/devil-runner,3,1,,无,否
+As Islay Dying,dc-as-islay-dying,https://www.deathandcompanymarket.com/blogs/recipes/as-islay-dying,3,1,,无,否
+Iron Path,dc-iron-path,https://www.deathandcompanymarket.com/blogs/recipes/iron-path-cocktail-recipe,3,1,,无,否
+Starchaser,dc-starchaser,https://www.deathandcompanymarket.com/blogs/recipes/starchaser-cocktail-recipe,3,1,,无,否
+Easy Tiger,dc-easy-tiger,https://www.deathandcompanymarket.com/blogs/recipes/easy-tiger-cocktail-recipe,3,1,,无,否
+Dragon's Dream,dc-dragons-dream,https://www.deathandcompanymarket.com/blogs/recipes/dragons-dream-cocktail-recipe,4,1,品牌介绍写 dirty-dump，方法写 strain；未消解前不把过滤方式用于自动判错。,无,否
+Sky Ladder,dc-sky-ladder,https://www.deathandcompanymarket.com/blogs/recipes/sky-ladder-cocktail-recipe,3,1,,无,否
+Buster Sword,dc-buster-sword,https://www.deathandcompanymarket.com/blogs/recipes/buster-sword-cocktail-recipe,6,1,,无,否
+Clear Sky,dc-clear-sky,https://www.deathandcompanymarket.com/blogs/recipes/clear-sky-cocktail-recipe,4,1,,无,否
+Secret Third Option,dc-secret-third-option,https://www.deathandcompanymarket.com/blogs/recipes/secret-third-option-cocktail-recipe,5,1,,无,否
+Naked and Famous,dc-naked-famous,https://www.deathandcompanymarket.com/blogs/recipes/naked-famous,3,2,,无,否
+Whiskey Sour,difford-whiskey-sour,https://www.diffordsguide.com/cocktails/recipe/2083/whiskey-sour-diffords-recipe,6,2,,无,否
+Benton's Old Fashioned,pdt-bentons-old-fashioned,https://imbibemagazine.com/recipe/bentons-old-fashioned/,3,1,,无,否
