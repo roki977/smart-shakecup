@@ -77,37 +77,13 @@ function disconnectDevice() {
   dev.client = null; setDeviceState('off');
 }
 
-/* 温度：可以是一个数，也可以是多路探头的数组；取有效值的中位数 */
-function pickTemp(v) {
-  if (typeof v === 'number') return Number.isFinite(v) ? v : null;
-  if (!Array.isArray(v)) return null;
-  const ok = v.filter(x => typeof x === 'number' && Number.isFinite(x) && x > -30 && x < 60).sort((a, b) => a - b);
-  if (!ok.length) return null;
-  const m = ok.length >> 1;
-  return ok.length % 2 ? ok[m] : (ok[m - 1] + ok[m]) / 2;
-}
-
-/* 设备发原始加速度时，在网页里估算节奏和幅度。
-   acc: [[ax, ay, az], ...]，单位 g，采样率 acc_hz。取最近 2 秒里起伏最大的那个轴
-   （基本就是摇壶的长轴），数过零次数得到节奏，再按简谐运动 A = a峰 / (2πf)² 估幅度。 */
+/* pickTemp、motionFromAcc 在 cup-data.js 里，和调试台共用 */
 function estimateMotion(msg) {
   const fs = msg.acc_hz || 50;
   msg.acc.forEach(a => dev.acc.push(a));
   const keep = Math.round(fs * 2);
   if (dev.acc.length > keep) dev.acc.splice(0, dev.acc.length - keep);
-  if (dev.acc.length < fs) return { hz: 0, ampCm: 0 };
-  let best = null;
-  for (let k = 0; k < 3; k++) {
-    const xs = dev.acc.map(a => a[k]), mean = xs.reduce((s, x) => s + x, 0) / xs.length;
-    const d = xs.map(x => x - mean), rms = Math.sqrt(d.reduce((s, x) => s + x * x, 0) / d.length);
-    if (!best || rms > best.rms) best = { d, rms };
-  }
-  if (best.rms < 0.15) return { hz: 0, ampCm: 0 };       // 基本没动
-  let crossings = 0;
-  for (let i = 1; i < best.d.length; i++) if ((best.d[i - 1] < 0) !== (best.d[i] < 0)) crossings++;
-  const hz = crossings / 2 / (best.d.length / fs);
-  const peak = best.rms * Math.SQRT2 * 9.81;              // m/s²
-  const ampCm = hz > 0.3 ? peak / Math.pow(2 * Math.PI * hz, 2) * 100 : 0;
+  const { hz, ampCm } = motionFromAcc(dev.acc, fs);
   return { hz, ampCm };
 }
 
@@ -229,6 +205,7 @@ function openDeviceDialog() {
         <button class="primary" type="submit">${dev.client ? '重新连接' : '连接'}</button>
         ${dev.client ? '<button class="secondary" type="button" id="dev-off">断开</button>' : ''}
       </div>
+      <p class="fine">要看传感器原始数据、检查硬件，打开 <a href="debug.html${c.device ? '?cup=' + encodeURIComponent(c.device) : ''}" target="_blank" rel="noopener">调试台</a>。</p>
     </form>`);
   $('#dev-form').onsubmit = e => {
     e.preventDefault();

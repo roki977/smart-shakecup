@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>调试台 · 微醺练习室</title>
+<style>
+  :root {
+    --bg: #0e1014; --card: #171a20; --card2: #1d2128; --rule: #2a2f38; --ink: #eef0f3; --soft: #9aa3ae; --dim: #6b7380;
+    --ok: #57c78a; --warn: #f0b545; --bad: #ef6461; --accent: #e9b44c;
+    --p1: #e9b44c; --p2: #5fb0ff; --p3: #c58bff; --med: #ffffff;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 14px/1.5 var(--sans); padding: 16px 20px 40px; }
+  a { color: var(--accent); }
+  header { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+  header h1 { font-size: 20px; }
+  header .sub { color: var(--soft); font-size: 13px; }
+  header a { margin-left: auto; font-size: 13px; }
+
+  .conn { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; }
+  .conn label { display: grid; gap: 4px; font-size: 12px; color: var(--soft); }
+  .conn input { background: var(--bg); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px; font: 14px var(--mono); min-width: 0; }
+  .conn .url input { width: 300px; }
+  .conn .id input { width: 210px; }
+  .conn details { font-size: 12px; color: var(--soft); align-self: center; }
+  .conn details[open] { display: flex; gap: 8px; align-items: end; }
+  .conn details input { width: 120px; }
+  button { background: var(--card2); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px; padding: 8px 14px; font: 600 14px var(--sans); cursor: pointer; }
+  button:hover { border-color: var(--soft); }
+  button.primary { background: var(--accent); color: #1a1408; border-color: var(--accent); }
+  button.on { background: var(--bad); border-color: var(--bad); color: #fff; }
+  button:disabled { opacity: .45; cursor: default; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--card2); font-weight: 600; font-size: 13px; align-self: center; }
+  .pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--dim); }
+  .pill.live::before { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+  .pill.waiting::before, .pill.connecting::before { background: var(--warn); }
+  .pill.error::before, .pill.lost::before { background: var(--bad); }
+  .devstatus { color: var(--soft); font-size: 12px; align-self: center; }
+
+  .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+  .card { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 14px; min-width: 0; }
+  .card h2 { font-size: 13px; color: var(--soft); font-weight: 600; display: flex; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+  .card h2 small { font-weight: 400; color: var(--dim); }
+  .c-check { grid-column: span 4; } .c-temp { grid-column: span 8; }
+  .c-motion { grid-column: span 8; } .c-link { grid-column: span 4; }
+  .c-raw { grid-column: span 7; } .c-tools { grid-column: span 5; }
+  @media (max-width: 1000px) { .grid > .card { grid-column: span 12; } .conn .url input, .conn .id input { width: 100%; } .conn label { flex: 1 1 200px; } }
+
+  .checks { list-style: none; padding: 0; display: grid; gap: 6px; }
+  .checks li { display: grid; grid-template-columns: 22px 1fr; gap: 6px; font-size: 13px; }
+  .checks li b { font-weight: 600; }
+  .checks li span.why { display: block; color: var(--soft); font-size: 12px; }
+  .checks .mark { font-weight: 800; text-align: center; }
+  .checks .ok .mark { color: var(--ok); } .checks .warn .mark { color: var(--warn); } .checks .bad .mark { color: var(--bad); } .checks .wait .mark { color: var(--dim); }
+  .checks .wait b { color: var(--soft); font-weight: 500; }
+
+  .big { display: flex; gap: 22px; align-items: baseline; flex-wrap: wrap; margin-bottom: 8px; }
+  .big .v { font: 700 40px/1 var(--mono); }
+  .big .v small { font-size: 16px; color: var(--soft); margin-left: 4px; }
+  .big .lbl { font-size: 12px; color: var(--soft); }
+  .probes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .probe { background: var(--card2); border-radius: 8px; padding: 6px 10px; font: 13px var(--mono); border-left: 3px solid var(--dim); }
+  .probe em { font-style: normal; color: var(--soft); font-family: var(--sans); font-size: 12px; margin-right: 6px; }
+  .probe.bad { color: var(--bad); }
+  canvas { display: block; width: 100%; height: 190px; background: var(--bg); border-radius: 6px; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--soft); margin-top: 6px; }
+  .legend i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 4px; border-radius: 2px; }
+
+  dl.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13px; }
+  dl.kv dt { color: var(--soft); }
+  dl.kv dd { font-family: var(--mono); text-align: right; }
+  dd.warn { color: var(--warn); } dd.bad { color: var(--bad); }
+
+  pre { font: 12px/1.5 var(--mono); background: var(--bg); border-radius: 6px; padding: 10px; overflow: auto; white-space: pre-wrap; word-break: break-all; }
+  #last { max-height: 220px; }
+  #log { max-height: 220px; margin-top: 8px; color: var(--soft); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .tool + .tool { border-top: 1px solid var(--rule); margin-top: 12px; padding-top: 12px; }
+  .tool h3 { font-size: 14px; margin-bottom: 4px; }
+  .tool p { color: var(--soft); font-size: 12px; margin-bottom: 8px; }
+  .tool .out { font: 13px var(--mono); margin-top: 8px; color: var(--ink); }
+  .tool select { background: var(--bg); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px; padding: 7px 8px; font: 13px var(--sans); }
+</style>
+</head>
+<body>
+<header>
+  <h1>调试台</h1>
+  <span class="sub">看杯子发来的每一帧数据，检查传感器和网络是否正常</span>
+  <a href="./">← 回练习网站</a>
+</header>
+
+<form class="conn" id="conn" autocomplete="off">
+  <label class="url">服务器（网页用 wss）<input id="url" spellcheck="false"></label>
+  <label class="id">设备 ID（和固件里一样）<input id="device" spellcheck="false" placeholder="比如 hkustgz-roki-01"></label>
+  <details><summary>用户名/密码</summary>
+    <label>用户名<input id="user" spellcheck="false"></label>
+    <label>密码<input id="pass" type="password"></label>
+  </details>
+  <button class="primary" id="connect" type="submit">连接</button>
+  <span class="pill" id="pill">未连接</span>
+  <span class="devstatus" id="devstatus"></span>
+</form>
+
+<div class="grid">
+  <section class="card c-check">
+    <h2>自动检查 <small>每秒更新</small></h2>
+    <ul class="checks" id="checks"></ul>
+  </section>
+
+  <section class="card c-temp">
+    <h2>温度 <small id="temp-sub">最近 60 秒</small></h2>
+    <div class="big">
+      <div><div class="v" id="t-med">--<small>℃</small></div><div class="lbl">练习页用的值（有效探头的中位数）</div></div>
+      <div><div class="v" id="t-rate">--<small>℃/s</small></div><div class="lbl">变化速度</div></div>
+    </div>
+    <div class="probes" id="probes"></div>
+    <canvas id="c-temp"></canvas>
+    <div class="legend" id="temp-legend"></div>
+  </section>
+
+  <section class="card c-motion">
+    <h2>动作 <small>最近 5 秒原始加速度</small></h2>
+    <div class="big">
+      <div><div class="v" id="m-hz">--<small>次/秒</small></div><div class="lbl">节奏（练习页算法）</div></div>
+      <div><div class="v" id="m-amp">--<small>cm</small></div><div class="lbl">单程幅度</div></div>
+      <div><div class="v" id="m-g">--<small>g</small></div><div class="lbl">合加速度（静止应约 1）</div></div>
+      <div><div class="v" id="m-axis">--</div><div class="lbl">起伏最大的轴</div></div>
+    </div>
+    <canvas id="c-acc"></canvas>
+    <div class="legend"><span><i style="background:var(--p1)"></i>x</span><span><i style="background:var(--p2)"></i>y</span><span><i style="background:var(--p3)"></i>z</span><span><i style="background:var(--med)"></i>合加速度</span></div>
+  </section>
+
+  <section class="card c-link">
+    <h2>数据链路</h2>
+    <dl class="kv" id="link"></dl>
+  </section>
+
+  <section class="card c-raw">
+    <h2>原始数据 <button type="button" id="pause">暂停</button></h2>
+    <pre id="last">还没收到数据</pre>
+    <pre id="log"></pre>
+  </section>
+
+  <section class="card c-tools">
+    <h2>实验工具</h2>
+    <div class="tool">
+      <h3>录制数据</h3>
+      <p>做实验时打开，结束后下载 CSV，每帧一行（温度各路、节奏、幅度、合加速度）。可以直接用 Excel 打开。</p>
+      <div class="row"><button type="button" id="rec">开始录制</button><span class="out" id="rec-out"></span></div>
+    </div>
+    <div class="tool">
+      <h3>探头反应速度（t90）</h3>
+      <p>点“开始”后，把探头从一杯水迅速插进温差大的另一杯水（比如室温水到冰水），等读数稳定。会算出读数走完 90% 变化用了多久。摇酒只有十几秒，最好在 2 秒以内。</p>
+      <div class="row">
+        <select id="t90-probe"><option value="med">中位数</option><option value="0">探头 1</option><option value="1">探头 2</option><option value="2">探头 3</option></select>
+        <button type="button" id="t90">开始</button>
+      </div>
+      <div class="out" id="t90-out"></div>
+    </div>
+  </section>
+</div>
+
+<script src="vendor/mqtt.min.js"></script>
+<script src="cup-data.js"></script>
+<script src="debug.js"></script>
+</body>
+</html>
