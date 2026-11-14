@@ -256,7 +256,7 @@ function openPost(id) {
       ${p.parts ? `<div class="parts" id="p-parts"></div><p class="part-detail" id="p-part-detail"></p>` : ''}` : ''}
     ${r ? `<p class="rc-tags"><span>摇和</span><span>${escapeHTML(r.glassName || '')}</span>${p.target != null ? `<span>目标 ${deg(p.target)} ℃</span>` : ''}</p>
       <ul class="rc-parts">${r.parts.map(([n, ml]) => `<li><span>${escapeHTML(n)}</span><b>${typeof ml === 'number' ? ml + ' ml' : escapeHTML(ml)}</b></li>`).join('')}<li><span>装饰</span><b>${escapeHTML(r.deco || '无')}</b></li></ul>
-      <p class="rc-how"><b>做法</b>${escapeHTML(r.how || '')}</p>` : ''}
+      ${stepsHTML(r.how)}` : ''}
     ${p.body ? `<p class="post-text">${escapeHTML(p.body)}</p>` : ''}
     ${p.tags?.length ? `<p class="post-tags">${p.tags.map(t => `<span>#${escapeHTML(t)}</span>`).join('')}</p>` : ''}
     <div class="result-actions post-actions">

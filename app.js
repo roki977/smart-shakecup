@@ -162,18 +162,28 @@ function renderCodex() {
   $('#codex-total').textContent = SHAKEN.length;
   $$('#codex [data-recipe]').forEach(b => b.onclick = () => openRecipe(b.dataset.recipe));
 }
+/* 做法拆成编号步骤：先按句号、分号拆；只有一句就按逗号拆 */
+function stepsOf(how) {
+  let parts = String(how || '').split(/[；。]/).map(x => x.trim()).filter(Boolean);
+  if (parts.length === 1) parts = parts[0].split('，').map(x => x.trim()).filter(Boolean);
+  return parts;
+}
+function stepsHTML(how) {
+  const st = stepsOf(how);
+  return st.length ? `<p class="divider-title"><span>调制步骤</span></p><ol class="rc-steps">${st.map(x => `<li>${escapeHTML(x)}</li>`).join('')}</ol>` : '';
+}
 function openRecipe(id) {
   const r = RECIPES.find(x => x.id === id), st = codexState(), s = st[id], open = !r.shake || isUnlocked(st, id);
   const status = !r.shake ? '' : !s?.best ? `<p class="fine">还没摇过。摇出 ${UNLOCK_SCORE} 分解锁。</p>`
     : `<p class="fine">最好成绩 ${s.best} 分，${s.passes || 0} 次 ${UNLOCK_SCORE} 分以上${isMastered(st, id) ? '，已练熟' : ''}。</p>`;
   showModal(`<div class="recipe-card${open ? '' : ' locked'}" style="--drink:${r.color}">
-      <div class="rc-art" data-art="${r.id}">${drinkArt(r)}</div>
+      <div class="rc-photo"><div class="rc-art" data-art="${r.id}">${drinkArt(r)}</div></div>
       <div class="rc-body">
         <h2>${r.name}<span>${r.en}</span></h2>
         <p class="rc-tags"><span>${r.method}</span><span>${r.glassName || GLASS[r.glass]}</span></p>
         <p>${r.note}</p>
         <ul class="rc-parts">${r.parts.map(([n, ml]) => `<li><span>${n}</span><b>${typeof ml === 'number' ? ml + ' ml' : ml}</b></li>`).join('')}<li><span>装饰</span><b>${r.deco}</b></li></ul>
-        <p class="rc-how"><b>做法</b>${r.how}</p>
+        ${stepsHTML(r.how)}
         <p class="fine">配方来自 IBA（国际调酒师协会）官方酒单。</p>
         ${status}
         ${r.shake ? `<button class="primary" id="practice-this">用杯子练这杯</button>` : `<p class="fine">这杯不用摇，杯子目前只教摇和。</p>`}
