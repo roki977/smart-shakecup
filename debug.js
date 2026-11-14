@@ -2,7 +2,7 @@
    温度和动作的解析用 cup-data.js，和练习页完全一样。 */
 const $ = s => document.querySelector(s);
 const CFG_KEY = 'shakecup-device-v1';                  // 和练习页共用：这里连过，练习页会自动填好
-const DEFAULT_URL = 'wss://broker.emqx.io:8084/mqtt';
+const DEFAULT_URL = DEFAULT_BROKER;   // cup-data.js：https 打开用公共服务器，http 打开（本机服务器）用 ws://本机:9001
 const KEEP_MS = 60000, ACC_KEEP_MS = 5000;
 const PROBE_COLORS = ['var(--p1)', 'var(--p2)', 'var(--p3)'];
 
@@ -24,7 +24,7 @@ function loadCfg() {
   const q = new URLSearchParams(location.search);
   if (q.get('cup')) c.device = q.get('cup');
   if (q.get('mqtt')) c.url = q.get('mqtt');
-  return { url: c.url || DEFAULT_URL, device: c.device || '', user: c.user || '', pass: c.pass || '' };
+  return { url: brokerFor(c.url), device: c.device || '', user: c.user || '', pass: c.pass || '' };
 }
 function fillForm(c) { $('#url').value = c.url; $('#device').value = c.device; $('#user').value = c.user; $('#pass').value = c.pass; }
 function setState(state, error = '') {

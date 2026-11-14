@@ -7,7 +7,7 @@
                → 正在练习时交给 app.js 的 consumeSample()，界面和评分不用改。 */
 
 const DEVICE_CFG_KEY = 'shakecup-device-v1';
-const DEFAULT_CFG = { url: 'wss://broker.emqx.io:8084/mqtt', device: '', user: '', pass: '' };
+const DEFAULT_CFG = { url: DEFAULT_BROKER, device: '', user: '', pass: '' };   // DEFAULT_BROKER 在 cup-data.js
 const STALE_MS = 1500;          // 超过这么久没收到数据，判为信号中断
 const AMP_CM_FOR_DEMO = 20;     // 设备上报的单程幅度（cm）÷ 20 ≈ 演示里的幅度值（0.7 ≈ 14 cm）
 const REF_SECONDS = 14;         // 参考曲线：从开摇时的温度降到目标所用时间（演示值，待实测）
@@ -20,7 +20,7 @@ const dev = {
 };
 
 function loadDeviceCfg() {
-  try { return { ...DEFAULT_CFG, ...JSON.parse(localStorage.getItem(DEVICE_CFG_KEY) || '{}') }; } catch { return { ...DEFAULT_CFG }; }
+  try { const c = { ...DEFAULT_CFG, ...JSON.parse(localStorage.getItem(DEVICE_CFG_KEY) || '{}') }; c.url = brokerFor(c.url); return c; } catch { return { ...DEFAULT_CFG }; }
 }
 function saveDeviceCfg(c) { try { localStorage.setItem(DEVICE_CFG_KEY, JSON.stringify(c)); } catch {} }
 const topicOf = (c, kind) => `shakecup/${c.device}/${kind}`;

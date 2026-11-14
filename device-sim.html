@@ -66,6 +66,8 @@ let client = null, shaking = false, temp = 22, t0 = Date.now(), seq = 0, phase =
 const RATE = 10;                // 每秒 10 帧
 const ACC_HZ = 50;              // 原始加速度采样率
 
+// 本机服务器方案（网页从 http 打开）：默认连同一台电脑上的 Mosquitto
+if (location.protocol === 'http:') $('#url').value = `ws://${location.hostname}:9001`;
 $('#hz').oninput = () => $('#hz-v').textContent = Number($('#hz').value).toFixed(1) + ' Hz';
 $('#amp').oninput = () => $('#amp-v').textContent = $('#amp').value + ' cm';
 $('#tilt').oninput = () => $('#tilt-v').textContent = $('#tilt').value + '°';

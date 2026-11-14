@@ -33,3 +33,13 @@ function motionFromAcc(buf, fs) {
   const ampCm = hz > 0.3 ? peak / Math.pow(2 * Math.PI * hz, 2) * 100 : 0;
   return { hz, ampCm, axis: best.k, rms: best.rms };
 }
+
+/* 用哪台 MQTT 服务器。
+   网页从 https 打开（GitHub Pages）：默认公共测试服务器。
+   网页从 http 打开（本机服务器方案，start-mac.command / start-windows.bat 起的）：
+   默认连同一台电脑上的 Mosquitto，ws://<网页的主机名>:9001，不用手动填。 */
+const PUBLIC_BROKER = 'wss://broker.emqx.io:8084/mqtt';
+const LOCAL_MODE = location.protocol === 'http:';
+const DEFAULT_BROKER = LOCAL_MODE ? `ws://${location.hostname}:9001` : PUBLIC_BROKER;
+/* 本机模式下存过的还是公共服务器（以前在这个地址用过）：换成本机的 */
+function brokerFor(url) { return !url || (LOCAL_MODE && url === PUBLIC_BROKER) ? DEFAULT_BROKER : url; }
