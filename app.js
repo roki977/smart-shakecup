@@ -509,6 +509,7 @@ let motion = { first: null, last: null };
 /* ---------- 每来一帧数据 ---------- */
 function consumeSample(s) {
   samples.push(s);
+  window.Cup3D?.sample(s);
   const [stage, title, desc, name, tone] = decide(s);
 
   $('#elapsed').textContent = clock(s.t);
@@ -627,6 +628,7 @@ function start() {
   desiredRhythm = mode === 'free' ? Number($('#rhythm').value) : ref ? ref.rhythm : 3;
   samples = []; events = []; lastEvent = ''; finalScore = 0; finalParts = null;
   running = true; completed = false; savedThisRun = false;
+  window.Cup3D?.reset();
   motion = { first: null, last: null }; voiceState = { pending: '', since: 0, said: '', at: 0 };
   keepAwake(true);
 
@@ -819,3 +821,42 @@ $('#collection').onclick = () => {
 countSaved();
 renderRecipe();
 revealStage();
+
+/* ---------- 实时 3D 杯子 ----------
+   练习页右上那一格可以在“我的杯子”（3D，跟着传感器动）和“示范”（标准动作动画）之间切换。
+   浏览器不支持 WebGL 时只留示范。 */
+const VIEW_KEY = 'shakecup-demo-view';
+function setDemoView(v) {
+  $('#teaching').dataset.view = v;
+  $$('.demo-switch [data-view]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.view === v)));
+  try { localStorage.setItem(VIEW_KEY, v); } catch {}
+}
+function setupCup3D() {
+  const box = $('#cup3d');
+  const view = window.Cup3D && Cup3D.mount(box);
+  if (!view) { box.remove(); $('.demo-switch').remove(); $('#teaching').dataset.view = 'teach'; return; }
+  let v = 'live'; try { v = localStorage.getItem(VIEW_KEY) || 'live'; } catch {}
+  setDemoView(v);
+  $$('.demo-switch [data-view]').forEach(b => b.onclick = () => setDemoView(b.dataset.view));
+  box.querySelector('.c3-cal').onclick = () => Cup3D.recalibrate();
+  // 手机上练习时没有切换按钮：点画面切到示范，点示范切回来
+  const narrow = () => matchMedia('(max-width: 900px)').matches && $('#live').classList.contains('practicing');
+  box.querySelector('.c3-stage').onclick = () => { if (narrow()) setDemoView('teach'); };
+  $('#teaching .demo-stage').onclick = () => { if (narrow()) setDemoView('live'); };
+  // 放大：手机上整页铺满（iPhone 不支持元素全屏），电脑上再请求真正的全屏
+  const full = box.querySelector('.c3-full');
+  const setMax = on => {
+    box.classList.toggle('c3-max', on);
+    full.setAttribute('aria-label', on ? '缩小' : '放大');
+    document.body.classList.toggle('c3-maxed', on);
+  };
+  full.onclick = () => {
+    const on = !box.classList.contains('c3-max');
+    setMax(on);
+    if (on) box.requestFullscreen?.().catch(() => {});
+    else if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  };
+  document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && box.classList.contains('c3-max')) setMax(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && box.classList.contains('c3-max')) setMax(false); });
+}
+document.addEventListener("DOMContentLoaded", setupCup3D);   // cup3d.js 在 app.js 之后加载

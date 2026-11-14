@@ -43,7 +43,9 @@
     <p class="big"><span id="temp">22.0</span> ℃</p>
     <label>节奏 <b id="hz-v">3.0 Hz</b><input type="range" id="hz" min="0" max="5" step=".1" value="3"></label>
     <label>单程幅度 <b id="amp-v">14 cm</b><input type="range" id="amp" min="0" max="25" step="1" value="14"></label>
-    <label><span><input type="checkbox" id="raw"> 发原始加速度（不发 hz/amp，让网页自己算）</span></label>
+    <label>摇的时候杯子倾斜 <b id="tilt-v">55°</b><input type="range" id="tilt" min="0" max="90" step="5" value="55"></label>
+    <label><span><input type="checkbox" id="raw" checked> 发原始加速度（不发 hz/amp，让网页自己算；3D 杯子要靠它显示姿态）</span></label>
+    <label><span><input type="checkbox" id="gyro" checked> 同时发陀螺仪 gyro（°/s）</span></label>
     <p>
       <button id="shake">开始摇</button>
       <button class="alt" id="stop">停手</button>
@@ -64,8 +66,12 @@ let client = null, shaking = false, temp = 22, t0 = Date.now(), seq = 0, phase =
 const RATE = 10;                // 每秒 10 帧
 const ACC_HZ = 50;              // 原始加速度采样率
 
+// 本机服务器方案（网页从 http 打开）：默认连同一台电脑上的 Mosquitto
+if (location.protocol === 'http:') $('#url').value = `ws://${location.hostname}:9001`;
 $('#hz').oninput = () => $('#hz-v').textContent = Number($('#hz').value).toFixed(1) + ' Hz';
 $('#amp').oninput = () => $('#amp-v').textContent = $('#amp').value + ' cm';
+$('#tilt').oninput = () => $('#tilt-v').textContent = $('#tilt').value + '°';
+let tiltNow = 0;                 // 当前倾斜角（弧度）：开始摇时 1 秒内从竖直倒到设定角度，停手后慢慢立回来
 $('#shake').onclick = () => shaking = true;
 $('#stop').onclick = () => shaking = false;
 $('#ice').onclick = () => { temp = 22; };
@@ -97,14 +103,21 @@ setInterval(() => {
 
   const msg = { v: 1, seq: seq++, ms: Date.now() - t0, temp: probes, bat: 87 };
   if ($('#raw').checked) {
-    // 沿摇壶长轴的简谐运动：a = (2πf)²·A·sin，再加重力和一点噪声；单位 g
-    const n = ACC_HZ / RATE, w = 2 * Math.PI * hz, A = ampCm / 100;
-    msg.acc_hz = ACC_HZ;
-    msg.acc = Array.from({ length: n }, () => {
-      phase += w / ACC_HZ;
+    // 传感器 z 轴 = 摇壶长轴（竖直放在桌上时朝上）。杯子绕传感器 x 轴倾斜 θ，
+    // 重力在传感器里是 (0, sinθ, cosθ)；沿长轴做简谐运动 a = (2πf)²·A·sin，手腕还会跟着轻轻摆 ±4°。单位 g、°/s
+    const n = ACC_HZ / RATE, w = 2 * Math.PI * hz, A = ampCm / 100, dts = 1 / ACC_HZ;
+    const want = shaking ? Number($('#tilt').value) * Math.PI / 180 : 0;
+    const noise = () => (Math.random() - .5) * .05;
+    msg.acc_hz = ACC_HZ; msg.acc = []; if ($('#gyro').checked) msg.gyro = [];
+    for (let i = 0; i < n; i++) {
+      const prev = tiltNow + .07 * Math.sin(phase) * (hz ? 1 : 0);
+      tiltNow += (want - tiltNow) * (shaking ? 2.5 : 1.2) * dts;
+      phase += w * dts;
+      const th = tiltNow + .07 * Math.sin(phase) * (hz ? 1 : 0);
       const a = w * w * A * Math.sin(phase) / 9.81;
-      return [+(a + (Math.random() - .5) * .05).toFixed(3), +((Math.random() - .5) * .05).toFixed(3), +(1 + (Math.random() - .5) * .05).toFixed(3)];
-    });
+      msg.acc.push([+noise().toFixed(3), +(Math.sin(th) + noise()).toFixed(3), +(Math.cos(th) + a + noise()).toFixed(3)]);
+      if (msg.gyro) msg.gyro.push([+((th - prev) / dts * 180 / Math.PI + noise() * 20).toFixed(1), +(noise() * 20).toFixed(1), +(noise() * 20).toFixed(1)]);
+    }
   } else {
     msg.hz = +(hz + (hz ? (Math.random() - .5) * .1 : 0)).toFixed(2);
     msg.amp = ampCm;

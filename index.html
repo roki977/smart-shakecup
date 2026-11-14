@@ -160,7 +160,23 @@
         <p id="cue-desc">跟着右边的示范动作。</p>
         <p class="change" id="change-feedback"></p>
       </div>
-      <div class="demo" id="teaching" data-action="ready">
+      <div class="demo" id="teaching" data-action="ready" data-view="live">
+        <div class="demo-switch" role="tablist" aria-label="这里显示什么">
+          <button role="tab" type="button" data-view="live" aria-selected="true">我的杯子</button>
+          <button role="tab" type="button" data-view="teach" aria-selected="false">示范</button>
+        </div>
+        <!-- 实时 3D 摇酒壶：跟着杯子上的传感器动（cup3d.js） -->
+        <div class="cup3d" id="cup3d">
+          <div class="c3-stage"></div>
+          <div class="c3-hud">
+            <span class="c3-src">等数据</span>
+            <span class="c3-temp"></span>
+            <span class="c3-force" aria-hidden="true"><i></i></span>
+            <span class="c3-force-t">力度 —</span>
+          </div>
+          <button class="c3-btn c3-cal" type="button" title="把杯子竖直放在桌上再点：以现在的姿势为竖直">摆正</button>
+          <button class="c3-btn c3-full" type="button" aria-label="放大" title="放大（投屏给大家看）"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button>
+        </div>
         <div class="demo-stage" aria-hidden="true">
           <svg class="demo-figure" viewBox="0 0 160 100">
             <!-- 卡通双手握住斜放的摇壶，沿长轴前后推拉 -->
@@ -247,6 +263,7 @@
 <script src="community-config.js" defer></script>
 <script src="community.js" defer></script>
 <script src="cup-data.js" defer></script>
+<script src="cup3d.js" defer></script>
 <script src="device.js" defer></script>
 <script src="fx.js" defer></script>
 </body>
