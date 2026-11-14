@@ -353,7 +353,7 @@ function renderRefChip() {
 }
 function updateModeLabel() {
   const span = $('[data-mode="standard"] span');
-  if (span) span.textContent = practiceRef ? `跟 ${practiceRef.author} 的曲线，目标 ${deg(practiceRef.target)} ℃` : '目标 −2.0 ℃，节奏 3 Hz';
+  if (span) span.innerHTML = practiceRef ? `跟 ${escapeHTML(practiceRef.author)} 的曲线<br>目标 ${deg(practiceRef.target)} ℃` : '照参考曲线摇<br>目标 −2.0 ℃';
 }
 
 /* ---------- 发帖 ---------- */

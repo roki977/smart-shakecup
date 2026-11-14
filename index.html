@@ -48,22 +48,20 @@
 
       <div class="side side-right">
         <p class="lede" id="recipe-lede"></p>
-        <h2 class="side-title">调法</h2>
+        <h2 class="steps-title">制作步骤</h2>
         <ol class="setup-steps" id="setup-steps"></ol>
 
         <div class="mode" role="tablist" aria-label="练习方式">
           <button role="tab" aria-selected="true" data-mode="standard">
-            <b>跟参考练</b><span>目标 −2.0 ℃，节奏 3 Hz</span>
+            <b>跟参考练</b><span>照参考曲线摇<br>目标 −2.0 ℃</span>
           </button>
           <button role="tab" aria-selected="false" data-mode="free">
-            <b>自己定</b><span>改目标温度和节奏</span>
+            <b>自己定</b><span>自己搭配方<br>自己定目标温度</span>
           </button>
         </div>
         <div id="free-settings" class="free" hidden>
           <label for="target">目标温度 <output id="target-value">−2.0 ℃</output></label>
           <input id="target" type="range" min="-4" max="2" value="-2" step=".5">
-          <label for="rhythm">摇动节奏 <output id="rhythm-value">3.0 Hz</output></label>
-          <input id="rhythm" type="range" min="2" max="4" value="3" step=".5">
         </div>
         <p class="ref-chip" id="ref-chip" hidden></p>
       </div>
@@ -86,7 +84,7 @@
     <div class="codex-head">
       <h1>图鉴</h1>
       <p class="codex-progress"><b id="codex-done">0</b> / <span id="codex-total">60</span> 杯摇和酒已解锁</p>
-      <p class="lede">收了 IBA 官方酒单的 102 款，再加 15 款名店版本。摇和的酒可以用杯子练，摇出 80 分解锁，三次 80 分以上算练熟。</p>
+      <p class="lede">摇和的酒可以用杯子练，摇出 80 分解锁，三次 80 分以上算练熟。</p>
     </div>
     <div class="codex-bar">
       <input type="search" id="codex-q" placeholder="搜酒名或配料，比如 金酒、Negroni" aria-label="搜索图鉴">
@@ -144,7 +142,7 @@
     <div class="instruments">
       <div class="inst">
         <span class="label">摇动节奏</span>
-        <p class="val"><span id="freq">—</span><small>Hz</small></p>
+        <p class="val"><span id="freq">—</span><small>次/秒</small></p>
         <div class="beat" id="beat" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <p class="note" id="freq-note">等待动作信号</p>
       </div>

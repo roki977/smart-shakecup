@@ -144,7 +144,7 @@ function renderRecipe() {
       : `<div class="pour-extra" style="--i:${i}"><dt>${escapeHTML(n)}</dt><dd>${escapeHTML(ml)}</dd></div>`).join('');
   $('#recipe-deco').textContent = recipe.deco && recipe.deco !== '无' ? `装饰：${recipe.deco}` : '不加装饰';
   $('#switch-recipe').textContent = `全部 ${RECIPES.filter(r => !r.custom).length} 款`;
-  $('#setup-steps').innerHTML = (recipe.steps?.length ? recipe.steps : stepsOf(recipe.how)).map(x => `<li>${escapeHTML(x)}</li>`).join('');
+  $('#setup-steps').innerHTML = flowListHTML(recipe);
   const st = codexState()[recipe.id];
   $('#unlock-hint').textContent = recipe.custom ? '社区里的自创配方，练习成绩不进图鉴。'
     : !st?.best ? `摇出 ${UNLOCK_SCORE} 分，这杯收进图鉴。`
@@ -225,6 +225,37 @@ $$('#codex-filter [data-f]').forEach(b => b.onclick = () => {
   renderCodex();
 });
 /* 做法拆成编号步骤：先按句号、分号拆；只有一句就按逗号拆 */
+/* 完整步骤：知识库每一步的动作 → 给用户看的步骤类型。杯子只测“摇和”这一步，其余由用户自己点完成。 */
+const STEP_KIND = {
+  rim: '准备', prechill: '准备', preheat: '准备', rinse: '准备', discard: '准备', dump: '准备',
+  load: '加料', add: '加料', pour: '加料', build: '加料', dissolve: '加料', float: '加料', pour_over: '加料', return_to_shaker: '加料',
+  muddle: '捣压', muddle_dissolve: '捣压', add_ice: '加冰',
+  shake: '摇和', stir: '搅拌', swizzle: '搅拌', mix: '搅拌', blend: '搅拌机',
+  strain: '过滤', double_strain: '过滤', fine_strain: '过滤', top: '补满',
+  garnish: '装饰', express_peel: '装饰', serve: '上桌', serve_sidecar: '上桌', do_not_stir: '注意'
+};
+/* 这杯的步骤：[{ action, kind, text, sensor }]。没有知识库步骤的（社区自创、自己搭的）按“加料 → 加冰 → 摇和 → 过滤 → 装饰”补齐 */
+function flowOf(r) {
+  if (r.flow?.length) return r.flow.map(x => ({ ...x, text: plainStep(x, r), kind: STEP_KIND[x.action] || '步骤', sensor: x.action === 'shake' }));
+  const out = [
+    { action: 'load', text: '量好原料，倒进摇壶' + (r.parts?.length ? `：${r.parts.map(p => p[0]).join('、')}` : '') },
+    { action: 'add_ice', text: '摇壶里加满冰，扣紧杯盖' },
+    { action: 'shake', text: '用力摇和，摇到够冷' },
+    { action: 'strain', text: `滤进${r.glassName || GLASS[r.glass] || '杯子'}` }
+  ];
+  if (r.deco && r.deco !== '无') out.push({ action: 'garnish', text: `装饰：${r.deco}` });
+  return out.map(x => ({ ...x, kind: STEP_KIND[x.action], sensor: x.action === 'shake' }));
+}
+/* 知识库里有几句是给整理数据的人看的（“依该版本 Garnish 字段…”），换成用户看得懂的话 */
+function plainStep(x, r) {
+  const t = x.text || '';
+  if (/Garnish 字段/.test(t)) return r.deco && r.deco !== '无' ? `装饰：${r.deco}` : '按配方装饰';
+  if (t === '过滤到来源指定的酒杯') return '过滤进酒杯';
+  return t.replace(/；力度遵循该来源措辞$/, '');
+}
+function flowListHTML(r) {
+  return flowOf(r).map(x => `<li data-kind="${x.action}"${x.sensor ? ' class="sensor"' : ''}><span class="st-kind">${x.kind}</span><span class="st-text">${escapeHTML(x.text)}${x.sensor ? '<em>杯子会测这一步</em>' : ''}</span></li>`).join('');
+}
 function stepsOf(how) {
   let parts = String(how || '').split(/[；。]/).map(x => x.trim()).filter(Boolean);
   if (parts.length === 1) parts = parts[0].split('，').map(x => x.trim()).filter(Boolean);
@@ -678,7 +709,7 @@ function start() {
   activeScenario = chooseScenario(); awaitingFinish = false;
   const ref = mode === 'standard' ? practiceRef : null;     // 社区里选的参考曲线（community.js）
   target = mode === 'free' ? Number($('#target').value) : ref ? ref.target : -2;
-  desiredRhythm = mode === 'free' ? Number($('#rhythm').value) : ref ? ref.rhythm : 3;
+  desiredRhythm = ref ? ref.rhythm : 3;                   // 节奏不让用户填，后台按 3 次/秒左右分析
   samples = []; events = []; lastEvent = ''; finalScore = 0; finalParts = null;
   running = true; completed = false; savedThisRun = false;
   window.Cup3D?.reset();
@@ -844,7 +875,17 @@ $$('[data-mode]').forEach(b => b.onclick = () => {
   $('#free-settings').hidden = mode !== 'free';
 });
 $('#target').oninput = () => $('#target-value').textContent = deg(Number($('#target').value)) + ' ℃';
-$('#rhythm').oninput = () => $('#rhythm-value').textContent = Number($('#rhythm').value).toFixed(1) + ' Hz';
+/* 滑杆：点轨道任意位置就跳到那里（部分手机浏览器默认只能拖） */
+function tapToJump(el) {
+  el.addEventListener('pointerdown', e => {
+    if (e.target !== el) return;
+    const r = el.getBoundingClientRect(), min = +el.min, max = +el.max, step = +el.step || 1;
+    const q = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const v = Math.round((min + q * (max - min)) / step) * step;
+    if (Math.abs(v - el.value) >= step / 2) { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); }
+  });
+}
+tapToJump($('#target'));
 
 $('#sound').title = '打开后：语音提示、节奏不对时响节拍、结算时报分';
 $('#sound').onclick = () => {

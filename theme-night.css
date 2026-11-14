@@ -85,9 +85,9 @@ input[type="range"] { accent-color: var(--lilac); }
 .setup { display: block; min-height: calc(100vh - 80px); padding: 0 0 28px; }
 .stage {
   display: grid; align-items: center; column-gap: clamp(20px, 3vw, 48px); row-gap: 8px;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 400px) auto minmax(0, 1fr);
-  grid-template-areas: "left hero name right" ". go go .";
-  min-height: calc(100vh - 210px);
+  grid-template-columns: minmax(150px, 220px) auto minmax(0, .9fr) minmax(360px, 1.25fr);
+  grid-template-areas: "hero name left right" "go go go go";
+  min-height: 0; padding-top: 24px;
 }
 
 .hero { grid-area: hero; position: relative; margin: 0; isolation: isolate; }
@@ -111,7 +111,7 @@ input[type="range"] { accent-color: var(--lilac); }
 
 /* 酒名：宋体竖排，紧挨着杯子 */
 .setup .drink-name { grid-area: name; writing-mode: vertical-rl; display: flex; gap: 14px; align-self: center; margin: 0;
-  font-size: clamp(44px, 4.6vw, 72px); line-height: 1; letter-spacing: .28em; font-weight: 900; color: var(--frost); }
+  font-size: clamp(36px, 3.4vw, 54px); line-height: 1; letter-spacing: .24em; font-weight: 900; color: var(--frost); }
 .drink-en { font-family: var(--serif); font-size: 14px; font-weight: 400; letter-spacing: .3em; color: var(--mist); }
 
 /* 左：配料。每行右侧一条细线伸向杯子，线长按用量 */
@@ -130,13 +130,25 @@ input[type="range"] { accent-color: var(--lilac); }
 .garnish { margin: 26px 0 0 auto; font-size: 13px; line-height: 1.7; color: var(--mist); padding-right: 42px; max-width: 16em; }
 
 /* 右：说明、调法、练习方式 */
-.side-right { grid-area: right; max-width: 330px; }
+.side-right { grid-area: right; max-width: 460px; }
 .side-right .lede { font-size: 15px; line-height: 1.85; color: var(--mist); margin: 0 0 22px; max-width: none; }
-.setup-steps { list-style: none; counter-reset: st; margin: 0 0 26px; padding: 0; display: grid; gap: 12px; }
-.setup-steps li { counter-increment: st; display: grid; grid-template-columns: 26px 1fr; font-size: 14px; line-height: 1.7; color: var(--frost); }
-.setup-steps li::before { content: counter(st); font-family: var(--serif); color: var(--brass); font-size: 16px; }
+/* 制作步骤：主界面上最醒目的部分。圆形序号 + 步骤类型 + 说明；杯子测的那一步单独标出 */
+.steps-title { margin: 0 0 12px; font-size: 13px; font-weight: 500; letter-spacing: .2em; color: var(--mist); }
+.setup-steps { list-style: none; counter-reset: st; margin: 0 0 24px; padding: 0; display: grid; gap: 0; }
+.setup-steps li { counter-increment: st; position: relative; display: grid; grid-template-columns: 34px 3.2em 1fr; align-items: baseline; column-gap: 10px;
+  padding: 9px 0; font-size: 15px; line-height: 1.6; color: var(--frost); }
+.setup-steps li::before { content: counter(st); align-self: start; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--brass); color: var(--brass); font-family: var(--serif); font-size: 15px; font-weight: 700; }
+.setup-steps li:not(:last-child)::after { content: ""; position: absolute; left: 15px; top: 41px; bottom: -2px; width: 1px; background: var(--line); }
+.setup-steps .st-kind { font-size: 13px; color: var(--mist); white-space: nowrap; }
+.setup-steps .st-text em { display: block; font-style: normal; font-size: 12px; color: var(--lilac); }
+.setup-steps li.sensor::before { background: var(--lilac); border-color: var(--lilac); color: var(--ink-deep, #0b0a18); }
+.setup-steps li.sensor .st-kind { color: var(--lilac); font-weight: 600; }
 .mode { gap: 8px; }
-.mode button { flex: 1 1 130px; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line); background: transparent; transition: border-color .2s, background .2s; }
+.mode { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+.mode button { display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 4px; text-align: left;
+  min-width: 0; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: transparent; transition: border-color .2s, background .2s; }
+.mode button span { line-height: 1.5; }
 .mode button b { font-size: 14px; font-weight: 600; color: var(--frost); }
 .mode button span { font-size: 12px; color: var(--mist); }
 .mode button:hover:not(:disabled) { border-color: rgba(182, 166, 242, .35); }
@@ -422,20 +434,21 @@ dialog::backdrop { background: rgba(0, 0, 0, .72); backdrop-filter: blur(4px); }
 
 /* ---------- 窄屏 ---------- */
 @media (max-width: 1100px) {
-  .stage { grid-template-columns: minmax(0, 1fr) minmax(240px, 340px) auto minmax(0, 1fr); }
+  .stage { grid-template-columns: minmax(130px, 180px) auto minmax(0, .9fr) minmax(320px, 1.2fr); }
   .pour i { width: calc(16px + var(--ml) / var(--max) * 70px); }
   .pour .pour-extra { padding-right: 30px; }
 }
 @media (max-width: 900px) {
-  .stage { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "hero name" "left right" "go go"; column-gap: 28px; row-gap: 26px; min-height: 0; }
-  .hero { max-width: 340px; justify-self: end; width: 100%; }
+  .stage { grid-template-columns: minmax(130px, 200px) auto minmax(0, 1fr); grid-template-areas: "hero name left" "right right right" "go go go"; column-gap: 28px; row-gap: 26px; min-height: 0; }
+  .hero { max-width: 200px; justify-self: end; width: 100%; }
+  .side-right { max-width: none; }
   .drink-name { justify-self: start; }
   .side-left { justify-self: stretch; }
 }
 @media (max-width: 640px) {
   main { padding: 0 18px 24px; }
   .stage { grid-template-columns: 1fr auto; grid-template-areas: "hero name" "left left" "right right" "go go"; column-gap: 10px; row-gap: 22px; }
-  .hero { max-width: none; justify-self: stretch; }
+  .hero { max-width: 170px; justify-self: center; }
   .drink-name { font-size: 46px; gap: 8px; }
   .drink-en { font-size: 12px; }
   .side-left { text-align: left; }
