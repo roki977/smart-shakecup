@@ -120,7 +120,8 @@ function onMessage(topic, payload) {
     gMean = mags.reduce((s, x) => s + x, 0) / mags.length; gMax = Math.max(...mags);
   }
 
-  const f = { at, seq: msg.seq, ms: msg.ms, temps, med, hz, amp, gMean, gMax, axis, accN: hasAcc ? msg.acc.length : 0, size: payload.length };
+  const f = { at, seq: msg.seq, ms: msg.ms, temps, med, hz, amp, gMean, gMax, axis, accN: hasAcc ? msg.acc.length : 0, size: payload.length,
+    off: typeof msg.ms === 'number' ? at - msg.ms : null, pub: msg.pub ?? null, rd: msg.rd ?? null };
   S.frames.push(f);
   while (S.frames.length && S.frames[0].at < at - KEEP_MS) S.frames.shift();
   while (S.acc.length && S.acc[0].at < at - ACC_KEEP_MS) S.acc.shift();
@@ -133,6 +134,24 @@ function onMessage(topic, payload) {
 function pushLog(at, topic, text) {
   S.log.push(`${new Date(at).toLocaleTimeString('zh-CN', { hour12: false })}.${String(at % 1000).padStart(3, '0')}  ${topic.split('/').pop()}  ${text.length > 160 ? text.slice(0, 160) + '…' : text}`);
   if (S.log.length > 40) S.log.shift();
+}
+
+/* ---------- 延迟：数据晚到了多少、晚在哪一段 ----------
+   浏览器收到时间 at 减去板子时间 ms，差值里有一个固定的时钟差（未知），加上网络延迟。
+   最近 60 秒里最小的那个差值，近似“最快一次的传输”；当前差值比它多出来的部分 = 额外延迟（排队）。
+   如果它一直往上涨，说明链路一秒钟送不完一秒钟的数据，数据在路上越积越多。
+   板子发帧间隔（相邻两帧 ms 之差）大于 100 ms，说明是板子自己的循环慢（多半是读传感器卡住）。 */
+function latency() {
+  const now = Date.now(), w = S.frames.filter(x => x.at > now - 60000 && x.off !== null);
+  if (w.length < 10) return null;
+  const base = Math.min(...w.map(x => x.off));
+  const cur = w.slice(-5).reduce((t, x) => t + x.off, 0) / Math.min(5, w.length) - base;
+  const old10 = w.filter(x => x.at < now - 8000 && x.at > now - 12000);
+  const trend = old10.length ? cur - (old10.reduce((t, x) => t + x.off, 0) / old10.length - base) : null;   // 近 10 秒涨了多少
+  const r = w.filter(x => x.at > now - 3000), gaps = r.slice(1).map((x, i) => x.ms - r[i].ms).filter(g => g > 0);
+  const boardGap = gaps.length ? gaps.reduce((t, x) => t + x, 0) / gaps.length : null;
+  const lastF = S.frames.at(-1);
+  return { extra: cur, trend, boardGap, pub: lastF.pub, rd: lastF.rd, maxPub: Math.max(...r.map(x => x.pub ?? 0)) };
 }
 
 /* ---------- 自动检查 ---------- */
@@ -169,6 +188,16 @@ function checks() {
     add(lossPct < 2 ? 'ok' : lossPct < 20 ? 'warn' : 'bad', `丢帧 ${lossPct.toFixed(1)}%（${S.lost} 帧）`, lossPct < 2 ? '' : lossPct < 20 ? '公共测试服务器本身会丢 5%~15%，练习页能承受；正式演示建议换自己的服务器' : '丢得太多：把板子拿近手机热点，或换服务器');
   } else add('wait', '帧率和丢帧：再等几秒');
   if (S.reboots) add('warn', `板子重启过 ${S.reboots} 次`, '供电不稳或程序崩溃，看串口');
+  const L = latency();
+  if (L) {
+    if (L.boardGap !== null && L.boardGap > 150) add('bad', `板子每 ${L.boardGap.toFixed(0)} ms 才发一帧（应 100 ms）`,
+      '是板子自己慢：读传感器卡住了循环。' + (L.rd !== null ? `这一帧读温度用了 ${L.rd} ms。` : '') + '见《硬件接入指南》“延迟大”一节');
+    if (L.extra > 1500) add('bad', `数据比最快时晚了 ${(L.extra / 1000).toFixed(1)} 秒`,
+      (L.trend !== null && L.trend > 300 ? '而且还在越积越多：' : '') + '网络一秒钟送不完一秒钟的数据，在路上排队。' +
+      (L.maxPub > 50 ? `板子发一帧要 ${L.maxPub} ms，堵在板子到服务器这一段（热点信号/出国线路）。` : '') + '换国内或本机的服务器最有效');
+    else if (L.extra > 500) add('warn', `数据比最快时晚了 ${(L.extra / 1000).toFixed(1)} 秒`, '有排队，网络不太稳');
+    else add('ok', `额外延迟 ${Math.round(L.extra)} ms`);
+  }
 
   // 温度
   const valid = last.temps.filter(tempValid);
@@ -224,6 +253,12 @@ function renderLink() {
     ['帧率（近 3 秒）', (recent.length / 3).toFixed(1) + ' 帧/秒'],
     ['到达间隔抖动', gaps.length ? `±${jitter.toFixed(0)} ms` : '--', jitter > 80 ? 'warn' : ''],
     ['最新一帧距今', last ? ((now - last.at) / 1000).toFixed(1) + ' 秒' : '--', last && now - last.at > 1500 ? 'bad' : ''],
+    ...(() => { const L = latency(); return [
+      ['额外延迟（排队）', L ? `${Math.round(L.extra)} ms` + (L.trend !== null ? `（10 秒内 ${L.trend >= 0 ? '+' : ''}${Math.round(L.trend)}）` : '') : '--', L && L.extra > 1500 ? 'bad' : L && L.extra > 500 ? 'warn' : ''],
+      ['板子发帧间隔', L && L.boardGap !== null ? `${L.boardGap.toFixed(0)} ms` : '--', L && L.boardGap > 150 ? 'bad' : ''],
+      ['板子发一帧耗时', L && L.pub !== null ? `${L.pub} ms（3 秒内最大 ${L.maxPub}）` : '--', L && L.maxPub > 50 ? 'warn' : ''],
+      ['板子读温度耗时', L && L.rd !== null ? `${L.rd} ms` : '--', L && L.rd > 30 ? 'warn' : '']
+    ]; })(),
     ['丢帧 / 乱序', `${S.lost} / ${S.reorder}`, S.lost ? 'warn' : ''],
     ['板子重启', S.reboots + ' 次', S.reboots ? 'warn' : ''],
     ['帧序号 seq', last?.seq ?? '--'],

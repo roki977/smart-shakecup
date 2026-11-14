@@ -107,6 +107,7 @@ void connectWiFi() {
   if (WiFi.status() == WL_CONNECTED) return;
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
+  WiFi.setSleep(false);                       // 关掉 WiFi 省电：开着时板子每隔一阵才醒来收发一次，数据会一批一批地晚到
 #if LOW_TX_POWER
   WiFi.setTxPower(WIFI_POWER_8_5dBm);
 #endif
@@ -120,6 +121,7 @@ void connectMqtt() {
   if (mqtt.connected() || WiFi.status() != WL_CONNECTED) return;
   String clientId = String("cup-") + DEVICE_ID + "-" + String((uint32_t)ESP.getEfuseMac(), HEX);
   // 遗嘱消息：板子意外掉线时，服务器替它发 {"online":false}，网页马上知道
+  net.setNoDelay(true);                       // 有数据马上发，不等凑满一个包（Nagle），每帧能早到几十到几百毫秒
   bool ok = mqtt.connect(clientId.c_str(), MQTT_USER, MQTT_PASS, topicStatus, 1, true, "{\"online\":false}");
   if (ok) {
     char buf[96];
@@ -174,6 +176,9 @@ void setup() {
 }
 
 float accBuf[ACC_PER_FRAME][3]; float gyroBuf[ACC_PER_FRAME][3]; uint8_t accN = 0;
+// 延迟诊断：读温度、发一帧各用了多少毫秒，随数据发出去，调试台上能看到
+uint32_t lastReadMs = 0, lastPubMs = 0, skipFrames = 0;
+uint32_t statFrames = 0, statSkipped = 0, statMaxPub = 0, statMaxRead = 0, statFrom = 0;
 uint32_t nextAcc = 0, nextFrame = 0, lastRetry = 0;
 
 void loop() {
@@ -196,7 +201,9 @@ void loop() {
   // 每 100 ms 打包发一帧
   if ((int32_t)(now - nextFrame) >= 0) {
     nextFrame = now + FRAME_MS;
+    uint32_t r0 = millis();
     float t[3]; readTemps(t);
+    lastReadMs = millis() - r0;
     String j; j.reserve(768);
     j += "{\"v\":1,\"seq\":"; j += seq++;
     j += ",\"ms\":"; j += now;
@@ -223,8 +230,24 @@ void loop() {
     j += ",\"hz\":"; j += String(hz, 2); j += ",\"amp\":"; j += String(ampCm, 1);
 #endif
     int bat = readBatteryPercent(); if (bat >= 0) { j += ",\"bat\":"; j += bat; }
+    j += ",\"rd\":"; j += lastReadMs; j += ",\"pub\":"; j += lastPubMs;
     j += "}";
     accN = 0;
-    if (mqtt.connected()) mqtt.publish(topicData, j.c_str());
+    // 网络堵了（上一帧发了很久）就跳过几帧，让积压的数据先走掉。
+    // 实时显示宁可少几帧，也不要一直显示几秒前的动作。
+    if (skipFrames) { skipFrames--; statSkipped++; }
+    else if (mqtt.connected()) {
+      uint32_t p0 = millis();
+      mqtt.publish(topicData, j.c_str());
+      lastPubMs = millis() - p0;
+      if (lastPubMs > 60) skipFrames = lastPubMs / FRAME_MS + 1;
+      statFrames++;
+    }
+    statMaxPub = max(statMaxPub, lastPubMs); statMaxRead = max(statMaxRead, lastReadMs);
+    if (now - statFrom >= 5000) {              // 每 5 秒在串口打印一次，接电脑看
+      Serial.printf("[5秒] 发出 %u 帧，跳过 %u 帧；发一帧最长 %u ms，读温度最长 %u ms，WiFi 信号 %d dBm\n",
+                    statFrames, statSkipped, statMaxPub, statMaxRead, WiFi.RSSI());
+      statFrames = statSkipped = statMaxPub = statMaxRead = 0; statFrom = now;
+    }
   }
 }
