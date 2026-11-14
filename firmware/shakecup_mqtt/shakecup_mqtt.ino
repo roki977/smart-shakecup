@@ -11,8 +11,8 @@
 
   需要的库（Arduino 库管理器里搜）：
     - PubSubClient（Nick O'Leary）
-    - 传感器各自的库：比如 PT100 用 MAX31865 就装 Adafruit MAX31865，IMU 用 MPU6050 就装 Adafruit MPU6050。
-      下面 readTemps() / readAccel() 两个函数里留了位置，按你们实际接的芯片改。
+    - MAX31865（PT100 测温）：不用装库，程序里直接用 SPI 读，见 rtdBegin() / readTemps()，按实际接线改引脚。
+    - IMU 用各自的库，比如 MPU6050 装 Adafruit MPU6050，在 readAccel() / readGyro() 里补上。
 
   两种发法（SEND_RAW_ACC 切换）：
     1  发原始加速度，网页自己算节奏和幅度（推荐，改算法不用重新烧录）
@@ -77,11 +77,61 @@ void readGyro(float g[3]) {                   // °/s
   g[0] = (fakeTilt(t + 0.01f) - fakeTilt(t)) / 0.01f * 180 / PI; g[1] = 0; g[2] = 0;
 }
 #else
+// ---------- 三路 MAX31865（PT100），连续转换模式 ----------
+// 为什么不用 Adafruit 库的 temperature()：它每读一次都要先开偏置电流等 10 ms、再等一次转换 65 ms，
+// 这 75 ms 里程序停着，什么也干不了；三路就是 225 ms，超过了每 100 ms 发一帧的节拍，
+// 加速度也采不到。这里让芯片自己一直转换（50 Hz 滤波下每 20 ms 出一个新值），
+// 程序要用时直接读结果寄存器，三路加起来不到 0.1 ms。不用装 Adafruit MAX31865 库。
+#include <SPI.h>
+const int RTD_CS[3] = {10, 3, 1};               // 三个模块的 CS 引脚，按实际接线改；没接的那路填 -1
+const int SPI_SCK = 6, SPI_MISO = 2, SPI_MOSI = 7; // 和《硬件接入指南》里建议的接法一致
+const float RTD_R0  = 100.0f;                    // PT100 填 100，PT1000 填 1000
+const float RTD_REF = 430.0f;                    // 模块上的参考电阻：Adafruit PT100 板 430，PT1000 板 4300（看板子上的丝印）
+const bool  RTD_3WIRE = false;                   // 3 线 PT100 填 true（模块上的跳线也要按说明改）
+SPISettings rtdSpi(1000000, MSBFIRST, SPI_MODE1); // MAX31865 用 SPI 模式 1
+
+uint8_t rtdConfig() { return 0x80 | 0x40 | (RTD_3WIRE ? 0x10 : 0) | 0x01; }   // 偏置开 + 自动转换 + 50 Hz 滤波
+void rtdWrite(int cs, uint8_t reg, uint8_t v) {
+  SPI.beginTransaction(rtdSpi); digitalWrite(cs, LOW);
+  SPI.transfer(reg | 0x80); SPI.transfer(v);
+  digitalWrite(cs, HIGH); SPI.endTransaction();
+}
+uint16_t rtdRead16(int cs, uint8_t reg) {
+  SPI.beginTransaction(rtdSpi); digitalWrite(cs, LOW);
+  SPI.transfer(reg & 0x7F); uint16_t v = (uint16_t)SPI.transfer(0) << 8; v |= SPI.transfer(0);
+  digitalWrite(cs, HIGH); SPI.endTransaction();
+  return v;
+}
+void rtdBegin() {
+  SPI.begin(SPI_SCK, SPI_MISO, SPI_MOSI);
+  for (int k = 0; k < 3; k++) {
+    if (RTD_CS[k] < 0) continue;
+    pinMode(RTD_CS[k], OUTPUT); digitalWrite(RTD_CS[k], HIGH);
+    rtdWrite(RTD_CS[k], 0x00, rtdConfig() | 0x02);   // 写配置，顺便清掉故障标志
+  }
+  delay(100);                                      // 等第一次转换完成（只在开机时等这一次）
+}
+// 电阻 → 温度（Callendar–Van Dusen 公式；0 ℃ 以下用多项式近似，-30 ℃ 以内误差远小于 0.1 ℃）
+float rtdToC(float r) {
+  const float A = 3.9083e-3f, B = -5.775e-7f;
+  float t = (-A + sqrtf(A * A - 4 * B * (1 - r / RTD_R0))) / (2 * B);
+  if (t >= 0) return t;
+  float x = r / RTD_R0 * 100, x2 = x * x, x3 = x2 * x, x4 = x3 * x, x5 = x4 * x;
+  return -242.02f + 2.2228f * x + 2.5859e-3f * x2 - 4.8260e-6f * x3 - 2.8183e-8f * x4 + 1.5243e-10f * x5;
+}
 void readTemps(float out[3]) {
-  // 例：MAX31865
-  //   out[0] = rtd0.temperature(100.0, 430.0);
-  //   if (rtd0.readFault()) { out[0] = NAN; rtd0.clearFault(); }
-  out[0] = NAN; out[1] = NAN; out[2] = NAN;
+  for (int k = 0; k < 3; k++) {
+    out[k] = NAN;
+    if (RTD_CS[k] < 0) continue;
+    uint16_t raw = rtdRead16(RTD_CS[k], 0x01);     // RTD 结果寄存器，最低位是故障标志
+    if (raw & 1) {                                 // 断线、短路等：这一路报 NAN，网页自动跳过；清掉故障，下次再试
+      rtdWrite(RTD_CS[k], 0x00, rtdConfig() | 0x02);
+      continue;
+    }
+    raw >>= 1;
+    if (raw == 0 || raw == 0x7FFF) continue;       // 全 0 / 全 1：模块没接上或 SPI 接线不对
+    out[k] = rtdToC(raw * RTD_REF / 32768.0f);
+  }
 }
 // 加速度，单位 g（1 g ≈ 9.81 m/s²）。轴的方向无所谓，网页会自动挑起伏最大的轴。
 void readAccel(float a[3]) {
@@ -170,7 +220,10 @@ void setup() {
   mqtt.setServer(MQTT_HOST, MQTT_PORT);
   mqtt.setBufferSize(1024);                   // 默认 256 字节装不下带原始加速度的一帧
   mqtt.setKeepAlive(10);
-  // 在这里初始化传感器：rtd0.begin(MAX31865_3WIRE); mpu.begin(); ...
+#if !FAKE_SENSORS
+  rtdBegin();                                 // 三路 MAX31865
+  // 加速度计也在这里初始化，比如 mpu.begin();
+#endif
   connectWiFi();
   connectMqtt();
 }
