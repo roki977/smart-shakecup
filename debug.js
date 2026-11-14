@@ -164,7 +164,7 @@ function checks() {
     if (fps >= 8 && fps <= 12) add('ok', `帧率 ${fps.toFixed(1)} 帧/秒`);
     else add(fps >= 5 ? 'warn' : 'bad', `帧率 ${fps.toFixed(1)} 帧/秒（应约 10）`, '读传感器太慢会拖慢整体；热点信号差也会');
     const lossPct = S.lost / (S.total + S.lost) * 100;
-    add(lossPct < 2 ? 'ok' : lossPct < 10 ? 'warn' : 'bad', `丢帧 ${lossPct.toFixed(1)}%（${S.lost} 帧）`, lossPct < 2 ? '' : '把板子拿近手机热点试试');
+    add(lossPct < 2 ? 'ok' : lossPct < 20 ? 'warn' : 'bad', `丢帧 ${lossPct.toFixed(1)}%（${S.lost} 帧）`, lossPct < 2 ? '' : lossPct < 20 ? '公共测试服务器本身会丢 5%~15%，练习页能承受；正式演示建议换自己的服务器' : '丢得太多：把板子拿近手机热点，或换服务器');
   } else add('wait', '帧率和丢帧：再等几秒');
   if (S.reboots) add('warn', `板子重启过 ${S.reboots} 次`, '供电不稳或程序崩溃，看串口');
 
@@ -357,9 +357,6 @@ $('#conn').onsubmit = e => {
 const cfg = loadCfg(); fillForm(cfg);
 if (new URLSearchParams(location.search).get('cup')) { history.replaceState(null, '', location.pathname); connect(cfg); }
 setState(S.client ? S.state : 'off');
-let lastSlow = 0;
-(function loop() {
-  renderTemp(); renderMotion();
-  if (Date.now() - lastSlow > 500) { lastSlow = Date.now(); renderChecks(); renderLink(); renderLog(); }
-  requestAnimationFrame(loop);
-})();
+// 用定时器刷新而不是 requestAnimationFrame：调试台常放在副屏或嵌入面板里，那种情况下动画帧可能不触发
+setInterval(() => { renderTemp(); renderMotion(); }, 100);
+setInterval(() => { renderChecks(); renderLink(); renderLog(); }, 500);
