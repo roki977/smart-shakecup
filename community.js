@@ -1,5 +1,5 @@
 /* ---------- 社区 ----------
-   大家分享三种内容：练习曲线（温度曲线 + 摇动范围 + 美味值）、自创配方、心得。
+   大家分享三种内容：练习曲线（温度曲线 + 摇动范围 + 操作符合度）、自创配方、心得。
    别人的练习曲线可以一键设为参考曲线来练；自创配方可以直接拿来练。
 
    存储分两种，界面完全一样：
@@ -275,7 +275,7 @@ function openPost(id) {
     ${st ? `<svg class="chart" id="p-chart" viewBox="0 0 600 260"></svg>
       <p class="fine chart-key"><span class="key-now"></span>温度　<span class="key-ref"></span>当时跟的参考</p>
       <dl class="post-statgrid">
-        ${statRow('美味值', `<b>${p.score}</b> 分`)}
+        ${statRow('操作符合度', `<b>${p.score}</b> 分`)}
         ${statRow('停在', deg(st.finalTemp) + ' ℃')}
         ${statRow('目标', deg(p.target) + ' ℃')}
         ${statRow('一共', st.duration.toFixed(1) + ' 秒')}
@@ -370,7 +370,7 @@ function openComposer(pre = {}) {
   const ingRow = (n = '', ml = '') => `<div class="ing-row"><input name="ing-n" maxlength="20" placeholder="材料" value="${escapeHTML(n)}"><input name="ing-ml" maxlength="10" placeholder="ml 或 几滴" value="${escapeHTML(ml)}"><button type="button" class="link ing-del" aria-label="删掉这行">✕</button></div>`;
   showModal(`<h2>分享到社区</h2>
   <form class="composer" id="composer">
-    <div class="mode kind-tabs" role="tablist">${Object.entries(KINDS).map(([k, n]) => `<button type="button" role="tab" data-ckind="${k}" aria-selected="${k === kind}"><b>${n}</b><span>${{ run: '温度曲线、摇动范围、美味值', recipe: '材料、做法、目标温度', tip: '经验、技巧、问题' }[k]}</span></button>`).join('')}</div>
+    <div class="mode kind-tabs" role="tablist">${Object.entries(KINDS).map(([k, n]) => `<button type="button" role="tab" data-ckind="${k}" aria-selected="${k === kind}"><b>${n}</b><span>${{ run: '温度曲线、摇动范围、操作符合度', recipe: '材料、做法、目标温度', tip: '经验、技巧、问题' }[k]}</span></button>`).join('')}</div>
     <label>昵称<input name="name" maxlength="${LIMIT.name}" required value="${escapeHTML(prof?.name || '')}" placeholder="大家会看到这个名字"></label>
     <label>标题<input name="title" maxlength="${LIMIT.title}" required placeholder="一句话说说这条分享"></label>
 

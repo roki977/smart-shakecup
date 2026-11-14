@@ -489,7 +489,7 @@ dialog::backdrop { background: rgba(0, 0, 0, .72); backdrop-filter: blur(4px); }
 /* 矮屏手机（如 375×667）练习时再压一点，保证一屏放下 */
 @media (max-width: 900px) and (max-height: 700px) { .live.practicing .cup3d:not(.c3-max) { height: 90px; } }
 
-/* 评分来源：评分服务还是网页估算，写在美味值下面 */
+/* 评分来源：评分服务还是网页估算，写在操作符合度下面 */
 .score-source { margin-top: 2px; font-size: 11px; color: #6c688a; }
 .live.practicing .score-source { display: none; }
 
@@ -502,3 +502,36 @@ dialog::backdrop { background: rgba(0, 0, 0, .72); backdrop-filter: blur(4px); }
 .issue-when { grid-row: span 2; font-family: var(--serif); color: var(--rose); font-size: 13px; white-space: nowrap; padding-top: 1px; }
 .issues b { font-weight: 600; font-size: 14px; }
 .issue-do { font-size: 13px; color: var(--mist); line-height: 1.6; }
+
+/* ---------- 图鉴：搜索和筛选 ---------- */
+.codex-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin: 6px 0 10px; }
+#codex-q { flex: 1 1 260px; max-width: 420px; font: inherit; font-size: 14px; color: var(--frost); background: #07061a;
+  border: 1px solid rgba(220, 218, 234, .16); border-radius: 999px; padding: 10px 18px; }
+#codex-q::placeholder { color: #5f5b78; }
+#codex-q:focus { border-color: rgba(182, 166, 242, .6); outline: none; }
+.codex-count { margin: 0 0 22px; }
+.codex-src { margin-top: 40px; }
+.card { position: relative; }
+.card-tags { flex-wrap: wrap; gap: 4px 10px; }
+.card-badge { position: absolute; top: 10px; right: 10px; margin: 0; padding: 2px 9px; font-size: 11px; background: rgba(0, 0, 0, .55); backdrop-filter: blur(4px); }
+.card:not(:has(img.photo)) .card-art svg { width: 54%; }
+
+/* ---------- 配方详情：标准曲线 ---------- */
+.curves { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.curve-row { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; }
+.curve-row.demo { border-style: dashed; }
+.curve-mini { width: 100%; height: 48px; }
+.curve-mini polyline { fill: none; stroke: var(--lilac); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.curve-row.demo .curve-mini polyline { stroke: var(--mist); stroke-dasharray: 4 3; }
+.curve-row > div { text-align: left; }
+.curve-row b { display: block; font-size: 14px; }
+.curve-by { display: block; font-size: 12px; color: var(--mist); }
+.curve-facts { display: flex; flex-wrap: wrap; gap: 2px 12px; margin-top: 4px; font-size: 12px; color: var(--frost); }
+.curve-row .link { margin-top: 6px; color: var(--lilac); font-size: 13px; }
+.rc-src a { color: var(--lilac); }
+.save-curve { margin-top: 14px; }
+@media (max-width: 640px) { .curve-row { grid-template-columns: 1fr; } }
+.saved-issue { margin: 6px 0; font-size: 14px; }
+.saved-issue b { font-family: var(--serif); color: var(--rose); font-weight: 400; margin-right: 8px; }
+/* 矮屏练习时“操作符合度”标签不换行 */
+@media (max-width: 900px) { .live.practicing .inst .label { white-space: nowrap; font-size: 12px; } }

@@ -84,14 +84,22 @@
   <section id="codex" class="view codex" hidden>
     <div class="codex-head">
       <h1>图鉴</h1>
-      <p class="codex-progress"><b id="codex-done">0</b> / <span id="codex-total">6</span> 杯已解锁</p>
-      <p class="lede">用杯子摇出 80 分，就能解锁这杯酒。同一杯拿到三次 80 分以上，就算练熟了。</p>
+      <p class="codex-progress"><b id="codex-done">0</b> / <span id="codex-total">60</span> 杯摇和酒已解锁</p>
+      <p class="lede">收了 IBA 官方酒单的 102 款，再加 15 款名店版本。摇和的酒可以用杯子练，摇出 80 分解锁，三次 80 分以上算练熟。</p>
     </div>
-    <h2 class="shelf-title">摇和</h2>
-    <ul class="shelf" id="shelf-shake"></ul>
-    <h2 class="shelf-title">搅拌和直调</h2>
-    <p class="fine shelf-note">这几杯不用摇，杯子目前只教摇和，先放在这里看看。</p>
-    <ul class="shelf" id="shelf-other"></ul>
+    <div class="codex-bar">
+      <input type="search" id="codex-q" placeholder="搜酒名或配料，比如 金酒、Negroni" aria-label="搜索图鉴">
+      <div class="comm-kinds" id="codex-filter" role="tablist" aria-label="按做法筛选">
+        <button role="tab" data-f="all" aria-selected="true">全部</button>
+        <button role="tab" data-f="shake" aria-selected="false">摇和</button>
+        <button role="tab" data-f="stir" aria-selected="false">搅拌</button>
+        <button role="tab" data-f="other" aria-selected="false">直调和其他</button>
+        <button role="tab" data-f="mine" aria-selected="false">练过的</button>
+      </div>
+    </div>
+    <p class="fine codex-count" id="codex-found"></p>
+    <ul class="shelf" id="shelf"></ul>
+    <p class="fine codex-src">配方来自 IBA（国际调酒师协会）官网和 Death &amp; Co、Difford’s Guide 等公开来源，经知识库整理。只有 10 款有实拍照片，其余是按杯型和酒色画的插画。</p>
   </section>
 
   <!-- 社区 -->
@@ -145,9 +153,9 @@
         <p class="note" id="amplitude-note">观察往复动作</p>
       </div>
       <div class="inst score">
-        <span class="label">美味值 <button class="qmark" id="score-info" aria-label="美味值怎么算">?</button></span>
+        <span class="label">操作符合度 <button class="qmark" id="score-info" aria-label="操作符合度怎么算">?</button></span>
         <p class="val"><span id="score">0</span><small>/100</small></p>
-        <div class="meter" role="progressbar" aria-label="美味值" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progress-fill"></i></div>
+        <div class="meter" role="progressbar" aria-label="操作符合度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progress-fill"></i></div>
         <p class="note" id="scenario-label"></p>
         <p class="note score-source" id="score-source"></p>
       </div>
@@ -258,6 +266,7 @@
 </dialog>
 
 <script src="vendor/mqtt.min.js" defer></script>
+<script src="catalog.js" defer></script>
 <script src="app.js" defer></script>
 <script src="vendor/qrcode.js" defer></script>
 <script src="theme.js" defer></script>
@@ -267,6 +276,7 @@
 <script src="cup3d.js" defer></script>
 <script src="device.js" defer></script>
 <script src="algorithm.js" defer></script>
+<script src="curves.js" defer></script>
 <script src="fx.js" defer></script>
 </body>
 </html>

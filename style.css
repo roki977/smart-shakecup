@@ -436,7 +436,7 @@ dialog .chart { margin-top: 14px; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* ---------- 美味值拆解（结果页、回看弹窗共用） ---------- */
+/* ---------- 操作符合度拆解（结果页、回看弹窗共用） ---------- */
 .parts { display: grid; gap: 2px; margin: 0 0 6px; }
 .parts-title { font-size: 13px; opacity: .7; margin-bottom: 4px; }
 .parts button {

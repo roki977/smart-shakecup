@@ -1,8 +1,12 @@
 """Local integration server; serves website and /api from one origin. Not public hosting."""
 from http.server import HTTPServer,SimpleHTTPRequestHandler
 from pathlib import Path
-import argparse,json,uuid
+import argparse,json,uuid,sys
+from urllib.parse import urlparse,parse_qs
 from bridge import Session
+sys.path.insert(0,str(Path(__file__).resolve().parent.parent/'调酒知识库'))
+from 标准曲线 import ReferenceStore  # 标准曲线：实测参考的存取（只收标为实测的数据）
+STORE=ReferenceStore()
 SESSIONS={}
 class Handler(SimpleHTTPRequestHandler):
     def reply(self,code,value):
@@ -10,12 +14,16 @@ class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):
         parts=self.path.split('/')
         if self.path=='/api/health':return self.reply(200,{'status':'ok'})
+        u=urlparse(self.path)
+        if u.path=='/api/references':
+            q=parse_qs(u.query);return self.reply(200,{'records':STORE.list(q.get('recipe_id',[None])[0])})
         if len(parts)==5 and parts[1:3]==['api','sessions'] and parts[4]=='snapshot':
             s=SESSIONS.get(parts[3]);return self.reply(200,s.snapshot()) if s else self.reply(404,{'error':'unknown session'})
         return super().do_GET()
     def do_POST(self):
         try:
             data=json.loads(self.rfile.read(int(self.headers.get('Content-Length',0))));parts=self.path.split('/')
+            if self.path=='/api/references':return self.reply(201,{'id':STORE.save(data)})
             if self.path=='/api/sessions':
                 s=Session(data);sid=uuid.uuid4().hex;SESSIONS[sid]=s;return self.reply(201,{'id':sid})
             if len(parts)!=5 or parts[1:3]!=['api','sessions'] or parts[3] not in SESSIONS:return self.reply(404,{'error':'unknown route/session'})

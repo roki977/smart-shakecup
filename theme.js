@@ -14,7 +14,7 @@ function photoFor(id) {
 async function decorateArt(root = document) {
   const boxes = [...root.querySelectorAll('[data-art]')];
   for (const box of boxes) {
-    const r = RECIPES.find(x => x.id === box.dataset.art); if (!r) continue;
+    const r = RECIPES.find(x => x.id === box.dataset.art); if (!r?.photo) continue;   // 只有手头有照片的 10 款去取图
     if (box.querySelector('img.photo')) continue;
     const src = await photoFor(r.id);
     if (src && !box.querySelector('img.photo')) {

@@ -60,6 +60,15 @@ const RECIPES = [
     parts: [['古巴白朗姆', 45], ['鲜青柠汁', 20], ['薄荷', '6 枝'], ['白蔗糖', '2 茶匙'], ['苏打水', '补满']], deco: '薄荷枝、青柠片',
     how: '薄荷和糖、青柠汁一起轻压混合，加一点苏打水后装满冰，倒入朗姆，补满苏打水，轻轻搅匀。' }
 ];
+/* 知识库里的 117 款（catalog.js，由 scripts/build_catalog.py 生成）。
+   上面 10 款是手写的中文说明和实拍照片，保留；同一款酒再挂上知识库的步骤、来源和配方版本。 */
+RECIPES.forEach(r => r.photo = true);
+for (const c of window.CATALOG || []) {
+  const mine = RECIPES.find(r => r.id === c.id);
+  if (mine) Object.assign(mine, { kb: c.kb, steps: c.steps, source: c.source, recipeVersion: c.recipeVersion, reference: c.reference, shakeStep: c.shakeStep, partsSource: c.partsSource, branches: c.branches });
+  else RECIPES.push({ ...c, how: c.steps.join('；') });
+}
+const FEATURED = RECIPES.filter(r => r.photo && r.shake);   // 主界面底部那排：有实拍照片的 6 款
 const SHAKEN = RECIPES.filter(r => r.shake);
 const GLASS = { coupe: '碟形杯', martini: '马天尼杯', rocks: '古典杯', highball: '高球杯' };
 let recipe = RECIPES[0];
@@ -133,7 +142,8 @@ function renderRecipe() {
       ? `<div style="--ml:${ml};--max:${max};--i:${i}"><dt>${escapeHTML(n)}</dt><dd><b>${ml}</b>ml</dd><i aria-hidden="true"></i></div>`
       : `<div class="pour-extra" style="--i:${i}"><dt>${escapeHTML(n)}</dt><dd>${escapeHTML(ml)}</dd></div>`).join('');
   $('#recipe-deco').textContent = recipe.deco && recipe.deco !== '无' ? `装饰：${recipe.deco}` : '不加装饰';
-  $('#setup-steps').innerHTML = stepsOf(recipe.how).map(x => `<li>${escapeHTML(x)}</li>`).join('');
+  $('#switch-recipe').textContent = `全部 ${RECIPES.filter(r => !r.custom).length} 款`;
+  $('#setup-steps').innerHTML = (recipe.steps?.length ? recipe.steps : stepsOf(recipe.how)).map(x => `<li>${escapeHTML(x)}</li>`).join('');
   const st = codexState()[recipe.id];
   $('#unlock-hint').textContent = recipe.custom ? '社区里的自创配方，练习成绩不进图鉴。'
     : !st?.best ? `摇出 ${UNLOCK_SCORE} 分，这杯收进图鉴。`
@@ -145,7 +155,7 @@ function renderRecipe() {
 }
 /* 底部的酒单：点一杯就换，杯子从暗处浮现 */
 function renderStrip() {
-  const st = codexState(), list = recipe.custom ? [recipe, ...SHAKEN] : SHAKEN;
+  const st = codexState(), list = FEATURED.includes(recipe) ? FEATURED : [recipe, ...FEATURED];
   $('#drink-strip').innerHTML = list.map(r => `<li><button class="strip-item${isUnlocked(st, r.id) ? ' open' : ''}" data-pick="${r.id}" aria-current="${r.id === recipe.id}" aria-label="${escapeHTML(r.name)}">
       <span class="strip-art" data-art="${r.id}">${drinkArt(r)}</span><span class="strip-name">${escapeHTML(r.name)}</span></button></li>`).join('');
   $$('#drink-strip [data-pick]').forEach(b => b.onclick = () => {
@@ -165,24 +175,54 @@ function updateCodexCount() {
 }
 
 function cardHTML(r, st) {
-  const open = !r.shake || isUnlocked(st, r.id), s = st[r.id];
-  const badge = !r.shake ? r.method : isMastered(st, r.id) ? '练熟' : open ? `最好 ${s.best}` : s?.best ? `最好 ${s.best}` : '未解锁';
-  return `<li><button class="card${open ? '' : ' locked'}${isMastered(st, r.id) ? ' mastered' : ''}" data-recipe="${r.id}" style="--drink:${r.color}">
+  const s = st[r.id], open = isUnlocked(st, r.id);
+  const badge = !r.shake ? '' : isMastered(st, r.id) ? '练熟' : open ? `最好 ${s.best}` : s?.best ? `最好 ${s.best}` : '';
+  return `<li><button class="card${isMastered(st, r.id) ? ' mastered' : ''}" data-recipe="${r.id}" style="--drink:${r.color}">
     <span class="card-art" data-art="${r.id}">${drinkArt(r)}</span>
-    <span class="card-name">${r.name}</span><span class="card-en">${r.en}</span>
-    <span class="card-tags"><span>${r.method}</span><span>${r.glassName || GLASS[r.glass]}</span></span>
-    <span class="card-parts">${r.parts.map(([n, ml]) => `<span><span>${n}</span><b>${typeof ml === 'number' ? ml + ' ml' : ml}</b></span>`).join('')}<span class="deco"><span>装饰</span><b>${r.deco}</b></span></span>
-    <span class="card-how">${r.how}</span>
-    <span class="card-badge">${badge}</span></button></li>`;
+    <span class="card-name">${escapeHTML(r.name)}</span><span class="card-en">${escapeHTML(r.en)}</span>
+    <span class="card-tags"><span>${r.method}</span>${r.parts.slice(0, 3).map(p => `<span>${escapeHTML(p[0])}</span>`).join('')}</span>
+    ${badge ? `<span class="card-badge">${badge}</span>` : ''}</button></li>`;
+}
+/* 图鉴：一个列表，搜索 + 按做法筛选。卡片多，分批画，滚到底再画下一批 */
+const codexView = { f: 'all', q: '', shown: 0, list: [] };
+const CODEX_BATCH = 24;
+function codexMatches(r, st) {
+  const f = codexView.f;
+  if (f === 'shake' && !r.shake) return false;
+  if (f === 'stir' && r.method !== '搅拌') return false;
+  if (f === 'other' && (r.shake || r.method === '搅拌')) return false;
+  if (f === 'mine' && !st[r.id]?.best) return false;
+  const q = codexView.q.trim().toLowerCase();
+  return !q || [r.name, r.en, ...r.parts.map(p => p[0]), ...(r.partsSource || [])].some(x => String(x).toLowerCase().includes(q));
 }
 function renderCodex() {
   const st = codexState();
-  $('#shelf-shake').innerHTML = SHAKEN.map(r => cardHTML(r, st)).join('');
-  $('#shelf-other').innerHTML = RECIPES.filter(r => !r.shake).map(r => cardHTML(r, st)).join('');
+  codexView.list = RECIPES.filter(r => !r.custom && codexMatches(r, st))
+    .sort((a, b) => (b.photo ? 1 : 0) - (a.photo ? 1 : 0));        // 有照片的排前面
+  codexView.shown = 0;
+  $('#shelf').innerHTML = '';
+  $('#codex-found').textContent = codexView.list.length ? `${codexView.list.length} 款` : '没找到。换个词试试，酒名中英文、配料都能搜。';
   $('#codex-done').textContent = SHAKEN.filter(r => isUnlocked(st, r.id)).length;
   $('#codex-total').textContent = SHAKEN.length;
-  $$('#codex [data-recipe]').forEach(b => b.onclick = () => openRecipe(b.dataset.recipe));
+  moreCodex();
 }
+function moreCodex() {
+  const st = codexState(), next = codexView.list.slice(codexView.shown, codexView.shown + CODEX_BATCH);
+  if (!next.length) return;
+  codexView.shown += next.length;
+  $('#shelf').insertAdjacentHTML('beforeend', next.map(r => cardHTML(r, st)).join(''));
+  $$('#shelf [data-recipe]').forEach(b => b.onclick = () => openRecipe(b.dataset.recipe));
+  if (typeof decorateArt === 'function') decorateArt($('#shelf'));
+}
+addEventListener('scroll', () => {
+  if (!$('#codex').hidden && innerHeight + scrollY > document.body.scrollHeight - 600) moreCodex();
+}, { passive: true });
+$('#codex-q').oninput = e => { codexView.q = e.target.value; renderCodex(); };
+$$('#codex-filter [data-f]').forEach(b => b.onclick = () => {
+  codexView.f = b.dataset.f;
+  $$('#codex-filter [data-f]').forEach(x => x.setAttribute('aria-selected', x === b));
+  renderCodex();
+});
 /* 做法拆成编号步骤：先按句号、分号拆；只有一句就按逗号拆 */
 function stepsOf(how) {
   let parts = String(how || '').split(/[；。]/).map(x => x.trim()).filter(Boolean);
@@ -194,22 +234,30 @@ function stepsHTML(how) {
   return st.length ? `<p class="divider-title"><span>调制步骤</span></p><ol class="rc-steps">${st.map(x => `<li>${escapeHTML(x)}</li>`).join('')}</ol>` : '';
 }
 function openRecipe(id) {
-  const r = RECIPES.find(x => x.id === id), st = codexState(), s = st[id], open = !r.shake || isUnlocked(st, id);
+  const r = RECIPES.find(x => x.id === id), st = codexState(), s = st[id];
   const status = !r.shake ? '' : !s?.best ? `<p class="fine">还没摇过。摇出 ${UNLOCK_SCORE} 分解锁。</p>`
     : `<p class="fine">最好成绩 ${s.best} 分，${s.passes || 0} 次 ${UNLOCK_SCORE} 分以上${isMastered(st, id) ? '，已练熟' : ''}。</p>`;
-  showModal(`<div class="recipe-card${open ? '' : ' locked'}" style="--drink:${r.color}">
+  const steps = r.steps?.length ? r.steps : stepsOf(r.how);
+  const src = r.source?.url
+    ? `<p class="fine rc-src">来源：<a href="${r.source.url}" target="_blank" rel="noopener">${escapeHTML(r.source.publisher || '原文')}</a>${r.source.checked ? `，${r.source.checked} 核对` : ''}。步骤由知识库从原文整理，还没经调酒师逐条审过。</p>`
+    : '<p class="fine rc-src">配方来自 IBA（国际调酒师协会）官方酒单。</p>';
+  showModal(`<div class="recipe-card" style="--drink:${r.color}">
       <div class="rc-photo"><div class="rc-art" data-art="${r.id}">${drinkArt(r)}</div></div>
       <div class="rc-body">
-        <h2>${r.name}<span>${r.en}</span></h2>
+        <h2>${escapeHTML(r.name)}<span>${escapeHTML(r.en)}</span></h2>
         <p class="rc-tags"><span>${r.method}</span><span>${r.glassName || GLASS[r.glass]}</span></p>
-        <p>${r.note}</p>
-        <ul class="rc-parts">${r.parts.map(([n, ml]) => `<li><span>${n}</span><b>${typeof ml === 'number' ? ml + ' ml' : ml}</b></li>`).join('')}<li><span>装饰</span><b>${r.deco}</b></li></ul>
-        ${stepsHTML(r.how)}
-        <p class="fine">配方来自 IBA（国际调酒师协会）官方酒单。</p>
+        <p>${escapeHTML(r.note)}</p>
+        <ul class="rc-parts">${r.parts.map(([n, ml]) => `<li><span>${escapeHTML(n)}</span><b>${typeof ml === 'number' ? ml + ' ml' : escapeHTML(ml)}</b></li>`).join('')}
+          <li><span>${r.decoSource ? '装饰（来源原文）' : '装饰'}</span><b>${escapeHTML(r.deco)}</b></li></ul>
+        ${steps.length ? `<p class="divider-title"><span>调制步骤</span></p><ol class="rc-steps">${steps.map(x => `<li>${escapeHTML(x)}</li>`).join('')}</ol>` : ''}
+        <p class="divider-title"><span>标准曲线</span></p>
+        <div class="rc-curve" id="rc-curve">${curveCardHTML(r, null)}</div>
+        ${src}
         ${status}
         ${r.shake ? `<button class="primary" id="practice-this">用杯子练这杯</button>` : `<p class="fine">这杯不用摇，杯子目前只教摇和。</p>`}
       </div></div>`);
   if (r.shake) $('#practice-this').onclick = () => { recipe = r; practiceRef = null; renderRefChip(); $('#modal').close(); showSetup(); };
+  loadStandardCurves(r).then(list => { const box = $('#rc-curve'); if (box && $('#modal').open) { box.innerHTML = curveCardHTML(r, list); bindCurveCard(r, list); } });
 }
 
 function showSetup() {
@@ -354,7 +402,7 @@ function demoSample(t, scenario = activeScenario) {
 function decide(s) {
   if (!s.valid) return ['signal', '信号断了', '等数据恢复，这段时间不打分。', '信号中断', 'warn'];
   if (s.t < 1.5 && !s.hz) return ['ready', '握好杯子', '一手托底，一手按住杯盖。', '准备', 'go'];
-  if (s.hz < .2) return ['pause', '动作停了', '温度还会自己变一点，但美味值先不动，等你接着摇。', '暂停', 'hold'];
+  if (s.hz < .2) return ['pause', '动作停了', '温度还会自己变一点，但操作符合度先不动，等你接着摇。', '暂停', 'hold'];
   if (s.hz < desiredRhythm * .8) return ['slow', '再快一点', '比参考节奏慢。先把手速提上去，过几秒再看温度有没有跟着降。', '节奏偏慢', 'warn'];
   if (s.amplitude < .5) return ['amplitude', '摇的幅度大一些', '节奏够了，但来回的距离太短，冰块撞得不够。', '幅度偏小', 'warn'];
   if (s.temp < target - .8) return ['overshoot', '已经比目标还冷', '再摇只会多化冰，酒会变淡。可以停了。', '低于目标', 'warn'];
@@ -366,7 +414,7 @@ function decide(s) {
   return ['shake', '节奏对了，保持住', '动作连贯就行，不用突然加力。', '稳定摇和', 'go'];
 }
 
-/* ---------- 美味值：四项分数 ----------
+/* ---------- 操作符合度：四项分数 ----------
    停手温度 50、降温曲线 20、节奏 20、幅度 10。误差尺度都是演示值，未经实测标定。
    每一项返回得分，以及“哪些时间段在扣分”，结果页点某一项就把这些时间段标在曲线上。 */
 const PARTS = [
@@ -817,13 +865,13 @@ $('#help').onclick = () => showModal(`
   <p>图鉴里收了 10 杯经典鸡尾酒，其中 6 杯摇和酒可以用杯子练。摇出 80 分就解锁这杯，同一杯三次 80 分以上就算练熟。</p>`);
 
 $('#score-info').onclick = () => showModal(algo.available ? `
-  <h2>美味值怎么算</h2>
+  <h2>操作符合度怎么算</h2>
   <p>看你这杯摇得跟参考有多像。比三样东西：酒液温度、摇动节奏、动作幅度（加速度的有效值）。</p>
   <p>在参考的容差以内不扣分；超出越多、持续越久，扣得越多。温度占的比重最大，节奏和幅度其次。</p>
   <p>练习中显示的是<b>当前</b>这一小段的符合度，改正后会回升；结束时给的是<b>整杯</b>的分数，前面的偏差会留在里面，所以两者可能不一样。</p>
   <p>数据不够（刚开始、信号断了、节奏认不清）时显示“—”，不会当成 0 分。参考和规则现在是演示用的合成值，还没有调酒师实测标定。</p>`
   : `
-  <h2>美味值怎么算</h2>
+  <h2>操作符合度怎么算</h2>
   <p>简单说，就是看你这杯摇得跟参考有多像。</p>
   <p>一半看结果：停手时温度离目标有多近。另一半看过程：降温曲线贴不贴参考占 20%，节奏稳不稳占 20%，幅度够不够占 10%。</p>
   <p>中途停下来，分数会先停住。收手太早或者摇过头，都会扣分。</p>
@@ -833,7 +881,7 @@ $('#save').onclick = () => {
   if (savedThisRun) return;
   try {
     const all = stored();
-    all.unshift({ date: new Date().toISOString(), recipe: recipe.id, recipeName: recipe.name, mode, target, rhythm: desiredRhythm, score: finalScore, parts: finalParts, scenario: activeScenario.name, samples, events });
+    all.unshift({ date: new Date().toISOString(), recipe: recipe.id, recipeName: recipe.name, mode, target, rhythm: desiredRhythm, score: finalScore, parts: algoRecord().by === 'service' ? null : finalParts, scoring: algoRecord(), scenario: activeScenario.name, samples, events });
     localStorage.setItem(storeKey, JSON.stringify(all.slice(0, 20)));
     savedThisRun = true;
     $('#save').textContent = '已收藏'; $('#save').disabled = true;
@@ -847,13 +895,20 @@ $('#save').onclick = () => {
 $('#collection').onclick = () => {
   const all = stored();
   showModal('<h2>我的练习</h2>' + (all.length
-    ? all.map((v, i) => `<div class="saved"><b>${v.score}</b><div>${escapeHTML(v.recipeName || '威士忌酸')}，${v.mode === 'free' ? '自己定' : '跟参考练'}<br><span>${new Date(v.date).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}，${escapeHTML(v.scenario || '')}</span></div><button class="secondary" data-index="${i}">回看</button></div>`).join('')
+    ? all.map((v, i) => `<div class="saved"><b>${v.score ?? '—'}</b><div>${escapeHTML(v.recipeName || '威士忌酸')}，${v.mode === 'free' ? '自己定' : '跟参考练'}<br><span>${new Date(v.date).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}，${escapeHTML(v.scenario || '')}，${v.scoring?.by === 'service' ? '评分服务' : '网页估算'}</span></div><button class="secondary" data-index="${i}">回看</button></div>`).join('')
     : '<p>还没有收藏。</p>'));
   $$('#modal-content [data-index]').forEach(b => b.onclick = () => {
     const v = all[Number(b.dataset.index)];
     const opt = { duration: v.samples.at(-1)?.t || 10, target: v.target };
     showModal(`<h2>回看：${v.score} 分</h2><p class="fine">${escapeHTML(v.scenario || '')}，目标 ${deg(v.target)} ℃</p><svg class="chart" id="m-chart" viewBox="0 0 600 260"></svg><div class="parts" id="m-parts"></div><p class="part-detail" id="m-part-detail"></p><ol class="events" id="m-events"></ol><p class="event-detail" id="m-detail"></p>`);
     drawChart($('#m-chart'), v.samples, { ...opt, events: v.events });
+    // 评分服务打的分按当时冻结的结果显示，不用现在的规则重算
+    if (v.scoring?.by === 'service') {
+      $('#m-parts').innerHTML = (v.scoring.issues || []).map(x => `<p class="saved-issue"><b>${x.start.toFixed(1)}–${x.end.toFixed(1)} 秒</b> ${escapeHTML(x.observation)}</p>`).join('') || '<p class="fine">没有超出参考容差的地方。</p>';
+      $('#m-part-detail').textContent = `评分服务，规则 ${v.scoring.rule}（${v.scoring.policy}、${v.scoring.mapping}），参考 ${v.scoring.reference}，${v.scoring.source === 'measured' ? '杯子实测' : '演示数据'}。`;
+      renderEvents($('#m-events'), $('#m-detail'), $('#m-chart'), v.samples, v.events, opt);
+      return;
+    }
     const rhythm = v.rhythm || 3, parts = v.parts || (v.samples.length ? scoreParts(v.samples, v.samples.at(-1), v.target, rhythm) : null);
     if (parts) { renderParts($('#m-parts'), $('#m-part-detail'), $('#m-chart'), v.samples, v.events, opt, parts, rhythm); $('#m-part-detail').textContent = weakest(parts); }
     renderEvents($('#m-events'), $('#m-detail'), $('#m-chart'), v.samples, v.events, opt);

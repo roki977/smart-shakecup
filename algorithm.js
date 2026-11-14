@@ -19,7 +19,7 @@ const ALGO_REF_LENGTH = 40;       // 参考曲线给到 40 秒，摇得再久也
 const LIQUID_PROBE = 0;           // 杯子 temp 数组里哪一路是液温探头。硬件定下来后改这里
 const SIM_STEP = 0.25;            // 演示数据每 0.25 秒一帧
 
-const algo = { available: false, kb: null, s: null };
+const algo = { available: false, s: null };
 
 /* 打开页面时探一下有没有评分服务，顺便读知识库索引 */
 (async () => {
@@ -27,7 +27,6 @@ const algo = { available: false, kb: null, s: null };
     const r = await fetch('api/health', { cache: 'no-store', signal: AbortSignal.timeout(1500) });
     algo.available = r.ok && (await r.json()).status === 'ok';
   } catch { algo.available = false; }
-  try { algo.kb = (await (await fetch('data/kb-index.json')).json()).recipes; } catch { algo.kb = null; }
   updateScoreSource();
 })();
 
@@ -44,7 +43,6 @@ function simAcc(hz, amplitude) {
   return SIM_A_REF * (amplitude / .7) * Math.pow(hz / 3, 2);
 }
 
-function kbEntry(r) { return algo.kb?.['iba-' + r.id] || null; }
 
 /* 这一轮的规则。演示和真杯子只在“允许多少丢帧”上不同：公共服务器会丢 5–15% 的包 */
 function algoRules(measured, featureVersion, recipeVersion) {
@@ -72,8 +70,12 @@ const DEVICE_FEATURES = {
 function algoReference(id, featureVersion, recipeVersion, T0) {
   const pts = fn => Array.from({ length: ALGO_REF_LENGTH * 10 + 1 }, (_, i) => ({ t: i / 10, value: +fn(i / 10).toFixed(4), valid: true }));
   const aRef = simAcc(desiredRhythm, .7);           // 目标节奏、标准幅度时的 A
+  // 跟实测标准曲线练时，节奏和幅度也用那条记录里的（过了记录末尾就保持最后的值）
+  const hold = (list, t) => { let v = null; for (const p of list) { if (p.t > t) break; v = p.value; } return v ?? list[0]?.value; };
+  const fA = practiceRef?.fA;
   return { id, recipe_version: recipeVersion, feature_version: featureVersion,
-    stages: { shake: { T: pts(t => referenceAt(t, T0, activeScenario.kind === 'device' ? REF_SECONDS : activeScenario.duration)), f: pts(() => desiredRhythm), A: pts(() => aRef) } } };
+    stages: { shake: { T: pts(t => referenceAt(t, T0, activeScenario.kind === 'device' ? REF_SECONDS : activeScenario.duration)),
+      f: pts(t => fA?.f.length ? hold(fA.f, t) : desiredRhythm), A: pts(t => fA?.A.length ? hold(fA.A, t) : aRef) } } };
 }
 
 async function algoCall(path, body) {
@@ -89,16 +91,17 @@ async function algoCall(path, body) {
 function algoBegin(measured, T0, firstMsg, t0ms) {
   algo.s = null;
   if (!algo.available) { updateScoreSource(); return; }
-  const kb = recipe.custom ? null : kbEntry(recipe);
-  const recipeVersion = kb?.recipe_version || 'site-' + recipe.id;
+  // 配方 ID 和版本取自知识库（catalog.js），评分服务据此把复盘建议对到配方步骤上
+  const kb = recipe.custom || !recipe.kb ? null : recipe;
+  const recipeVersion = kb?.recipeVersion || 'site-' + recipe.id;
   const featureVersion = measured ? DEVICE_FEATURES.version : 'site-sim-v1';
-  const refId = practiceRef ? 'community-' + practiceRef.id : 'site-default-curve-v1';
+  const refId = practiceRef ? (practiceRef.fA ? practiceRef.id : 'community-' + practiceRef.postId) : 'site-demo-curve-v1';
   const payload = {
     algorithm: algoRules(measured, featureVersion, recipeVersion),
     reference: algoReference(refId, featureVersion, recipeVersion, T0),
     source: measured ? 'measured' : 'simulated', start_t: 0,
-    recipe_id: kb ? 'iba-' + recipe.id : null,
-    stage_steps: kb?.shake_step ? { shake: kb.shake_step } : {}
+    recipe_id: kb ? kb.kb : null,
+    stage_steps: kb?.shakeStep ? { shake: kb.shakeStep } : {}
   };
   const s = algo.s = { id: null, measured, queue: [], busy: false, frame: null, closed: false, error: null, payload, tOffset: 0 };
   if (measured) {
@@ -150,7 +153,7 @@ async function algoPump() {
   a.busy = false;
 }
 
-/* 练习中：美味值一格显示评分服务给的“当前符合度”。没有可靠值时显示 —，不填 0 */
+/* 练习中：操作符合度一格显示评分服务给的“当前符合度”。没有可靠值时显示 —，不填 0 */
 function showAlgoFrame(f) {
   if (!running) return;
   const v = f.current?.value;
@@ -192,6 +195,8 @@ function renderAlgoResult(r) {
   if (r.recordQuality?.length || r.guidance?.record_quality?.length) limits.push('有几段数据不太可靠（预热、断档或节奏不清），这几段不算作操作问题。');
   limits.push('参考和规则是演示用的合成值，还没有调酒师实测标定。');
   $('#part-detail').textContent = limits.join(' ');
+  box.insertAdjacentHTML('beforeend', offerSaveCurve());
+  bindSaveCurve();
   box.querySelectorAll('[data-issue]').forEach(b => b.onclick = () => {
     const x = issues[Number(b.dataset.issue)];
     box.querySelectorAll('[data-issue]').forEach(y => y.setAttribute('aria-pressed', y === b));
@@ -199,4 +204,14 @@ function renderAlgoResult(r) {
     const off = algo.last?.tOffset || 0;
     drawChart($('#chart'), samples, { duration: last.t, events, bands: x.intervals.map(v => [v.start - off, v.end - off]) });
   });
+}
+
+/* 收藏一次练习时，把这次评分用的规则、参考和冻结结果一起存下来，以后回看不重算 */
+function algoRecord() {
+  const a = algo.last, r = a?.result;
+  if (!r || algo.s !== a) return { by: 'web' };
+  const g = a.payload.algorithm;
+  return { by: 'service', source: r.source, rule: g.version, policy: g.scoring_policy, mapping: g.score_mapping,
+    parameterStatus: g.parameter_status, reference: a.payload.reference.id, recipeVersion: g.recipe_version,
+    featureVersion: g.feature_version, final: r.final, issues: (r.guidance?.issues || []).map(x => ({ start: x.start - a.tOffset, end: x.end - a.tOffset, observation: x.observation, action: x.action })) };
 }

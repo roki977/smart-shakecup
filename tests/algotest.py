@@ -7,7 +7,7 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errs.append(str(e)))
     reqs = []; pg.on('request', lambda r: reqs.append(r.url) if '/api/' in r.url else None)
     pg.goto(URL); pg.wait_for_timeout(1200)
-    print('available:', pg.evaluate('algo.available'), '| kb:', pg.evaluate('!!algo.kb'), '|', pg.text_content('#score-source'))
+    print('available:', pg.evaluate('algo.available'), '| recipes:', pg.evaluate('RECIPES.length'), '|', pg.text_content('#score-source'))
     pg.click('#start'); pg.click('#countdown-skip')
     for i in range(8):
         pg.wait_for_timeout(2000)
