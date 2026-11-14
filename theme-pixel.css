@@ -202,3 +202,16 @@ html:not([data-theme="pixel"]) .px-scene, html:not([data-theme="pixel"]) .demo-p
 /* 图鉴卡片配方 */
 [data-theme="pixel"] .card-parts { border-top: 2px dashed var(--ink); }
 [data-theme="pixel"] .card-parts b { font-family: var(--pixel); font-weight: 400; }
+
+/* 3D 杯子：低分辨率渲染后放大成方块，和像素皮肤一致 */
+[data-theme="pixel"] .cup3d .c3-canvas { image-rendering: pixelated; }
+[data-theme="pixel"] .live.practicing .cup3d:not(.c3-max) .c3-force { height: 6px; border-width: 1px; }
+[data-theme="pixel"] .demo-switch, [data-theme="pixel"] .c3-btn { border: 2px solid var(--ink); }
+[data-theme="pixel"] .demo-switch button, [data-theme="pixel"] .c3-hud, [data-theme="pixel"] .c3-btn { font-family: var(--pixel); }
+[data-theme="pixel"] .c3-force { height: 8px; border: 2px solid var(--ink); background: var(--plate); }
+[data-theme="pixel"] .c3-force i { transition: none; }
+[data-theme="pixel"] .cup3d.c3-max { background: var(--steel); }
+[data-theme="pixel"] .live.practicing .cup3d:not(.c3-max) { height: 100px; }
+[data-theme="pixel"] .live.practicing .demo-switch { margin-bottom: 2px; }
+[data-theme="pixel"] .live.practicing .demo-switch button { padding: 4px 8px; }
+@media (max-width: 900px) { [data-theme="pixel"] .live.practicing .cup3d:not(.c3-max) { height: 98px; } }

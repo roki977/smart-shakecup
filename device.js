@@ -38,6 +38,7 @@ function setDeviceState(state, error = '') {
   pill.textContent = text;
   const flag = document.querySelector('.demo-flag'); if (flag) flag.hidden = state === 'live';
   pill.dataset.state = state;
+  document.body.classList.toggle('device-live', state === 'live');   // 3D 杯子的“校准”按钮只在接了杯子时出现
   // 准备页的提示跟着变
   const goHint = $('#go-hint');
   if (goHint) goHint.innerHTML = deviceLive()
@@ -88,6 +89,7 @@ function estimateMotion(msg) {
 }
 
 function onDeviceData(msg) {
+  window.Cup3D?.feed(msg);                              // 3D 杯子：不管在不在练习都跟着动
   const now = Date.now();
   dev.lastAt = now; dev.lastMsg = msg;
   if (typeof msg.bat === 'number') dev.battery = msg.bat;

@@ -160,3 +160,7 @@ html[data-theme="real"] {
   [data-theme="real"] .recipe-card { grid-template-columns: 1fr; }
   [data-theme="real"] .rc-art { max-width: 180px; }
 }
+
+/* 3D 杯子 */
+[data-theme="real"] .demo-switch button[aria-selected="true"] { background: var(--lemon); color: #14110a; }
+[data-theme="real"] .cup3d.c3-max { background: radial-gradient(ellipse at 50% 40%, #232b36 0%, #12161c 70%); }

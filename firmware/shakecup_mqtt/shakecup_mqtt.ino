@@ -17,6 +17,10 @@
   两种发法（SEND_RAW_ACC 切换）：
     1  发原始加速度，网页自己算节奏和幅度（推荐，改算法不用重新烧录）
     0  板子上算好节奏 hz 和幅度 amp 再发
+  SEND_GYRO = 1 时再加发陀螺仪（°/s），网页上的 3D 杯子转得快时也能跟上；只发加速度也能看出倾斜和来回。
+
+  装传感器的方向：网页会在杯子竖直静止半秒时自动把那一刻当作“竖直”，所以芯片怎么贴都行，
+  但最好让芯片的某一根轴和杯子长轴平行，这样来回的动作最清楚。
 */
 #include <WiFi.h>
 #include <PubSubClient.h>
@@ -30,6 +34,7 @@ const char* MQTT_USER   = "";                 // 公共测试服务器留空
 const char* MQTT_PASS   = "";
 const char* DEVICE_ID   = "cup-01";           // 网页里填一样的。公共服务器谁都能订阅，建议改成不容易撞名的，如 hkustgz-roki-01
 #define SEND_RAW_ACC 1
+#define SEND_GYRO 1                           // 1 = 加发陀螺仪（要 SEND_RAW_ACC 也是 1）
 #define FAKE_SENSORS 1                        // 1 = 不接传感器，发模拟数据；接好传感器后改 0
 const int LED_PIN = 8;                        // 板载灯：C3 SuperMini 是 GPIO8（低电平亮）；没有或不确定就填 -1
 #define LOW_TX_POWER 1                        // C3 SuperMini 这类小板天线差，满功率反而连不上 WiFi，降功率更稳
@@ -55,11 +60,21 @@ void readTemps(float out[3]) {
   else if (t >= 14) temp = -3;
   out[0] = temp; out[1] = temp + 0.2f; out[2] = temp - 0.1f;
 }
+// 模拟的杯子：传感器 z 轴是杯子长轴。摇的时候 1 秒内倒向 55°，沿长轴 3 Hz、约 14 cm 来回
+float fakeTilt(float t) {
+  if (t < 2 || t >= 15) return 0;
+  float k = t < 3 ? (t - 2) : t > 14 ? (15 - t) : 1;
+  return k * 55 * PI / 180;
+}
 void readAccel(float a[3]) {
-  float t = fakePhase();
+  float t = fakePhase(), th = fakeTilt(t);
   bool shaking = t >= 2 && t < 14;
-  a[0] = shaking ? 5.0f * sinf(2 * PI * 3.0f * millis() / 1000.0f) : 0;   // 3 Hz、约 14 cm 来回
-  a[1] = 0; a[2] = 1;
+  float s = shaking ? 5.0f * sinf(2 * PI * 3.0f * millis() / 1000.0f) : 0;
+  a[0] = 0; a[1] = sinf(th); a[2] = cosf(th) + s;
+}
+void readGyro(float g[3]) {                   // °/s
+  float t = fakePhase();
+  g[0] = (fakeTilt(t + 0.01f) - fakeTilt(t)) / 0.01f * 180 / PI; g[1] = 0; g[2] = 0;
 }
 #else
 void readTemps(float out[3]) {
@@ -74,6 +89,13 @@ void readAccel(float a[3]) {
   //   sensors_event_t acc, gyro, tmp; mpu.getEvent(&acc, &gyro, &tmp);
   //   a[0] = acc.acceleration.x / 9.81; a[1] = acc.acceleration.y / 9.81; a[2] = acc.acceleration.z / 9.81;
   a[0] = 0; a[1] = 0; a[2] = 1;
+}
+// 角速度，单位 °/s。和 readAccel 用同一颗芯片、同一套轴。
+void readGyro(float g[3]) {
+  // 例：Adafruit MPU6050（getEvent 给的是 rad/s，要乘 57.2958）
+  //   g[0] = gyro.gyro.x * 57.2958; g[1] = gyro.gyro.y * 57.2958; g[2] = gyro.gyro.z * 57.2958;
+  //   （可以和 readAccel 共用一次 getEvent，把结果存在全局变量里）
+  g[0] = 0; g[1] = 0; g[2] = 0;
 }
 #endif
 int readBatteryPercent() { return -1; }       // 没接电量检测就返回 -1
@@ -151,7 +173,7 @@ void setup() {
   connectMqtt();
 }
 
-float accBuf[ACC_PER_FRAME][3]; uint8_t accN = 0;
+float accBuf[ACC_PER_FRAME][3]; float gyroBuf[ACC_PER_FRAME][3]; uint8_t accN = 0;
 uint32_t nextAcc = 0, nextFrame = 0, lastRetry = 0;
 
 void loop() {
@@ -164,15 +186,18 @@ void loop() {
   // 50 Hz 采加速度
   if ((int32_t)(now - nextAcc) >= 0) {
     nextAcc = now + 1000 / ACC_HZ;
-    float a[3]; readAccel(a); pushWin(a);
-    if (accN < ACC_PER_FRAME) { for (int k = 0; k < 3; k++) accBuf[accN][k] = a[k]; accN++; }
+    float a[3], g[3] = {0, 0, 0}; readAccel(a); pushWin(a);
+#if SEND_GYRO
+    readGyro(g);
+#endif
+    if (accN < ACC_PER_FRAME) { for (int k = 0; k < 3; k++) { accBuf[accN][k] = a[k]; gyroBuf[accN][k] = g[k]; } accN++; }
   }
 
   // 每 100 ms 打包发一帧
   if ((int32_t)(now - nextFrame) >= 0) {
     nextFrame = now + FRAME_MS;
     float t[3]; readTemps(t);
-    String j; j.reserve(512);
+    String j; j.reserve(768);
     j += "{\"v\":1,\"seq\":"; j += seq++;
     j += ",\"ms\":"; j += now;
     j += ",\"temp\":[";
@@ -185,6 +210,14 @@ void loop() {
       j += "["; j += String(accBuf[i][0], 3); j += ","; j += String(accBuf[i][1], 3); j += ","; j += String(accBuf[i][2], 3); j += "]";
     }
     j += "]";
+#if SEND_GYRO
+    j += ",\"gyro\":[";
+    for (int i = 0; i < accN; i++) {
+      if (i) j += ",";
+      j += "["; j += String(gyroBuf[i][0], 1); j += ","; j += String(gyroBuf[i][1], 1); j += ","; j += String(gyroBuf[i][2], 1); j += "]";
+    }
+    j += "]";
+#endif
 #else
     float hz, ampCm; estimate(hz, ampCm);
     j += ",\"hz\":"; j += String(hz, 2); j += ",\"amp\":"; j += String(ampCm, 1);

@@ -79,6 +79,7 @@ function onMessage(topic, payload) {
     return;
   }
   if (S.state !== 'live') setState('live');
+  window.Cup3D?.feed(msg);
   S.total++;
   S.lastSize = payload.length; S.maxSize = Math.max(S.maxSize, payload.length);
 
@@ -100,6 +101,7 @@ function onMessage(topic, payload) {
   // 温度
   const temps = typeof msg.temp === 'number' ? [msg.temp] : Array.isArray(msg.temp) ? msg.temp : [];
   const med = pickTemp(msg.temp);
+  if (med !== null) window.Cup3D?.sample({ temp: med, target: -2 });
 
   // 动作：和练习页一样，用最近 2 秒原始加速度算
   let hz = msg.hz ?? null, amp = msg.amp ?? null, gMean = null, gMax = null, axis = -1;
@@ -360,3 +362,7 @@ setState(S.client ? S.state : 'off');
 // 用定时器刷新而不是 requestAnimationFrame：调试台常放在副屏或嵌入面板里，那种情况下动画帧可能不触发
 setInterval(() => { renderTemp(); renderMotion(); }, 100);
 setInterval(() => { renderChecks(); renderLink(); renderLog(); }, 500);
+
+/* 3D 杯子 */
+if (window.Cup3D && Cup3D.mount($('#cup3d'))) $('#c3-cal').onclick = () => Cup3D.recalibrate();
+else { $('#cup3d').innerHTML = '<p class="tip">这个浏览器不支持 WebGL，3D 画不出来。</p>'; $('#c3-cal').remove(); }
