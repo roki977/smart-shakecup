@@ -160,3 +160,21 @@ html[data-theme="real"] {
   [data-theme="real"] .recipe-card { grid-template-columns: 1fr; }
   [data-theme="real"] .rc-art { max-width: 180px; }
 }
+
+/* 社区 */
+[data-theme="real"] .post-card { background: var(--card); border: 0; }
+[data-theme="real"] .post-card:hover { background: #20272f; }
+[data-theme="real"] .post-title, [data-theme="real"] .comm-head h1 { font-family: var(--serif); }
+[data-theme="real"] .post-kind { color: #14110a; }
+[data-theme="real"] .post-kind.k-recipe { background: #7cc08a; color: #0f1a12; }
+[data-theme="real"] .post-kind.k-tip { background: #e2675a; color: #1c0d0b; }
+[data-theme="real"] .comm-kinds button { border-color: transparent; background: var(--card); color: var(--ink-soft); }
+[data-theme="real"] .comm-kinds button[aria-selected="true"] { background: var(--chip); color: var(--ink); border-color: var(--lemon); }
+[data-theme="real"] .comm-bar select, [data-theme="real"] .composer select, [data-theme="real"] .composer input,
+[data-theme="real"] .composer textarea, [data-theme="real"] .comment-form input { background: #11151b; border-color: #2b323c; }
+[data-theme="real"] .ref-chip { border-color: var(--lemon); background: var(--card); }
+[data-theme="real"] .tag-pick span { border-color: #2b323c; }
+[data-theme="real"] .spark-now { stroke: #f2efe8; }
+[data-theme="real"] .spark-ref { opacity: .3; }
+[data-theme="real"] .chart-key span { border-top-color: #f2efe8; }
+[data-theme="real"] .chart-key .key-ref { background: color-mix(in srgb, var(--lemon) 40%, transparent); }

@@ -21,6 +21,7 @@
   <nav class="top-actions">
     <button class="device-pill" id="device-pill" data-state="off">杯子：未连接</button>
     <span class="demo-flag" title="当前所有温度与动作均为模拟记录">演示数据</span>
+    <button class="link" id="open-community">社区</button>
     <button class="link" id="open-codex">图鉴 <span id="codex-count" class="count">0/6</span></button>
     <button class="link" id="collection">我的练习 <span id="saved-count" class="count">0</span></button>
     <button class="link" id="theme-toggle">风格：写实</button>
@@ -57,6 +58,8 @@
         <input id="rhythm" type="range" min="2" max="4" value="3" step=".5">
       </div>
 
+      <p class="ref-chip" id="ref-chip" hidden></p>
+
       <div class="go">
         <button class="primary" id="start">开始练习</button>
         <p class="fine" id="go-hint">杯子还在做，这一版先放模拟的摇杯过程，你看着就行。<br>觉得够了，随时点“这杯完成了”。</p>
@@ -81,6 +84,22 @@
     <h2 class="shelf-title">搅拌和直调</h2>
     <p class="fine shelf-note">这几杯不用摇，杯子目前只教摇和，先放在这里看看。</p>
     <ul class="shelf" id="shelf-other"></ul>
+  </section>
+
+  <!-- 社区 -->
+  <section id="community" class="view community" hidden>
+    <div class="codex-head comm-head">
+      <h1>社区</h1>
+      <p class="lede">分享你的练习曲线、自创配方和心得。看到喜欢的曲线，可以直接设成参考曲线跟着练。</p>
+      <button class="primary" id="comm-post">分享到社区</button>
+    </div>
+    <div class="comm-bar">
+      <div class="comm-kinds" id="comm-kinds" role="tablist" aria-label="内容类型"></div>
+      <select id="comm-drink" aria-label="按酒筛选"></select>
+      <select id="comm-sort" aria-label="排序"><option value="new">最新</option><option value="hot">最热</option></select>
+    </div>
+    <ul class="feed" id="feed"></ul>
+    <p class="fine comm-note" id="comm-note"></p>
   </section>
 
   <!-- 制作中 / 结果 -->
@@ -183,6 +202,7 @@
         <div class="result-actions">
           <button class="primary" id="again">再摇一杯</button>
           <button class="secondary" id="save">收藏这次练习</button>
+          <button class="secondary" id="share-community">分享到社区</button>
         </div>
         <p class="fine" id="save-state"></p>
       </div>
@@ -209,6 +229,8 @@
 <script src="app.js" defer></script>
 <script src="vendor/qrcode.js" defer></script>
 <script src="theme.js" defer></script>
+<script src="community-config.js" defer></script>
+<script src="community.js" defer></script>
 <script src="cup-data.js" defer></script>
 <script src="device.js" defer></script>
 </body>

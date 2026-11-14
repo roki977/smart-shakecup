@@ -202,3 +202,13 @@ html:not([data-theme="pixel"]) .px-scene, html:not([data-theme="pixel"]) .demo-p
 /* 图鉴卡片配方 */
 [data-theme="pixel"] .card-parts { border-top: 2px dashed var(--ink); }
 [data-theme="pixel"] .card-parts b { font-family: var(--pixel); font-weight: 400; }
+
+/* 社区 */
+[data-theme="pixel"] .post-card { border: 0; border-radius: 0; box-shadow: 0 0 0 var(--px) var(--ink), var(--px) var(--px) 0 var(--px) var(--ink); }
+[data-theme="pixel"] .post-title, [data-theme="pixel"] .post-stats b, [data-theme="pixel"] .post-kind { font-family: var(--pixel); font-weight: 400; }
+[data-theme="pixel"] .post-kind, [data-theme="pixel"] .post-demo, [data-theme="pixel"] .comm-kinds button, [data-theme="pixel"] .tag-pick span,
+[data-theme="pixel"] .avatar, [data-theme="pixel"] .ref-chip, [data-theme="pixel"] .comm-bar select, [data-theme="pixel"] .composer select,
+[data-theme="pixel"] .composer input, [data-theme="pixel"] .composer textarea, [data-theme="pixel"] .comment-form input, [data-theme="pixel"] .composer-preview { border-radius: 0; }
+[data-theme="pixel"] .spark polyline { stroke-linejoin: miter; }
+[data-theme="pixel"] .spark-ref { stroke-linecap: square; }
+[data-theme="pixel"] .chart-key .key-ref { border-radius: 0; }

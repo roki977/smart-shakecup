@@ -178,22 +178,23 @@ function openRecipe(id) {
         ${status}
         ${r.shake ? `<button class="primary" id="practice-this">用杯子练这杯</button>` : `<p class="fine">这杯不用摇，杯子目前只教摇和。</p>`}
       </div></div>`);
-  if (r.shake) $('#practice-this').onclick = () => { recipe = r; $('#modal').close(); showSetup(); };
+  if (r.shake) $('#practice-this').onclick = () => { recipe = r; practiceRef = null; renderRefChip(); $('#modal').close(); showSetup(); };
 }
 
 function showSetup() {
-  $('#codex').hidden = true; $('#live').hidden = true; $('#setup').hidden = false;
+  $('#community').hidden = true; $('#codex').hidden = true; $('#live').hidden = true; $('#setup').hidden = false;
   renderRecipe(); window.scrollTo({ top: 0 });
 }
 function showCodex() {
   if (running) return;
-  $('#setup').hidden = true; $('#live').hidden = true; $('#codex').hidden = false;
+  $('#setup').hidden = true; $('#live').hidden = true; $('#community').hidden = true; $('#codex').hidden = false;
   document.documentElement.style.setProperty('--chill', 0);
   renderCodex(); window.scrollTo({ top: 0 });
 }
 
 /* 结算后更新图鉴；第一次过线时放一次解锁动画 */
 function recordResult(score) {
+  if (recipe.custom) return;                              // 社区里的自创配方不进图鉴
   const st = codexState(), before = isUnlocked(st, recipe.id), wasMaster = isMastered(st, recipe.id);
   const s = st[recipe.id] ||= { best: 0, passes: 0 };
   s.best = Math.max(s.best, score);
@@ -304,7 +305,7 @@ function chooseScenario() {
 }
 function demoSample(t, scenario = activeScenario) {
   const q = scenario || scenarios[0], p = Math.min(1, t / q.duration), end = target + q.offset;
-  const reference = ROOM - (ROOM - target) * (1 - Math.pow(1 - p, 2.2));
+  const reference = referenceAt(t, ROOM, q.duration);   // 用了社区参考曲线时，参考跟着那条曲线走
   const temp = ROOM - (ROOM - end) * (1 - Math.pow(1 - p, 2.2));
   let hz = desiredRhythm * q.tempo, amplitude = q.amp;
   if (t < 1) hz = 0;
@@ -590,8 +591,9 @@ function setPracticing(on) {
 }
 function start() {
   activeScenario = chooseScenario(); awaitingFinish = false;
-  target = mode === 'free' ? Number($('#target').value) : -2;
-  desiredRhythm = mode === 'free' ? Number($('#rhythm').value) : 3;
+  const ref = mode === 'standard' ? practiceRef : null;     // 社区里选的参考曲线（community.js）
+  target = mode === 'free' ? Number($('#target').value) : ref ? ref.target : -2;
+  desiredRhythm = mode === 'free' ? Number($('#rhythm').value) : ref ? ref.rhythm : 3;
   samples = []; events = []; lastEvent = ''; finalScore = 0; finalParts = null;
   running = true; completed = false; savedThisRun = false;
   motion = { first: null, last: null }; voiceState = { pending: '', since: 0, said: '', at: 0 };
@@ -662,7 +664,7 @@ function reset() {
   metronome(false); keepAwake(false); try { speechSynthesis.cancel(); } catch {}
   setPracticing(false);
   $('#live').classList.remove('shaking');
-  $('#setup').hidden = false; $('#live').hidden = true; $('#codex').hidden = true;
+  $('#setup').hidden = false; $('#live').hidden = true; $('#codex').hidden = true; $('#community').hidden = true;
   $$('[data-mode]').forEach(b => b.disabled = false);
   document.documentElement.style.setProperty('--chill', 0);
   renderRecipe();

@@ -110,8 +110,7 @@ function onDeviceData(msg) {
     dev.t0ms = ms; dev.temp0 = temp;
   }
   const t = Math.max(0, (ms - dev.t0ms) / 1000);
-  const p = Math.min(1, t / REF_SECONDS);
-  const reference = dev.temp0 - (dev.temp0 - target) * (1 - Math.pow(1 - p, 2.2));
+  const reference = referenceAt(t, dev.temp0, REF_SECONDS);   // community.js：默认公式，或社区里选的参考曲线
   const s = {
     t, temp, reference,
     hz: Number.isFinite(hz) ? hz : 0,
