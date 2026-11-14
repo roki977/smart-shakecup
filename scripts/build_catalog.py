@@ -250,6 +250,10 @@ for r in kb['catalog']:
         'source': {'publisher': publisher, 'url': src.get('url'), 'checked': (src.get('checked_at') or '')[:10]},
         'recipeVersion': r['recipe_version'], 'reference': r['reference_binding']['status'],
         'shakeStep': next((s['step_id'] for s in r['steps'] if s['action'] == 'shake'), None),
+        # 酒款照片：知识库 image 字段，网页用 photos/cocktails/ 里压缩过的 webp（scripts/ 外手动转换，见 README）
+        'photo': ('photos/cocktails/' + Path(r['image']['url']).stem + '.webp') if (r.get('image') or {}).get('url') else None,
+        # 练习时的完整步骤：知识库每一步的动作类型 + 说明
+        'flow': [{'action': st['action'], 'text': st['instruction']} for st in r['steps']],
     })
 
 js = ('/* 由 scripts/build_catalog.py 从 调酒知识库/网站图鉴接口.json 生成，别手改 */\n'

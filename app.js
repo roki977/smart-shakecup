@@ -61,14 +61,15 @@ const RECIPES = [
     how: '薄荷和糖、青柠汁一起轻压混合，加一点苏打水后装满冰，倒入朗姆，补满苏打水，轻轻搅匀。' }
 ];
 /* 知识库里的 117 款（catalog.js，由 scripts/build_catalog.py 生成）。
-   上面 10 款是手写的中文说明和实拍照片，保留；同一款酒再挂上知识库的步骤、来源和配方版本。 */
-RECIPES.forEach(r => r.photo = true);
+   上面 10 款是手写的中文说明和实拍照片（photos/<id>.jpg），保留；同一款酒再挂上知识库的步骤、来源和配方版本。
+   其余 107 款用知识库给的来源照片（photos/cocktails/，catalog.js 的 photo 字段）。 */
+RECIPES.forEach(r => { r.featured = true; r.photo = `photos/${r.id}.jpg`; });
 for (const c of window.CATALOG || []) {
   const mine = RECIPES.find(r => r.id === c.id);
-  if (mine) Object.assign(mine, { kb: c.kb, steps: c.steps, source: c.source, recipeVersion: c.recipeVersion, reference: c.reference, shakeStep: c.shakeStep, partsSource: c.partsSource, branches: c.branches });
+  if (mine) Object.assign(mine, { kb: c.kb, steps: c.steps, source: c.source, recipeVersion: c.recipeVersion, reference: c.reference, shakeStep: c.shakeStep, partsSource: c.partsSource, branches: c.branches, flow: c.flow });
   else RECIPES.push({ ...c, how: c.steps.join('；') });
 }
-const FEATURED = RECIPES.filter(r => r.photo && r.shake);   // 主界面底部那排：有实拍照片的 6 款
+const FEATURED = RECIPES.filter(r => r.featured && r.shake);   // 主界面底部那排：手写说明的 6 款摇和
 const SHAKEN = RECIPES.filter(r => r.shake);
 const GLASS = { coupe: '碟形杯', martini: '马天尼杯', rocks: '古典杯', highball: '高球杯' };
 let recipe = RECIPES[0];

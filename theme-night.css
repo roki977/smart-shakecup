@@ -75,6 +75,8 @@ input[type="range"] { accent-color: var(--lilac); }
 [data-art] { position: relative; }
 [data-art] img.photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: screen; filter: contrast(1.08) brightness(.96); }
 [data-art].has-photo svg { visibility: hidden; }
+/* 知识库的来源照片：背景不都是纯黑，不做滤色混合，保持原色 */
+[data-art] img.photo.src { mix-blend-mode: normal; filter: none; }
 [data-art] svg { width: 60%; height: auto; }
 [data-art] svg [stroke="#2a1b10"] { stroke: var(--frost); }
 [data-art] svg [fill="rgba(255,255,255,.35)"] { fill: rgba(220, 218, 234, .08); }
