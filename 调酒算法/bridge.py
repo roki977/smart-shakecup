@@ -1,5 +1,6 @@
 """HTTP/UI boundary, separate from numerical engine."""
 from engine import Engine,features
+from curves import sensor_curves
 from feedback import steps,explain
 import time
 
@@ -74,6 +75,7 @@ class Session:
         self.result['scoreMapping']=r['score_mapping']
         self.result['effectiveConfig']=r['effective_config']
         self.result['featureConfig']=self.fc
+        self.result['sensorCurves']=sensor_curves(self.imu,self.temp)
         self.result['assessment']=r['assessment']
         self.result['scoringPolicy']=r['scoring_policy']
         return self.result

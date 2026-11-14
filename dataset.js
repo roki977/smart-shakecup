@@ -58,9 +58,10 @@ function dsCancel() { dsRec = null; }
 /* 这一杯结束（结果页出来时）：存下来，返回 id */
 let dsPending = Promise.resolve(null);
 function dsFinish(info) { return dsPending = dsSave(info); }
+let dsLastError = '';
 async function dsSave(info) {
-  const r = dsRec; dsRec = null;
-  if (!r || !r.packets.length) return null;
+  const r = dsRec; dsRec = null; dsLastError = '';
+  if (!r || !r.packets.length) { dsLastError = '这一杯没有收到杯子的数据包。'; return null; }
   const run = {
     id: 'run-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6),
     createdAt: r.startedAt, device: r.device,
@@ -71,7 +72,7 @@ async function dsSave(info) {
     packets: r.packets
   };
   try { await dsPut(run); dsLastId = run.id; dsRefreshCount(); return run.id; }
-  catch (e) { console.warn('测试数据没存上', e); return null; }
+  catch (e) { console.warn('测试数据没存上', e); dsLastError = '浏览器不让存（' + (e?.message || e) + '）。无痕模式下存不了，换普通窗口试试。'; return null; }
 }
 /* 分数出来后补上（评分服务是异步的） */
 async function dsSetScore(score) {
@@ -95,6 +96,20 @@ async function dsRefreshCount() {
 }
 
 /* ---------- 结果页：标这一杯 ---------- */
+/* 结算时调用：真杯子就存下并显示标注；没存（模拟数据、出错）就写明原因 */
+function dsAfterFinish(isDevice, info) {
+  dsLabelBox(null);
+  if (isDevice) {
+    dsFinish(info).then(id => id ? dsGet(id).then(dsLabelBox) : dsNote('这一杯没存进测试数据：' + dsLastError));
+  } else if (typeof dev !== 'undefined' && dev.client) {
+    // 试过连杯子，但这一杯走的是模拟数据：说清楚，免得以为是坏了
+    dsNote('这一杯用的是<b>模拟数据</b>，没有存进测试数据。要等顶栏显示“杯子：在线”再点开始练习，才会用真杯子的数据并存下来。');
+  }
+}
+function dsNote(html) {
+  const box = $('#ds-label'); if (!box) return;
+  box.hidden = false; box.innerHTML = `<span class="fine">${html}</span>`;
+}
 function dsLabelBox(run) {
   const box = $('#ds-label'); if (!box) return;
   if (!run) { box.hidden = true; box.innerHTML = ''; return; }

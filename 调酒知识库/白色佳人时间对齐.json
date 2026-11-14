@@ -1,0 +1,30 @@
+{
+  "run-mwgiql8y-8ykd": {
+    "status": "web_clock_reconstructed_physical_start_unconfirmed",
+    "device_web_zero_ms": 200043,
+    "raw_temperature_zero_us": 176456039,
+    "web_zero_offset_from_raw_s": 23.586961,
+    "conversion": "web_t_s = (device_ms - device_web_zero_ms) / 1000",
+    "matched_valid_samples": 481,
+    "all_valid_samples_matched": true,
+    "time_tolerance_ms": 5.01,
+    "temperature_tolerance_degC": 1e-07,
+    "basis": "Independent packet match of device ms and mean of two temperature probes",
+    "physical_shake_start_verified": false,
+    "reference_cropped": false
+  },
+  "run-mwginkq2-ueuv": {
+    "status": "web_clock_reconstructed_physical_start_unconfirmed",
+    "device_web_zero_ms": 54958,
+    "raw_temperature_zero_us": 35122753,
+    "web_zero_offset_from_raw_s": 19.835247,
+    "conversion": "web_t_s = (device_ms - device_web_zero_ms) / 1000",
+    "matched_valid_samples": 434,
+    "all_valid_samples_matched": true,
+    "time_tolerance_ms": 5.01,
+    "temperature_tolerance_degC": 1e-07,
+    "basis": "Independent packet match of device ms and mean of two temperature probes",
+    "physical_shake_start_verified": false,
+    "reference_cropped": false
+  }
+}

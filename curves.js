@@ -62,7 +62,7 @@ function curveCardHTML(r, list) {
     return `<li class="curve-row">${curveSVG(T)}<div><b>${x.status === 'approved' ? '实测标准曲线' : '实测记录（待审核）'}</b>
       <span class="curve-by">${escapeHTML(x.bartender_id)}，${(x.captured_at || '').slice(0, 10)}</span>
       <span class="curve-facts">${curveFacts(T, f, A, T.at(-1)?.t || 0)}</span>
-      ${r.shake ? `<button class="link" data-use-curve="${i}">跟这条练</button>` : ''}</div></li>`;
+      ${!r.shake ? '' : x.curves.f && x.curves.A ? `<button class="link" data-use-curve="${i}">跟这条练</button>` : '<span class="curve-by">只有温度记录，摇和起点还没确认，暂时不能跟着练。</span>'}</div></li>`;
   }).join('');
   const d = demoCurve(r);
   const demo = `<li class="curve-row demo">${curveSVG(d.T)}<div><b>演示曲线</b>

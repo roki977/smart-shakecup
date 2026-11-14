@@ -37,6 +37,11 @@ async def main():
         await pg.wait_for_timeout(1500); await pg.evaluate("finish()"); await pg.wait_for_timeout(300)
         print('demo run shows label box:', await pg.evaluate("!document.querySelector('#ds-label').hidden"))
         await pg.evaluate("reset()")
+        # 连着杯子（但掉线了）却跑成了模拟数据：结果页要说明没存
+        await pg.evaluate("dev.client = {}; dev.state = 'lost'; start(); document.querySelector('#countdown-skip').click()")
+        await pg.wait_for_timeout(1500); await pg.evaluate("finish()"); await pg.wait_for_timeout(300)
+        print('demo-after-connect note:', await pg.evaluate("document.querySelector('#ds-label').hidden ? 'HIDDEN' : document.querySelector('#ds-label').textContent.slice(0, 30)"))
+        await pg.evaluate("reset(); dev.client = null; dev.state = 'off'")
 
         runs = await pg.evaluate("dsAll().then(a => a.map(r => [r.label, r.note, r.score, r.packets.length, r.samples.length, r.device]))")
         print('stored', runs)

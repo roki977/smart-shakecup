@@ -1,0 +1,36 @@
+[
+  {
+    "id": "white-lady-run-mwgiql8y-8ykd-temperature-v1",
+    "temperature_points": 647,
+    "duration_device_s": 47.199989,
+    "duration_web_s": 23.75,
+    "start_mean": 8.118500000000001,
+    "end_mean": -2.181,
+    "display_invalid_removed": 90,
+    "duplicates": 0,
+    "sampling": {
+      "average_hz": 13.686443867603444,
+      "typical_hz": 14.998912578838036,
+      "interval_min_s": 0.06361799999999995,
+      "interval_max_s": 1.867553000000001,
+      "regular": false
+    }
+  },
+  {
+    "id": "white-lady-run-mwginkq2-ueuv-temperature-v1",
+    "temperature_points": 612,
+    "duration_device_s": 47.999157,
+    "duration_web_s": 28.209,
+    "start_mean": 12.093499999999999,
+    "end_mean": -2.8360000000000003,
+    "display_invalid_removed": 89,
+    "duplicates": 0,
+    "sampling": {
+      "average_hz": 12.729390226582522,
+      "typical_hz": 15.006452774692873,
+      "interval_min_s": 0.06414099999999934,
+      "interval_max_s": 2.467023000000001,
+      "regular": false
+    }
+  }
+]

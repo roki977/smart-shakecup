@@ -743,8 +743,7 @@ function finish() {
   clearInterval(timer); timer = null; running = false; completed = true; stopDevice();
   metronome(false); keepAwake(false);
   // dataset.js：接真杯子的这一杯存进测试数据，结果页可以标“正确 / 错误”
-  dsLabelBox(null);
-  if (activeScenario.kind === 'device') dsFinish({ recipe: recipe.id, recipeName: recipe.name, samples }).then(id => id && dsGet(id).then(dsLabelBox));
+  dsAfterFinish(activeScenario.kind === 'device', { recipe: recipe.id, recipeName: recipe.name, samples });
   const last = samples.at(-1);
   $('#live').classList.remove('shaking');
   $('#guide').hidden = true; $('#result').hidden = false;

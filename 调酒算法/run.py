@@ -1,6 +1,7 @@
 """python3 run.py case.json --output result.json. All examples are synthetic."""
 import argparse,json
 from engine import Engine,features
+from curves import sensor_curves,curve
 
 def run(case):
     frames=features(case['imu'],case['temperature'],case['feature_config']) if 'imu' in case else case['frames']
@@ -17,7 +18,8 @@ def run(case):
         elif item['action']=='cancel':engine.cancel()
         else:raise ValueError('unknown command')
     result=engine.frozen if engine.frozen else (engine.finish(case['finish_t']) if engine.state!='cancelled' else {'state':'cancelled','final_score':None})
-    return {'effective_feature_config':case.get('feature_config'),'features':frames,'timeline':engine.rows,'result':result}
+    lines=sensor_curves(case['imu'],case.get('temperature',[])) if 'imu' in case else {j:curve(frames,j) for j in ('T','f','A')}
+    return {'curves':lines,'effective_feature_config':case.get('feature_config'),'features':frames,'timeline':engine.rows,'result':result}
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('case');p.add_argument('--output',required=True);a=p.parse_args()

@@ -5,6 +5,7 @@ from dataclasses import dataclass, asdict
 from copy import deepcopy
 import math
 import numpy as np
+from denoise import temperature_trace
 
 CHANNELS=('T','f','A')
 
@@ -35,6 +36,9 @@ class FeatureConfig:
 def features(imu,temperature,cfg):
     settings=asdict(cfg) if isinstance(cfg,FeatureConfig) else deepcopy(cfg)
     recovery=settings.pop('recovery_window_s',None)
+    denoise=settings.pop('temperature_denoise',None)
+    if denoise:
+        temperature=temperature_trace(temperature,**denoise)['smoothed']
     frames=_features(imu,temperature,settings)
     if recovery is None:return frames
     if not 0<recovery<settings['window_s']:raise ValueError('invalid recovery window')
