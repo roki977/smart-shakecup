@@ -337,68 +337,57 @@ dialog::backdrop { background: rgba(0, 0, 0, .72); backdrop-filter: blur(4px); }
 .comm-kinds button[aria-selected="true"] { color: var(--frost); border-color: rgba(182, 166, 242, .6); background: var(--indigo-2); font-weight: 600; }
 .comm-bar select, .composer select, .composer input, .composer textarea, .comment-form input, .dev-form input {
   background: #07061a; color: var(--frost); border: 1px solid rgba(220, 218, 234, .16); border-radius: 10px; }
-/* 社区：一行一条记录，细线分隔，没有卡片框 */
-.feed { display: block; border-bottom: 1px solid var(--line); }
-.feed > li { border-top: 1px solid var(--line); }
-.post-card { display: grid; grid-template-columns: 200px minmax(0, 1fr) 150px; gap: 0 36px; align-items: center; height: auto;
-  padding: 26px 18px; margin: 0 -18px; width: calc(100% + 36px); border: 0; border-radius: 14px; background: transparent; color: var(--frost);
-  transition: background-color .3s; }
-.post-card:hover { transform: none; background: linear-gradient(90deg, rgba(74, 44, 138, .2), rgba(18, 58, 120, .08) 60%, transparent); }
+/* 社区：瀑布流卡片。卡片只有一条细边，上半是图，下半是字 */
+.feed { display: flex; align-items: flex-start; gap: 18px; }
+.feed-col { flex: 1 1 0; min-width: 0; }
+.feed-col > ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.feed-empty { flex: 1; }
+.post-card { display: flex; flex-direction: column; gap: 0; height: auto; padding: 0; overflow: hidden; text-align: left;
+  background: var(--indigo); border: 1px solid var(--line); border-radius: 16px; color: var(--frost); transition: border-color .25s, box-shadow .25s; }
+.post-card:hover { transform: none; background: var(--indigo); border-color: rgba(182, 166, 242, .4); box-shadow: 0 0 40px rgba(74, 44, 138, .25); }
 
-/* 左边的图：三种内容各有一种 */
-.post-visual { display: block; height: 96px; position: relative; }
-.v-curve .spark { width: 100%; height: 100%; }
-.v-curve::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line); }
-.v-measure { display: grid; align-content: center; gap: 9px; }
-.m-row { display: grid; grid-template-columns: 5.5em 1fr auto; align-items: center; gap: 10px; font-size: 12px; color: var(--mist); }
+/* 上半的图：三种内容三种画法，高度也不同 */
+.post-visual { display: block; position: relative; border-bottom: 1px solid var(--line); }
+.v-curve { height: 128px; padding: 18px 16px 14px; background: radial-gradient(80% 90% at 0% 0%, rgba(18, 58, 120, .45), transparent 70%), #08071a; }
+.v-curve .spark { width: 100%; height: 100%; overflow: visible; }
+.post-score { position: absolute; right: 16px; top: 14px; font-size: 12px; color: var(--mist); }
+.post-score b { font-family: var(--serif); font-size: 34px; line-height: 1; color: var(--frost); margin-right: 2px; text-shadow: 0 0 18px rgba(120, 82, 220, .6); }
+.v-measure { display: grid; gap: 10px; padding: 20px 18px; background: radial-gradient(80% 90% at 100% 0%, rgba(74, 44, 138, .35), transparent 70%), #08071a; }
+.m-row { display: grid; grid-template-columns: 5.2em 1fr auto; align-items: center; gap: 10px; font-size: 12px; color: var(--mist); }
 .m-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .m-row i { display: block; height: 1px; width: var(--w); background: linear-gradient(90deg, rgba(166, 142, 99, .25), var(--brass)); position: relative; }
 .m-row i::after { content: ""; position: absolute; right: -2px; top: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--brass); }
-.m-ml { font-family: var(--serif); color: var(--frost); font-size: 13px; min-width: 2em; text-align: right; }
-.m-extra { grid-template-columns: 5.5em 1fr; }
-.v-photo { display: grid; place-items: center; }
-.post-arch { width: 76px; height: 96px; display: grid; place-items: center; overflow: hidden; border-radius: 999px 999px 10px 10px;
-  background: radial-gradient(60% 55% at 50% 55%, rgba(74, 44, 138, .5), #050410); box-shadow: inset 0 0 0 1px rgba(166, 142, 99, .4); }
+.m-ml { font-family: var(--serif); color: var(--frost); font-size: 15px; text-align: right; white-space: nowrap; }
+.m-ml small { font-family: var(--sans); font-size: 10px; color: var(--mist); margin-left: 2px; }
+.m-extra { grid-template-columns: 5.2em 1fr; }
+.v-photo { display: grid; place-items: end center; height: 200px; padding-top: 18px; overflow: hidden;
+  background: radial-gradient(40% 50% at 50% 62%, rgba(120, 82, 220, .45), transparent 75%), radial-gradient(60% 40% at 50% 100%, rgba(26, 72, 160, .4), transparent 75%), #050410; }
+.post-arch { width: 132px; height: 182px; display: grid; place-items: center; overflow: hidden; border-radius: 999px 999px 0 0; box-shadow: inset 0 0 0 1px rgba(166, 142, 99, .45); border-bottom: 0; }
 .post-arch svg { width: 70%; }
-.post-card:hover .post-arch { box-shadow: inset 0 0 0 1px var(--lilac), 0 0 24px rgba(110, 80, 200, .35); }
+.post-card:hover .v-photo .post-arch { box-shadow: inset 0 0 0 1px var(--lilac); }
 
-/* 中间 */
-.post-main { display: grid; gap: 6px; min-width: 0; }
-.post-top { gap: 14px; font-size: 12px; }
-.post-kind { padding: 0; border: 0; border-radius: 0; background: none; color: var(--lilac); font-weight: 500; display: inline-flex; align-items: center; gap: 7px; }
+/* 下半的文字 */
+.post-main { display: grid; gap: 7px; padding: 14px 16px 14px; }
+.post-top { gap: 12px; font-size: 12px; }
+.post-kind { padding: 0; border: 0; border-radius: 0; background: none; color: var(--lilac); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
 .post-kind::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .post-kind.k-recipe { color: #8fd1b4; background: none; }
 .post-kind.k-tip { color: #8fb6ec; background: none; }
 .post-drink { color: var(--mist); }
-.post-demo { margin-left: 0; border: 0; padding: 0; color: #5f5b78; }
-.post-title { font-family: var(--serif); font-size: 21px; font-weight: 700; line-height: 1.4; color: var(--frost); transition: color .25s; }
-.post-card:hover .post-title { color: #fff; }
-.post-body { color: #a9a6bf; font-size: 14px; line-height: 1.75; -webkit-line-clamp: 2; max-width: 46em; }
-.post-foot { margin-top: 4px; padding-top: 0; gap: 10px; color: var(--mist); }
+.post-demo { margin-left: auto; border: 0; padding: 0; color: #5f5b78; }
+.post-title { font-family: var(--serif); font-size: 17px; font-weight: 700; line-height: 1.45; color: var(--frost); }
+.post-stats { display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 12px; color: var(--mist); }
+.post-body { color: #a9a6bf; font-size: 13px; line-height: 1.7; -webkit-line-clamp: 3; }
+.post-foot { margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line); gap: 8px; color: var(--mist); font-size: 12px; }
 .post-foot .avatar { width: 20px; height: 20px; font-size: 11px; }
-.post-time { color: #5f5b78; }
-
-/* 右边 */
-.post-side { display: grid; justify-items: end; align-content: center; gap: 10px; text-align: right; }
-.post-score { font-size: 12px; color: var(--mist); }
-.post-score b { font-family: var(--serif); font-size: 40px; line-height: 1; color: var(--frost); margin-right: 3px; }
-.post-stats { display: grid; gap: 2px; justify-items: end; font-size: 12px; color: var(--mist); }
-.post-meta { display: flex; gap: 14px; margin: 0; font-size: 12px; color: var(--mist); }
-
-@media (max-width: 900px) {
-  .post-card { grid-template-columns: 150px minmax(0, 1fr); gap: 14px 26px; }
-  .post-side { grid-column: 2; justify-items: start; text-align: left; grid-auto-flow: column; justify-content: start; align-items: baseline; gap: 18px; }
-  .post-stats { display: flex; gap: 12px; }
-  .post-score b { font-size: 26px; }
-}
+.post-author { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.post-time { color: #5f5b78; white-space: nowrap; }
+.post-meta { display: flex; gap: 10px; margin-left: auto; white-space: nowrap; }
 @media (max-width: 640px) {
-  .post-card { grid-template-columns: 1fr; padding: 22px 12px; margin: 0 -12px; width: calc(100% + 24px); }
-  .post-side { grid-column: 1; flex-wrap: wrap; }
-  .post-visual { height: 64px; }
-  .v-photo { justify-content: start; }
-  .post-arch { width: 52px; height: 64px; }
-  .v-measure { gap: 6px; }
-  .post-stats { display: none; }
+  .feed, .feed-col > ul { gap: 12px; }
+  .v-curve { height: 100px; }
+  .v-photo { height: 160px; }
+  .post-arch { width: 104px; height: 144px; }
 }
 .spark-now { stroke: var(--frost); }
 .spark-ref { stroke: #7a5cd6; opacity: .35; }

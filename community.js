@@ -210,20 +210,19 @@ function renderFilters() {
   $('#comm-drink').onchange = e => { commFilter.drink = e.target.value; renderFeed(); };
   $('#comm-sort').onchange = e => { commFilter.sort = e.target.value; renderFeed(); };
 }
-/* 社区每一条是一行记录，不是卡片：左边是这条内容最有代表性的图（曲线、配料刻度或酒的照片），
-   中间是标题和正文，右边是分数和互动。行与行之间只用一条细线隔开。 */
+/* 社区卡片：上半是这条内容最有代表性的图（曲线、配料刻度或酒的照片），下半是文字。
+   三种内容的图高度不同，用瀑布流排，一屏能看到更多条。 */
 function postVisual(p, st) {
-  if (st) return `<span class="post-visual v-curve">${sparkSVG(p.curve)}</span>`;
+  if (st) return `<span class="post-visual v-curve">${sparkSVG(p.curve)}<span class="post-score"><b>${p.score}</b>分</span></span>`;
   const r = p.recipe;
   if (r?.parts?.length) {
     const max = Math.max(1, ...r.parts.map(x => typeof x[1] === 'number' ? x[1] : 0));
-    return `<span class="post-visual v-measure">${r.parts.slice(0, 4).map(([n, ml]) => typeof ml === 'number'
-      ? `<span class="m-row"><span class="m-name">${escapeHTML(n)}</span><i style="--w:${(ml / max * 100).toFixed(0)}%"></i><span class="m-ml">${ml}</span></span>`
+    return `<span class="post-visual v-measure">${r.parts.slice(0, 5).map(([n, ml]) => typeof ml === 'number'
+      ? `<span class="m-row"><span class="m-name">${escapeHTML(n)}</span><i style="--w:${(ml / max * 100).toFixed(0)}%"></i><span class="m-ml">${ml}<small>ml</small></span></span>`
       : `<span class="m-row m-extra"><span class="m-name">${escapeHTML(n)}</span><span class="m-ml">${escapeHTML(ml)}</span></span>`).join('')}</span>`;
   }
   const d = RECIPES.find(x => x.id === p.recipeId);
-  return d ? `<span class="post-visual v-photo"><span class="post-arch" data-art="${d.id}">${drinkArt(d)}</span></span>`
-    : '<span class="post-visual v-blank" aria-hidden="true"></span>';
+  return d ? `<span class="post-visual v-photo"><span class="post-arch" data-art="${d.id}">${drinkArt(d)}</span></span>` : '';
 }
 function postCard(p) {
   const st = p.curve ? curveStats(p.curve) : null;
@@ -232,25 +231,35 @@ function postCard(p) {
     <span class="post-main">
       <span class="post-top"><span class="post-kind k-${p.kind}">${KINDS[p.kind]}</span><span class="post-drink">${escapeHTML(drinkName(p))}</span>${p.demo ? '<span class="post-demo" title="演示用的示例内容">示例</span>' : ''}</span>
       <span class="post-title">${escapeHTML(p.title)}</span>
+      ${st ? `<span class="post-stats"><span>停在 ${deg(st.finalTemp)} ℃</span><span>${st.duration.toFixed(0)} 秒</span><span>${st.hzMid.toFixed(1)} 次/秒</span></span>` : ''}
       <span class="post-body">${escapeHTML(p.body || '')}</span>
-      <span class="post-foot">${avatar(p.author)}<span class="post-author">${escapeHTML(p.author)}</span><span class="post-time">${ago(p.createdAt)}</span></span>
-    </span>
-    <span class="post-side">
-      ${st ? `<span class="post-score"><b>${p.score}</b>分</span><span class="post-stats"><span>停在 ${deg(st.finalTemp)} ℃</span><span>${st.duration.toFixed(0)} 秒</span><span>${st.hzMid.toFixed(1)} 次/秒</span></span>` : ''}
-      <span class="post-meta"><span aria-label="${p.likes || 0} 人喜欢">♥ ${p.likes || 0}</span><span>评论 ${p.comments?.length || 0}</span></span>
+      <span class="post-foot">${avatar(p.author)}<span class="post-author">${escapeHTML(p.author)}</span><span class="post-time">${ago(p.createdAt)}</span>
+        <span class="post-meta"><span>♥ ${p.likes || 0}</span><span>评论 ${p.comments?.length || 0}</span></span></span>
     </span>
   </button></li>`;
 }
+/* 瀑布流：按顺序轮流放进各列，保持从左到右、从上到下的阅读顺序 */
+let feedList = [];
+const feedCols = () => { const w = $('#feed').clientWidth || innerWidth; return w >= 1100 ? 4 : w >= 760 ? 3 : w >= 480 ? 2 : 1; };
+function layoutFeed() {
+  const box = $('#feed');
+  if (!feedList.length) { box.innerHTML = '<li class="feed-empty">这里还没有内容，来发第一条吧。</li>'; box.dataset.cols = 0; return; }
+  const n = feedCols(), cols = Array.from({ length: n }, () => []);
+  feedList.forEach((p, i) => cols[i % n].push(postCard(p)));
+  box.dataset.cols = n;
+  box.innerHTML = cols.map(c => `<li class="feed-col"><ul>${c.join('')}</ul></li>`).join('');
+  $$('#feed [data-post]').forEach(b => b.onclick = () => openPost(b.dataset.post));
+  if (typeof decorateArt === 'function') decorateArt(box);
+}
+addEventListener('resize', () => { const b = $('#feed'); if (b && Number(b.dataset.cols) && feedCols() !== Number(b.dataset.cols)) layoutFeed(); });
 function renderFeed() {
   let list = commPosts.filter(p => (commFilter.kind === 'all' || p.kind === commFilter.kind) &&
     (commFilter.drink === 'all' || (commFilter.drink === 'other' ? !RECIPES.some(r => r.id === p.recipeId) : p.recipeId === commFilter.drink)));
-  list = list.slice().sort(commFilter.sort === 'hot'
+  feedList = list.slice().sort(commFilter.sort === 'hot'
     ? (a, b) => (b.likes + 2 * (b.comments?.length || 0)) - (a.likes + 2 * (a.comments?.length || 0))
     : (a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  $('#feed').innerHTML = list.length ? list.map(postCard).join('') : '<li class="feed-empty">这里还没有内容，来发第一条吧。</li>';
+  layoutFeed();
   $('#comm-note').textContent = commNote;
-  $$('#feed [data-post]').forEach(b => b.onclick = () => openPost(b.dataset.post));
-  if (typeof decorateArt === 'function') decorateArt($('#feed'));
 }
 
 /* ---------- 详情 ---------- */
