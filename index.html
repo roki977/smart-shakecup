@@ -59,9 +59,20 @@
             <b>自己定</b><span>自己搭配方<br>自己定目标温度</span>
           </button>
         </div>
+        <!-- 自己定：自己搭配方（custom.js） -->
         <div id="free-settings" class="free" hidden>
+          <label class="own-name">酒名<input id="own-name" maxlength="20" placeholder="我的配方"></label>
+          <p class="own-head"><span>原料</span><span>品种</span><span>用量</span></p>
+          <div id="own-parts" class="own-parts"></div>
+          <div class="own-tools">
+            <button type="button" class="link" id="own-add">+ 加一样原料</button>
+            <button type="button" class="link quiet" id="own-copy">从刚才那杯开始</button>
+            <button type="button" class="link quiet" id="own-clear">清空</button>
+          </div>
           <label for="target">目标温度 <output id="target-value">−2.0 ℃</output></label>
           <input id="target" type="range" min="-4" max="2" value="-2" step=".5">
+          <p class="own-note">自己搭的配方没有实测参考。练习时的参考线只是按目标温度画的通用降温线，分数是网页估算，不是专业评分；成绩不进图鉴。</p>
+          <datalist id="own-kinds"></datalist>
         </div>
         <p class="ref-chip" id="ref-chip" hidden></p>
       </div>
@@ -289,6 +300,7 @@
 <script src="references.js?v=20261114c" defer></script>
 <script src="curves.js?v=20261114c" defer></script>
 <script src="flow.js?v=20261114c" defer></script>
+<script src="custom.js?v=20261114c" defer></script>
 <script src="dataset.js?v=20261114c" defer></script>
 <script src="fx.js?v=20261114c" defer></script>
 </body>

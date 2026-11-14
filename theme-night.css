@@ -666,3 +666,25 @@ body.device-live #open-dataset[data-empty="1"] { display: inline-flex; }
 }
 /* 实测温度曲线小图：竖线标出网页计时零点 */
 .curve-mini .zero { stroke: var(--brass); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+
+/* ---------- 自己定：自己搭配方（custom.js） ---------- */
+.free { display: grid; gap: 8px; }
+.free[hidden] { display: none; }
+.own-name { display: grid !important; gap: 4px; justify-content: stretch !important; }
+.free input:not([type=range]), .free select { min-width: 0; background: transparent; color: var(--frost); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; font: inherit; font-size: 14px; }
+.free select { appearance: none; -webkit-appearance: none; padding-right: 22px; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--mist) 50%), linear-gradient(135deg, var(--mist) 50%, transparent 50%);
+  background-position: right 10px center, right 6px center; background-size: 4px 4px; background-repeat: no-repeat; }
+.free select option { background: #12102a; color: var(--frost); }
+.free input:focus, .free select:focus { border-color: var(--lilac); outline: none; }
+.own-head, .own-row { display: grid; grid-template-columns: 5.6em minmax(0, 1fr) 6.2em 28px; gap: 6px; align-items: center; }
+.own-head { margin: 6px 0 0; font-size: 12px; color: var(--mist); }
+.own-parts { display: grid; gap: 6px; }
+.own-ml { position: relative; display: block; }
+.own-ml input { width: 100%; padding-right: 26px !important; }
+.own-ml small { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--mist); pointer-events: none; }
+.own-del { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line); background: none; color: var(--mist); cursor: pointer; font-size: 16px; line-height: 1; }
+.own-del:hover { color: var(--rose); border-color: var(--rose); }
+.own-tools { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-bottom: 6px; }
+.own-tools .link { font-size: 13px; }
+.own-note { margin: 4px 0 0; font-size: 12px; line-height: 1.7; color: var(--mist); border-left: 2px solid var(--brass); padding-left: 10px; }

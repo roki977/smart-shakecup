@@ -146,7 +146,7 @@ function renderRecipe() {
   $('#switch-recipe').textContent = `全部 ${RECIPES.filter(r => !r.custom).length} 款`;
   $('#setup-steps').innerHTML = flowListHTML(recipe);
   const st = codexState()[recipe.id];
-  $('#unlock-hint').textContent = recipe.custom ? '社区里的自创配方，练习成绩不进图鉴。'
+  $('#unlock-hint').textContent = recipe.own ? '自己搭的配方，练习成绩不进图鉴。' : recipe.custom ? '社区里的自创配方，练习成绩不进图鉴。'
     : !st?.best ? `摇出 ${UNLOCK_SCORE} 分，这杯收进图鉴。`
     : st.best < UNLOCK_SCORE ? `最好成绩 ${st.best} 分，再拿到 ${UNLOCK_SCORE} 分就能解锁。`
     : (st.passes || 0) >= MASTER_TIMES ? `已练熟，最好成绩 ${st.best} 分。`

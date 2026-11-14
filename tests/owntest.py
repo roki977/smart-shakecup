@@ -1,0 +1,30 @@
+"""自己定：自己搭配方（custom.js）——改原料、目标温度，主界面跟着变；练习流程；草稿保留。用法：python3 owntest.py 1280 900 d"""
+import asyncio, sys
+from playwright.async_api import async_playwright
+async def main(w, h, tag):
+    async with async_playwright() as p:
+        b = await p.chromium.launch(); pg = await b.new_page(viewport={'width': w, 'height': h})
+        errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
+        await pg.goto('http://localhost:8765/'); await pg.evaluate("localStorage.removeItem('shakecup-own-recipe-v1')"); await pg.reload(); await pg.wait_for_timeout(700)
+        await pg.click('[data-mode="free"]'); await pg.wait_for_timeout(400)
+        print('free:', await pg.evaluate("[recipe.name, recipe.parts.map(p=>p.join(' ')).join(' / '), $('#unlock-hint').textContent]"))
+        await pg.fill('#own-name', '桂花金酒酸'); await pg.click('#own-add'); await pg.wait_for_timeout(100)
+        await pg.select_option('#own-parts .own-row:last-child .own-cat', '糖浆'); await pg.wait_for_timeout(100)
+        await pg.fill('#own-parts .own-row:last-child .own-kind', '桂花糖浆'); await pg.fill('#own-parts .own-row:last-child .own-amt', '10')
+        await pg.click('#target', position={'x': 10, 'y': 5}); await pg.wait_for_timeout(200)
+        print('edited:', await pg.evaluate("[$('#recipe-name').textContent, recipe.parts.map(p=>p.join(' ')).join(' / '), $('#target').value, $('#target-value').textContent, $$('#setup-steps li').length]"))
+        await pg.screenshot(path=f'shots/own-{tag}.png', full_page=True)
+        print('overflow', await pg.evaluate("document.documentElement.scrollWidth - innerWidth"))
+        await pg.click('#start'); await pg.wait_for_timeout(300)
+        print('prep:', await pg.evaluate("$('#prep-title').textContent"))
+        await pg.click('#prep-skip'); await pg.click('#countdown-skip'); await pg.wait_for_timeout(2500)
+        print('practice target:', await pg.evaluate("[target, recipe.name, practiceRef]"))
+        await pg.evaluate("finish()"); await pg.wait_for_timeout(800); await pg.evaluate("$('#modal').open && $('#modal').close()")
+        await pg.click('#again'); await pg.wait_for_timeout(300)
+        print('back still own:', await pg.evaluate("[mode, recipe.name]"))
+        await pg.click('[data-mode="standard"]'); await pg.wait_for_timeout(200)
+        print('standard:', await pg.evaluate("recipe.name"))
+        await pg.reload(); await pg.wait_for_timeout(500); await pg.click('[data-mode="free"]'); await pg.wait_for_timeout(200)
+        print('draft kept:', await pg.evaluate("recipe.name"))
+        print('errors', errs); await b.close()
+asyncio.run(main(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3]))
