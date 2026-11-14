@@ -63,6 +63,8 @@ function curveStats(c) {
 /* 参考曲线：练习页和 device.js 都调用它。用社区曲线时，把那条曲线的形状
    缩放到“从这次的起始温度降到目标温度”；没用社区曲线就是原来的演示公式。 */
 function referenceAt(t, T0, dur) {
+  // 实测温度参考（curves.js）：按原值、原时间轴取，不缩放；缺测超过 0.5 秒或超出记录范围就没有参考（null）
+  if (practiceRef?.absolute) return measuredAt(practiceRef.curve, t);
   if (practiceRef) {
     const c = practiceRef.curve, c0 = c[0].temp, cEnd = c.at(-1).temp;
     let v = cEnd;
@@ -347,13 +349,18 @@ function renderRefChip() {
   const box = $('#ref-chip');
   if (!practiceRef) { box.hidden = true; updateModeLabel(); return; }
   box.hidden = false;
+  if (practiceRef.absolute) {
+    box.innerHTML = `<span><b>参考：${escapeHTML(practiceRef.title)}</b><br>杯子实测的温度曲线，目标 ${deg(practiceRef.target)} ℃。只有温度，节奏和幅度按通用标准。</span><button class="link" id="ref-clear">不用了</button>`;
+    $('#ref-clear').onclick = () => { refDismissed.add(recipe.id); practiceRef = null; renderRefChip(); };
+    updateModeLabel(); return;
+  }
   box.innerHTML = `${avatar(practiceRef.author)}<span><b>跟 ${escapeHTML(practiceRef.author)} 的曲线练</b><br>${escapeHTML(practiceRef.title)}，目标 ${deg(practiceRef.target)} ℃，${practiceRef.rhythm.toFixed(1)} 次/秒</span><button class="link" id="ref-clear">不用了</button>`;
-  $('#ref-clear').onclick = () => { practiceRef = null; renderRefChip(); };
+  $('#ref-clear').onclick = () => { if (practiceRef?.absolute) refDismissed.add(recipe.id); practiceRef = null; renderRefChip(); };
   updateModeLabel();
 }
 function updateModeLabel() {
   const span = $('[data-mode="standard"] span');
-  if (span) span.innerHTML = practiceRef ? `跟 ${escapeHTML(practiceRef.author)} 的曲线<br>目标 ${deg(practiceRef.target)} ℃` : '照参考曲线摇<br>目标 −2.0 ℃';
+  if (span) span.innerHTML = practiceRef?.absolute ? `跟实测温度曲线<br>目标 ${deg(practiceRef.target)} ℃` : practiceRef ? `跟 ${escapeHTML(practiceRef.author)} 的曲线<br>目标 ${deg(practiceRef.target)} ℃` : '照参考曲线摇<br>目标 −2.0 ℃';
 }
 
 /* ---------- 发帖 ---------- */

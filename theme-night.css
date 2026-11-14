@@ -664,3 +664,5 @@ body.device-live #open-dataset[data-empty="1"] { display: inline-flex; }
   .live.practicing .cue h2 { font-size: 24px; margin-top: 4px; }
   .live.practicing .cue p { font-size: 13px; margin-top: 2px; }
 }
+/* 实测温度曲线小图：竖线标出网页计时零点 */
+.curve-mini .zero { stroke: var(--brass); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }

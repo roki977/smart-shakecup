@@ -68,7 +68,8 @@ const DEVICE_FEATURES = {
 
 /* 参考：温度按当前参考曲线（默认公式或社区里选的那条），节奏和幅度按这次的目标 */
 function algoReference(id, featureVersion, recipeVersion, T0) {
-  const pts = fn => Array.from({ length: ALGO_REF_LENGTH * 10 + 1 }, (_, i) => ({ t: i / 10, value: +fn(i / 10).toFixed(4), valid: true }));
+  // 参考没有值的时刻（实测参考缺测、超出记录）标成无效点，评分服务不在缺口里插值
+  const pts = fn => Array.from({ length: ALGO_REF_LENGTH * 10 + 1 }, (_, i) => { const v = fn(i / 10); return v == null ? { t: i / 10, value: null, valid: false } : { t: i / 10, value: +v.toFixed(4), valid: true }; });
   const aRef = simAcc(desiredRhythm, .7);           // 目标节奏、标准幅度时的 A
   // 跟实测标准曲线练时，节奏和幅度也用那条记录里的（过了记录末尾就保持最后的值）
   const hold = (list, t) => { let v = null; for (const p of list) { if (p.t > t) break; v = p.value; } return v ?? list[0]?.value; };
@@ -95,7 +96,7 @@ function algoBegin(measured, T0, firstMsg, t0ms) {
   const kb = recipe.custom || !recipe.kb ? null : recipe;
   const recipeVersion = kb?.recipeVersion || 'site-' + recipe.id;
   const featureVersion = measured ? DEVICE_FEATURES.version : 'site-sim-v1';
-  const refId = practiceRef ? (practiceRef.fA ? practiceRef.id : 'community-' + practiceRef.postId) : 'site-demo-curve-v1';
+  const refId = practiceRef ? (practiceRef.id || 'community-' + practiceRef.postId) : 'site-demo-curve-v1';
   const payload = {
     algorithm: algoRules(measured, featureVersion, recipeVersion),
     reference: algoReference(refId, featureVersion, recipeVersion, T0),

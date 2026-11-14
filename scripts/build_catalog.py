@@ -263,3 +263,33 @@ untranslated = sorted({p[0] for c in out for p in c['parts'] if re.search(r'[A-Z
 print(f'{len(out)} 款，摇和 {sum(c["shake"] for c in out)} 款 → catalog.js（{len(js) // 1024} KB）')
 print('没译到的配料：', untranslated)
 print('没译到的酒名：', [c['en'] for c in out if c['name'] == c['en']])
+
+# ---------- 实测温度参考（标准曲线记录.json 里审核通过的）→ references.js ----------
+# 网页练习、图鉴不开评分服务也能看到和选用。只导出温度；时间换算成“网页计时零点”的秒数
+# （记录里的 time_alignment 给出零点相对原始首点的偏移），不裁剪、不拉伸，零点之前的准备阶段也保留（t 为负）。
+recs = json.loads((root / '调酒知识库' / '标准曲线记录.json').read_text(encoding='utf-8'))['records']
+by_kb = {r['id']: (r['id'][4:] if r['id'].startswith('iba-') else r['id']) for r in kb['catalog']}
+refs = {}
+for x in recs:
+    if x.get('status') != 'approved' or x['recipe_id'] not in by_kb:
+        continue
+    al = x.get('time_alignment') or {}
+    off = al.get('web_zero_offset_from_raw_s')
+    if off is None:
+        continue                                   # 没有网页零点的记录不导出，免得乱对齐
+    pts = [[round(p['t'] - off, 3), round(p['value'], 3) if p.get('valid', True) and p.get('value') is not None else None]
+           for p in x['curves']['T']['points']]
+    refs.setdefault(by_kb[x['recipe_id']], []).append({
+        'id': x['id'], 'recipeVersion': x['recipe_version'], 'captured': x.get('captured_at', '')[:10],
+        'tempDef': (x.get('conditions') or {}).get('temperature_definition'),
+        'shakeStartVerified': bool(al.get('physical_shake_start_verified')),
+        'hasRhythm': bool(x['curves'].get('f')), 'points': pts,
+    })
+for v in refs.values():
+    v.sort(key=lambda r: r['id'])
+rjs = ('/* 由 scripts/build_catalog.py 从 调酒知识库/标准曲线记录.json 生成，别手改。\n'
+       '   实测温度参考：t 是相对网页计时零点的秒数（负数是零点之前的准备阶段），value 为 null 表示缺测。 */\n'
+       'window.MEASURED_REFS = ' + json.dumps(refs, ensure_ascii=False, separators=(',', ':')) + ';\n')
+(root / 'references.js').write_text(rjs, encoding='utf-8')
+print('实测温度参考：', {k: len(v) for k, v in refs.items()}, f'→ references.js（{len(rjs) // 1024} KB）')
+

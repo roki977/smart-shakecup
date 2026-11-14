@@ -376,11 +376,17 @@ function drawChart(svg, data, opt = {}) {
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   const tgt = opt.target ?? target;
   const span = Math.max(opt.duration || 0, data.at(-1)?.t || 0, 10);
-  const lo = Math.floor(Math.min(tgt, ...data.map(d => d.temp), ...data.map(d => d.reference)) - 2);
+  const lo = Math.floor(Math.min(tgt, ...data.map(d => d.temp), ...data.map(d => d.reference).filter(v => v != null)) - 2);
   const hi = ROOM + 2;
   const x = t => L + t / span * (W - L - R);
   const y = v => T + (hi - v) / (hi - lo) * (H - T - B);
   const line = key => data.map(d => x(d.t).toFixed(1) + ',' + y(d[key]).toFixed(1)).join(' ');
+  // 参考线可能有缺测（实测参考的断档、记录结束之后）：断开画，不跨缺口连线
+  const refLines = () => {
+    const segs = [[]];
+    for (const d of data) { if (d.reference == null) { if (segs.at(-1).length) segs.push([]); } else segs.at(-1).push(d); }
+    return segs.filter(s => s.length > 1).map(s => `<polyline class="ref" points="${s.map(d => x(d.t).toFixed(1) + ',' + y(d.reference).toFixed(1)).join(' ')}"/>`).join('');
+  };
 
   let g = '';
   (opt.bands || []).forEach(([a, b]) => { g += `<rect class="band" x="${x(a)}" y="${T}" width="${Math.max(3, x(b) - x(a))}" height="${H - T - B}"/>`; });
@@ -392,7 +398,7 @@ function drawChart(svg, data, opt = {}) {
   for (let t = 0; t <= span; t += tStep) g += `<text class="axis-t" x="${x(t)}" y="${H - 8}" text-anchor="middle">${t}s</text>`;
   g += `<line class="tgt" x1="${L}" x2="${W - R}" y1="${y(tgt)}" y2="${y(tgt)}"/><text class="tgt-t" x="${opt.gap ? L + 6 : W - R}" y="${y(tgt) - 6}" text-anchor="${opt.gap ? 'start' : 'end'}">目标 ${deg(tgt)}°</text>`;
   if (data.length > 1) {
-    g += `<polyline class="ref" points="${line('reference')}"/><polyline class="now" points="${line('temp')}"/>`;
+    g += `${refLines()}<polyline class="now" points="${line('temp')}"/>`;
   }
   if (data.length) {
     const last = data.at(-1);
@@ -461,19 +467,19 @@ const PARTS = [
   { key: 'amp', name: '幅度', max: 10 }
 ];
 const fits = {
-  curve: (x) => Math.max(0, 1 - Math.abs(x.temp - x.reference) / 5),
+  curve: (x) => x.reference == null ? null : Math.max(0, 1 - Math.abs(x.temp - x.reference) / 5),   // 参考缺测的时刻不算
   rhythm: (x, r) => Math.max(0, 1 - Math.abs(x.hz - r) / r),
   amp: x => x.hz < .2 ? 0 : Math.max(0, 1 - Math.abs(x.amplitude - .7) / .7)
 };
 // 判定为“这一帧在扣分”的门槛：曲线差 1.5 ℃ 以上、节奏差 20% 以上（含停顿）、幅度偏小或停住
 const isBad = {
-  curve: x => Math.abs(x.temp - x.reference) > 1.5,
+  curve: x => x.reference != null && Math.abs(x.temp - x.reference) > 1.5,
   rhythm: (x, r) => Math.abs(x.hz - r) / r > .2,
   amp: x => x.hz < .2 || x.amplitude < .5
 };
 function scoreParts(list, last, tgt, rhythm) {
   const moving = list.filter(x => x.t >= 1 && x.t <= last.t && x.valid !== false);
-  const average = fn => moving.length ? moving.reduce((sum, x) => sum + fn(x, rhythm), 0) / moving.length : 0;
+  const average = fn => { const v = moving.map(x => fn(x, rhythm)).filter(v => v != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : 0; };
   const raw = {
     end: 50 * Math.max(0, 1 - Math.abs(last.temp - tgt) / 8),
     curve: 20 * average(fits.curve),
@@ -512,8 +518,9 @@ function partDetail(key, data, parts, tgt, rhythm) {
   const where = `曲线上标红的 ${bands.length} 段，一共约 ${secs.toFixed(1)} 秒`;
   if (key === 'curve') {
     const inBand = data.filter(x => bands.some(([a, b]) => x.t >= a && x.t <= b));
-    const warmer = inBand.reduce((s, x) => s + x.temp - x.reference, 0) > 0;
-    return { bands, text: head + where + (warmer ? '，温度比参考降得慢。通常是摇得慢或幅度不够，冰和酒撞得少。' : '，温度比参考降得快，最后容易摇过头。') };
+    const warmer = inBand.filter(x => x.reference != null).reduce((s, x) => s + x.temp - x.reference, 0) > 0;
+    // 只说观察到的偏差：温度高不能直接断定是摇得轻（没有因果证据）
+    return { bands, text: head + where + (warmer ? '，这几段温度比参考高、降得慢。' : '，这几段温度比参考低、降得快。') };
   }
   if (key === 'rhythm') return { bands, text: head + where + `，节奏和参考 ${rhythm.toFixed(1)} Hz 差了两成以上（停顿也算在内）。` };
   return { bands, text: head + where + '，来回距离偏短，或者停住了。' };

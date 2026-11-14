@@ -27,6 +27,48 @@ function demoCurve(r) {
   return { kind: 'demo', dur, T, f: p.f, A: p.A, end: p.end };
 }
 
+/* ---------- 实测温度参考（references.js，审核通过、有网页计时零点的记录） ----------
+   只有温度：节奏、幅度没有实测参考，练习时按通用标准。时间按网页计时零点对齐（记录里核对过），
+   不裁剪、不拉伸；零点之前是摇之前的准备阶段，图鉴里画出来，练习时从零点开始比。 */
+const refDismissed = new Set();          // 用户点了“不用了”的酒，这次打开页面里不再自动选
+const measuredRefs = r => ((window.MEASURED_REFS || {})[r.id] || []).filter(x => !r.recipeVersion || x.recipeVersion === r.recipeVersion);
+function measuredToRef(r, x, n) {
+  const pts = x.points.filter(p => p[0] >= 0);
+  const last = [...pts].reverse().find(p => p[1] != null);
+  return { id: x.id, absolute: true, author: '实测', title: `${r.name}实测温度曲线 ${n}`, target: last[1], rhythm: 3,
+    curve: pts.map(([t, v]) => ({ t, temp: v, reference: v, hz: 0, amplitude: 0 })) };
+}
+/* 实测曲线在 t 时刻的值：相邻两点间隔不超过 0.5 秒才插值，缺测和记录范围外返回 null（不外推、不跨缺口） */
+function measuredAt(c, t) {
+  if (!c.length || t < c[0].t || t > c.at(-1).t) return null;
+  for (let i = 1; i < c.length; i++) {
+    if (c[i].t < t) continue;
+    const a = c[i - 1], b = c[i];
+    if (a.temp == null || b.temp == null || b.t - a.t > .5) return t === b.t ? b.temp : null;
+    return a.temp + (b.temp - a.temp) * (t - a.t) / ((b.t - a.t) || 1);
+  }
+  return c.at(-1).temp;
+}
+/* 图鉴里的小图：整条记录（含零点之前），缺测断开，竖线标出网页计时零点 */
+function measuredSVG(points) {
+  const W = 260, H = 70, ok = points.filter(p => p[1] != null);
+  const t0 = points[0][0], t1 = points.at(-1)[0], vs = ok.map(p => p[1]), lo = Math.min(...vs) - 1, hi = Math.max(...vs) + 1;
+  const X = t => ((t - t0) / ((t1 - t0) || 1) * W).toFixed(1), Y = v => ((hi - v) / (hi - lo) * H).toFixed(1);
+  const segs = [[]];
+  points.forEach((p, i) => { const prev = points[i - 1]; if (p[1] == null || (prev && p[0] - prev[0] > .5)) segs.push([]); if (p[1] != null) segs.at(-1).push(p); });
+  const lines = segs.filter(x => x.length > 1).map(x => `<polyline points="${x.map(p => X(p[0]) + ',' + Y(p[1])).join(' ')}"/>`).join('');
+  return `<svg class="curve-mini" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${lines}<line class="zero" x1="${X(0)}" x2="${X(0)}" y1="0" y2="${H}"/></svg>`;
+}
+function measuredRowsHTML(r) {
+  return measuredRefs(r).map((x, i) => {
+    const ok = x.points.filter(p => p[1] != null), after = ok.filter(p => p[0] >= 0);
+    return `<li class="curve-row measured">${measuredSVG(x.points)}<div><b>实测温度曲线 ${i + 1}</b>
+      <span class="curve-by">杯子实测，${x.captured}。只有温度，没有节奏和幅度。竖线是计时零点，左边是开摇前的准备；真正开始摇的时刻还没逐一核对。</span>
+      <span class="curve-facts"><span>零点 ${deg(after[0][1])} → ${deg(after.at(-1)[1])} ℃</span><span>零点后 ${after.at(-1)[0].toFixed(0)} 秒</span></span>
+      ${r.shake ? `<button class="link" data-use-measured="${i}">跟这条练</button>` : ''}</div></li>`;
+  }).join('');
+}
+
 /* 读这款酒的实测记录。没开评分服务返回 null */
 async function loadStandardCurves(r) {
   if (!algo.available || !r.kb) return null;
@@ -68,13 +110,23 @@ function curveCardHTML(r, list) {
   const demo = `<li class="curve-row demo">${curveSVG(d.T)}<div><b>演示曲线</b>
       <span class="curve-by">按“${r.method}”的做法合成，不是调酒师实测。</span>
       <span class="curve-facts">${curveFacts(d.T, d.f, d.A, d.dur)}</span></div></li>`;
-  const note = list === null
+  const measured = measuredRefs(r), mIds = new Set(measured.map(x => x.id));
+  const rowsAll = measuredRowsHTML(r) + rows.split('</li>').filter(x => x.trim()).map(x => x + '</li>')
+    .filter((_, i) => !mIds.has(sameVersion[i]?.id)).join('');
+  const note = list === null && measured.length ? ''
+    : list === null
     ? '<p class="fine">开评分服务（见 README）后，这里能看到调酒师录的实测曲线，也能用杯子录新的。</p>'
     : !sameVersion.length ? `<p class="fine">这款还没有实测曲线。${r.shake ? '接上杯子、开着评分服务摇一杯，结果页可以存为标准曲线。' : ''}</p>`
     : '';
-  return `<ul class="curves">${rows}${sameVersion.some(x => x.status === 'approved') ? '' : demo}</ul>${note}`;
+  return `<ul class="curves">${rowsAll}${measured.length || sameVersion.some(x => x.status === 'approved') ? '' : demo}</ul>${note}`;
 }
 function bindCurveCard(r, list) {
+  $$('#rc-curve [data-use-measured]').forEach(b => b.onclick = () => {
+    const i = Number(b.dataset.useMeasured);
+    recipe = r; refDismissed.delete(r.id); practiceRef = measuredToRef(r, measuredRefs(r)[i], i + 1);
+    mode = 'standard'; $$('[data-mode]').forEach(x => x.setAttribute('aria-selected', x.dataset.mode === 'standard')); $('#free-settings').hidden = true;
+    $('#modal').close(); showSetup(); renderRefChip();
+  });
   const same = (list || []).filter(x => x.recipe_version === r.recipeVersion);
   $$('#rc-curve [data-use-curve]').forEach(b => b.onclick = () => {
     recipe = r; practiceRef = recordToRef(same[Number(b.dataset.useCurve)]);
@@ -143,3 +195,15 @@ function bindSaveCurve() {
     };
   };
 }
+
+/* 有实测温度参考的酒（目前是白色佳人），选“跟参考练”时默认用第一条；点了“不用了”就不再自动选 */
+{
+  const orig = window.renderRecipe;
+  window.renderRecipe = function (...a) {
+    if (mode === 'standard' && !practiceRef && !recipe.custom && !refDismissed.has(recipe.id) && measuredRefs(recipe).length) {
+      practiceRef = measuredToRef(recipe, measuredRefs(recipe)[0], 1); renderRefChip();
+    }
+    return orig.apply(this, a);
+  };
+}
+
